@@ -3,7 +3,7 @@ html, body { margin: 0; min-height: 100%; }
 body { color: #fff; background: #111; font-family: Arial, sans-serif; }
 .minimal-slideshow { position: relative; min-height: 100vh; overflow: hidden; }
 .minimal-slideshow__viewport, .minimal-slideshow__track, .minimal-slide { min-height: 100vh; }
-.minimal-slideshow__track { display: flex; transition: transform .7s ease; }
+.minimal-slideshow__track { display: flex; }
 .minimal-slide { position: relative; min-width: 100%; display: flex; align-items: center; padding: clamp(32px, 8vw, 120px); overflow: hidden; }
 .minimal-slide__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .minimal-slide__overlay { position: absolute; inset: 0; background: #000; opacity: var(--minimal-overlay); }
@@ -17,9 +17,10 @@ body { color: #fff; background: #111; font-family: Arial, sans-serif; }
 .minimal-slideshow--center .minimal-slide__content-inner a { margin-inline: auto; }
 .minimal-slideshow--right .minimal-slide__content-inner a { margin-left: auto; }
 .minimal-slideshow__arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); border: 0; border-radius: 50%; width: 44px; height: 44px; background: #fff; color: #111; font-size: 32px; line-height: 1; cursor: pointer; }
+.minimal-slideshow__arrow::after { content: none; }
 .minimal-slideshow__arrow--previous { left: 24px; }
 .minimal-slideshow__arrow--next { right: 24px; }
 .minimal-slideshow__pagination { position: absolute; z-index: 2; bottom: 28px; left: 50%; display: flex; gap: 8px; transform: translateX(-50%); }
-.minimal-slideshow__pagination button { width: 34px; height: 3px; border: 0; padding: 0; background: #ffffff80; cursor: pointer; }
-.minimal-slideshow__pagination button[aria-selected="true"] { background: #fff; }
+.minimal-slideshow__pagination .swiper-pagination-bullet { width: 34px; height: 3px; border: 0; border-radius: 0; padding: 0; margin: 0; background: #ffffff80; opacity: 1; cursor: pointer; }
+.minimal-slideshow__pagination .swiper-pagination-bullet-active { background: #fff; }
 @media (max-width: 749px) { .minimal-slide { min-height: 680px; padding: 32px 24px 84px; } .minimal-slideshow__arrow { width: 36px; height: 36px; font-size: 26px; } .minimal-slideshow__arrow--previous { left: 12px; } .minimal-slideshow__arrow--next { right: 12px; } }

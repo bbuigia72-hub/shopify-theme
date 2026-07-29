@@ -1,16 +1,19 @@
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
 <section id="MinimalSlideshow-{{ section.id }}" class="minimal-slideshow minimal-slideshow--{{ section.settings.content_position }}" style="--minimal-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}" data-autoplay="{{ section.settings.autoplay }}" data-delay="{{ section.settings.autoplay_delay | times: 1000 }}">
-  <div class="minimal-slideshow__viewport">
-    <div class="minimal-slideshow__track">
+  <div class="swiper minimal-slideshow__viewport">
+    <div class="swiper-wrapper minimal-slideshow__track">
       {% content_for 'blocks' %}
     </div>
     {% if section.settings.show_navigation %}
-      <button class="minimal-slideshow__arrow minimal-slideshow__arrow--previous" type="button" aria-label="Previous slide">&lsaquo;</button>
-      <button class="minimal-slideshow__arrow minimal-slideshow__arrow--next" type="button" aria-label="Next slide">&rsaquo;</button>
+      <button class="swiper-button-prev minimal-slideshow__arrow minimal-slideshow__arrow--previous" type="button" aria-label="Previous slide">&lsaquo;</button>
+      <button class="swiper-button-next minimal-slideshow__arrow minimal-slideshow__arrow--next" type="button" aria-label="Next slide">&rsaquo;</button>
     {% endif %}
     {% if section.settings.show_pagination %}<div class="minimal-slideshow__pagination" role="tablist" aria-label="Slides"></div>{% endif %}
   </div>
 </section>
 
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 <script src="{{ 'slideshow.js' | asset_url }}" defer></script>
 
 {% schema %}
