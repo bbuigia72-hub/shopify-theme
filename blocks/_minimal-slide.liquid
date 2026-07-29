@@ -3,14 +3,16 @@
 {% enddoc %}
 
 <div class="minimal-slide swiper-slide" {{ block.shopify_attributes }}>
-  {% if block.settings.image_mobile != blank %}
-    <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 1200 }}">
-  {% endif %}
-  {% if block.settings.image_desktop != blank %}
-    {{ block.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'minimal-slide__image', loading: 'lazy', widths: '750,1100,1500,2000,2400', sizes: '100vw' }}
-  {% else %}
-    {{ 'hero-apparel-1' | placeholder_svg_tag: 'minimal-slide__image minimal-slide__placeholder' }}
-  {% endif %}
+  <picture>
+    {% if block.settings.image_mobile != blank %}
+      <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 1200 }}">
+    {% endif %}
+    {% if block.settings.image_desktop != blank %}
+      {{ block.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'minimal-slide__image', loading: 'lazy', widths: '750,1100,1500,2000,2400', sizes: '100vw' }}
+    {% else %}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'minimal-slide__image minimal-slide__placeholder' }}
+    {% endif %}
+  </picture>
   <div class="minimal-slide__overlay"></div>
   {% content_for 'blocks' %}
 </div>
