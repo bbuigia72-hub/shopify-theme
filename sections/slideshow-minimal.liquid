@@ -1,0 +1,31 @@
+<section id="MinimalSlideshow-{{ section.id }}" class="minimal-slideshow minimal-slideshow--{{ section.settings.content_position }}" style="--minimal-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}" data-autoplay="{{ section.settings.autoplay }}" data-delay="{{ section.settings.autoplay_delay | times: 1000 }}">
+  <div class="minimal-slideshow__viewport">
+    <div class="minimal-slideshow__track">
+      {% content_for 'blocks' %}
+    </div>
+    {% if section.settings.show_navigation %}
+      <button class="minimal-slideshow__arrow minimal-slideshow__arrow--previous" type="button" aria-label="Previous slide">‹</button>
+      <button class="minimal-slideshow__arrow minimal-slideshow__arrow--next" type="button" aria-label="Next slide">›</button>
+    {% endif %}
+    {% if section.settings.show_pagination %}<div class="minimal-slideshow__pagination" role="tablist" aria-label="Slides"></div>{% endif %}
+  </div>
+</section>
+
+<script src="{{ 'slideshow.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Slideshow: Minimal",
+  "class": "section-slideshow-minimal",
+  "blocks": [{ "type": "_minimal-slide" }],
+  "settings": [
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "range", "id": "autoplay_delay", "label": "Autoplay delay", "min": 3, "max": 10, "step": 1, "unit": "s", "default": 5 },
+    { "type": "checkbox", "id": "show_navigation", "label": "Show navigation", "default": true },
+    { "type": "checkbox", "id": "show_pagination", "label": "Show pagination", "default": true },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 30 },
+    { "type": "select", "id": "content_position", "label": "Content position", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "left" }
+  ],
+  "presets": [{ "name": "Slideshow: Minimal", "blocks": { "slide_1": { "type": "_minimal-slide" }, "slide_2": { "type": "_minimal-slide" }, "slide_3": { "type": "_minimal-slide" } }, "block_order": ["slide_1", "slide_2", "slide_3"] }]
+}
+{% endschema %}

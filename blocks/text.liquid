@@ -1,0 +1,10 @@
+<div class="minimal-text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+{% schema %}
+{
+  "name": "Text",
+  "tag": null,
+  "settings": [{ "type": "richtext", "id": "text", "label": "Text", "default": "<p>Text</p>" }],
+  "presets": [{ "name": "Text" }]
+}
+{% endschema %}
