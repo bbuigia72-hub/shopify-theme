@@ -1,7 +1,164 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow": {
       "type": "slideshow-minimal",
+      "blocks": {
+        "slide_1": {
+          "type": "_minimal-slide",
+          "name": "Image slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/exec-3dbe595e-5a00-4097-934a-05a40ceeb198.png",
+            "image_mobile": "shopify://shop_images/exec-ccd2867d-55e7-403f-bd4a-eded128c45f7.png"
+          },
+          "blocks": {
+            "content": {
+              "type": "_minimal-slide-content",
+              "name": "Slide content",
+              "settings": {},
+              "blocks": {
+                "eyebrow": {
+                  "type": "text",
+                  "name": "Text – New Campaign",
+                  "settings": {
+                    "text": "<p>NEW CAMPAIGN</p>"
+                  },
+                  "blocks": {}
+                },
+                "heading": {
+                  "type": "text",
+                  "name": "Text – Softness in Comfort",
+                  "settings": {
+                    "text": "<h2>Softness in Comfort</h2>"
+                  },
+                  "blocks": {}
+                },
+                "button": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Collection",
+                    "link": "shopify://collections/all"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "eyebrow",
+                "heading",
+                "button"
+              ]
+            }
+          },
+          "block_order": [
+            "content"
+          ]
+        },
+        "slide_2": {
+          "type": "_minimal-slide",
+          "name": "Image slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/exec-d01a14ca-80ce-4e17-beb3-95f0d7d2e16a_b289a13a-7364-4670-82f3-dc31e67e3dc4.png",
+            "image_mobile": "shopify://shop_images/exec-e73d465e-f48c-4c4b-a7a9-b39aa23fdd5c.png"
+          },
+          "blocks": {
+            "content": {
+              "type": "_minimal-slide-content",
+              "name": "Slide content",
+              "settings": {},
+              "blocks": {
+                "eyebrow": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>EVERYDAY ESSENTIALS</p>"
+                  },
+                  "blocks": {}
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2>Made to Move With You</h2>"
+                  },
+                  "blocks": {}
+                },
+                "button": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Explore the Edit",
+                    "link": "shopify://collections/all"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "eyebrow",
+                "heading",
+                "button"
+              ]
+            }
+          },
+          "block_order": [
+            "content"
+          ]
+        },
+        "slide_3": {
+          "type": "_minimal-slide",
+          "name": "Image slide",
+          "disabled": true,
+          "settings": {},
+          "blocks": {
+            "content": {
+              "type": "_minimal-slide-content",
+              "name": "Slide content",
+              "settings": {},
+              "blocks": {
+                "eyebrow": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>NEW SEASON</p>"
+                  },
+                  "blocks": {}
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2>Find Your Balance</h2>"
+                  },
+                  "blocks": {}
+                },
+                "button": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Discover More",
+                    "link": "shopify://collections/all"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "eyebrow",
+                "heading",
+                "button"
+              ]
+            }
+          },
+          "block_order": [
+            "content"
+          ]
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
       "name": "Slideshow: Minimal",
       "settings": {
         "autoplay": true,
@@ -10,62 +167,10 @@
         "show_pagination": true,
         "overlay_opacity": 30,
         "content_position": "left"
-      },
-      "blocks": {
-        "slide_1": {
-          "type": "_minimal-slide",
-          "name": "Image slide",
-          "blocks": {
-            "content": {
-              "type": "_minimal-slide-content",
-              "name": "Slide content",
-              "blocks": {
-                "eyebrow": { "type": "text", "name": "Text – New Campaign", "settings": { "text": "<p>NEW CAMPAIGN</p>" } },
-                "heading": { "type": "text", "name": "Text – Softness in Comfort", "settings": { "text": "<h2>Softness in Comfort</h2>" } },
-                "button": { "type": "button", "settings": { "label": "Shop Collection", "link": "shopify://collections/all" } }
-              },
-              "block_order": ["eyebrow", "heading", "button"]
-            }
-          },
-          "block_order": ["content"]
-        },
-        "slide_2": {
-          "type": "_minimal-slide",
-          "name": "Image slide",
-          "blocks": {
-            "content": {
-              "type": "_minimal-slide-content",
-              "name": "Slide content",
-              "blocks": {
-                "eyebrow": { "type": "text", "settings": { "text": "<p>EVERYDAY ESSENTIALS</p>" } },
-                "heading": { "type": "text", "settings": { "text": "<h2>Made to Move With You</h2>" } },
-                "button": { "type": "button", "settings": { "label": "Explore the Edit", "link": "shopify://collections/all" } }
-              },
-              "block_order": ["eyebrow", "heading", "button"]
-            }
-          },
-          "block_order": ["content"]
-        },
-        "slide_3": {
-          "type": "_minimal-slide",
-          "name": "Image slide",
-          "blocks": {
-            "content": {
-              "type": "_minimal-slide-content",
-              "name": "Slide content",
-              "blocks": {
-                "eyebrow": { "type": "text", "settings": { "text": "<p>NEW SEASON</p>" } },
-                "heading": { "type": "text", "settings": { "text": "<h2>Find Your Balance</h2>" } },
-                "button": { "type": "button", "settings": { "label": "Discover More", "link": "shopify://collections/all" } }
-              },
-              "block_order": ["eyebrow", "heading", "button"]
-            }
-          },
-          "block_order": ["content"]
-        }
-      },
-      "block_order": ["slide_1", "slide_2", "slide_3"]
+      }
     }
   },
-  "order": ["slideshow"]
+  "order": [
+    "slideshow"
+  ]
 }
