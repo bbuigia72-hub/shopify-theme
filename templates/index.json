@@ -37,7 +37,7 @@
                   "type": "text",
                   "name": "Text – Softness in Comfort",
                   "settings": {
-                    "text": "<h2>Softness in Comfort</h2>"
+                    "text": "<h2>Blooming Day &amp; Rain</h2>"
                   },
                   "blocks": {}
                 },
@@ -77,14 +77,14 @@
                 "eyebrow": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>EVERYDAY ESSENTIALS</p>"
+                    "text": "<p>LITTLE MOMENTS</p>"
                   },
                   "blocks": {}
                 },
                 "heading": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Made to Move With You</h2>"
+                    "text": "<h2>Wrapped in Warmth</h2>"
                   },
                   "blocks": {}
                 },
