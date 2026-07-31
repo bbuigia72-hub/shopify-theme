@@ -162,7 +162,7 @@
       "name": "Slideshow: Minimal",
       "settings": {
         "autoplay": true,
-        "autoplay_delay": 5,
+        "autoplay_delay": 3,
         "show_navigation": true,
         "show_pagination": true,
         "overlay_opacity": 30,
