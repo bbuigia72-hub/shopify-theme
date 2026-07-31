@@ -168,7 +168,7 @@
         "autoplay": false,
         "show_navigation": true,
         "show_pagination": true,
-        "overlay_opacity": 30,
+        "overlay_opacity": 10,
         "content_position": "left"
       }
     }
