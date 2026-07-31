@@ -40,7 +40,7 @@ body { margin: 0; }
 .minimal-slide__overlay { position: absolute; inset: 0; background: rgba(20, 24, 20, var(--minimal-overlay)); pointer-events: none; }
 .minimal-slide__content { position: absolute; z-index: 2; inset: 0; display: flex; align-items: flex-start; padding: 18% clamp(7%, calc((100vw - 1320px) / 2), 15%) 10%; color: #fff; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .minimal-slide__content-inner { max-width: 500px; }
-.minimal-slide__content p { margin: 0 0 28px; font-size: 16px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; text-transform: uppercase; }
+.minimal-slide__content p { margin: 0 0 16px; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; font-weight: 700; letter-spacing: 0; text-transform: uppercase; }
 .minimal-slide__content h2 { max-width: 560px; margin: 0 0 46px; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: clamp(50px, 5.2vw, 78px); line-height: 1.03; font-weight: 700; letter-spacing: -0.04em; text-wrap: balance; }
 .minimal-slide__content .minimal-button { display: inline-flex; align-items: center; gap: 14px; min-height: 60px; padding: 12px 12px 12px 29px; border-radius: 999px; background: #fff; color: #151515; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1; font-weight: 700; text-decoration: none; }
 .minimal-button__icon { display: grid; flex: 0 0 36px; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #050505; color: #fff; }
@@ -60,7 +60,7 @@ body { margin: 0; }
   .minimal-slideshow { min-height: 680px; }
   .minimal-slide__content { align-items: flex-end; justify-content: center; padding: 0 8% 92px; text-align: center; }
   .minimal-slide__content-inner { width: 100%; max-width: 420px; transform: none; }
-  .minimal-slide__content p { margin-bottom: 28px; font-size: 16px; }
+  .minimal-slide__content p { margin-bottom: 16px; font-size: 15px; }
   .minimal-slide__content h2 { margin-bottom: 46px; font-size: clamp(48px, 11vw, 58px); line-height: 1.02; letter-spacing: -0.04em; }
   .minimal-slide__content a { min-height: 60px; padding: 12px 12px 12px 29px; font-size: 17px; }
   .minimal-slideshow__controls { right: 7%; bottom: 28px; gap: 14px; }
