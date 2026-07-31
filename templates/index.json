@@ -95,7 +95,7 @@
                 "button": {
                   "type": "button",
                   "settings": {
-                    "label": "Explore the Edit",
+                    "label": "Shop Collection",
                     "link": "shopify://collections/all"
                   },
                   "blocks": {}
