@@ -64,11 +64,11 @@ body { margin: 0; }
 .minimal-slideshow .minimal-slideshow__arrow svg { display: block; width: 10px !important; height: 16px !important; fill: none !important; stroke: currentColor; stroke-width: 1.5; }
 
 @media (max-width: 749px) {
-  .minimal-slideshow { height: 100svh; min-height: 680px; aspect-ratio: auto; }
-  .minimal-slide__content { align-items: center; justify-content: center; padding: 0 16px 88px; text-align: center; }
+  .minimal-slideshow { height: auto; min-height: 0; aspect-ratio: 390 / 604; }
+  .minimal-slide__content { align-items: flex-end; justify-content: center; padding: 24px 16px 88px; text-align: center; }
   .minimal-slide__content-inner { width: 100%; max-width: 420px; transform: none; }
   .minimal-slide__content p { margin-bottom: 16px; font-size: 15px; }
-  .minimal-slide__content h2 { margin-bottom: 24px; font-size: 38px; line-height: 1.2; letter-spacing: -0.04em; }
+  .minimal-slide__content h2 { max-width: 290px; margin-right: auto; margin-bottom: 24px; margin-left: auto; font-size: 38px; line-height: 1.2; letter-spacing: -0.04em; }
   .minimal-slide__content .minimal-button { display: flex; justify-content: space-between; width: 100%; min-height: 50px; padding: 10px 48px 10px 24px; font-size: 15px; }
   .minimal-slideshow__controls { right: 16px; bottom: 24px; left: 16px; gap: 14px; }
   .minimal-slideshow__progress { flex-basis: 100px; width: 100px; }
