@@ -9,6 +9,7 @@
     const progress = root.querySelector('.minimal-slideshow__progress-bar');
     const slideCount = element.querySelectorAll('.swiper-slide').length;
     let autoplayTimer;
+    const autoplayDelay = Number(root.dataset.autoplayDelay) || 5000;
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
       if (!progress) return;
@@ -22,7 +23,7 @@
       restartProgress(swiper);
       clearTimeout(autoplayTimer);
       if (root.dataset.autoplay === 'true' && slideCount > 1) {
-        autoplayTimer = setTimeout(() => swiper.slideNext(), 5000);
+        autoplayTimer = setTimeout(() => swiper.slideNext(), autoplayDelay);
       }
     };
     new window.Swiper(element, {

@@ -1,6 +1,6 @@
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
-<section id="MinimalSlideshow-{{ section.id }}" class="minimal-slideshow minimal-slideshow--{{ section.settings.content_position }}" style="--minimal-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}" data-autoplay="{{ section.settings.autoplay }}">
+<section id="MinimalSlideshow-{{ section.id }}" class="minimal-slideshow minimal-slideshow--{{ section.settings.content_position }}" style="--minimal-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}; --minimal-autoplay-delay: {{ section.settings.autoplay_delay | times: 1000 }}ms" data-autoplay="{{ section.settings.autoplay }}" data-autoplay-delay="{{ section.settings.autoplay_delay | times: 1000 }}">
   <div class="swiper minimal-slideshow__viewport">
     <div class="swiper-wrapper minimal-slideshow__track">
       {% content_for 'blocks' %}
@@ -32,6 +32,7 @@
   "blocks": [{ "type": "_minimal-slide" }],
   "settings": [
     { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "range", "id": "autoplay_delay", "label": "Autoplay delay", "min": 3, "max": 10, "step": 1, "unit": "s", "default": 5 },
     { "type": "checkbox", "id": "show_navigation", "label": "Show navigation", "default": true },
     { "type": "checkbox", "id": "show_pagination", "label": "Show pagination", "default": true },
     { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 10 },
