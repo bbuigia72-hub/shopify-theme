@@ -8,7 +8,6 @@
     const total = root.querySelector('.minimal-slideshow__total');
     const progress = root.querySelector('.minimal-slideshow__progress-bar');
     const slideCount = element.querySelectorAll('.swiper-slide').length;
-    let autoplayTimer;
     const autoplayDelay = Number(root.dataset.autoplayDelay) || 5000;
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
@@ -21,10 +20,6 @@
     const updateControls = (swiper) => {
       if (current) current.textContent = String((swiper.realIndex || 0) + 1);
       restartProgress(swiper);
-      clearTimeout(autoplayTimer);
-      if (root.dataset.autoplay === 'true' && slideCount > 1) {
-        autoplayTimer = setTimeout(() => swiper.slideNext(), autoplayDelay);
-      }
     };
     new window.Swiper(element, {
       slidesPerView: 1,
@@ -32,7 +27,11 @@
       speed: 700,
       effect: 'fade',
       fadeEffect: { crossFade: true },
-      autoplay: false,
+      autoplay: root.dataset.autoplay === 'true' && slideCount > 1 ? {
+        delay: autoplayDelay,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false
+      } : false,
       navigation: {
         prevEl: root.querySelector('.swiper-button-prev'),
         nextEl: root.querySelector('.swiper-button-next')
