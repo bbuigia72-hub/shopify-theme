@@ -37,7 +37,7 @@ body { margin: 0; }
 .minimal-slide__content h2 { max-width: 560px; margin: 0 0 46px; font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: clamp(50px, 5.2vw, 78px); line-height: 1.03; font-weight: 700; letter-spacing: -0.04em; text-wrap: balance; }
 .minimal-slide__content a { display: inline-flex; align-items: center; gap: 14px; min-height: 60px; padding: 12px 12px 12px 29px; border-radius: 999px; background: #fff; color: #151515; font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1; font-weight: 700; text-decoration: none; }
 .minimal-slide__content a::after { content: '→'; display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%; background: #050505; color: #fff; font-size: 21px; line-height: 1; }
-.minimal-slideshow__controls { position: absolute; z-index: 5; right: clamp(7%, calc((100vw - 1320px) / 2), 15%); bottom: 28px; display: flex; flex-flow: row nowrap; align-items: center; gap: 18px; height: 28px; color: #fff; }
+.minimal-slideshow__controls { position: absolute; z-index: 5; left: clamp(7%, calc((100vw - 1320px) / 2), 15%); right: auto; bottom: 28px; display: flex; flex-flow: row nowrap; align-items: center; gap: 18px; height: 28px; color: #fff; }
 .minimal-slideshow__counter { display: flex; align-items: center; min-width: 36px; height: 28px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
 .minimal-slideshow__progress { display: block; flex: 0 0 125px; width: 125px; height: 2px; background: #ffffff45; }
 .minimal-slideshow__progress-bar { display: block; width: 0; height: 100%; background: #fff; }
@@ -56,6 +56,6 @@ body { margin: 0; }
   .minimal-slide__content p { margin-bottom: 28px; font-size: 16px; }
   .minimal-slide__content h2 { margin-bottom: 46px; font-size: clamp(48px, 11vw, 58px); line-height: 1.02; letter-spacing: -0.04em; }
   .minimal-slide__content a { min-height: 60px; padding: 12px 12px 12px 29px; font-size: 17px; }
-  .minimal-slideshow__controls { right: 7%; bottom: 28px; gap: 14px; }
+  .minimal-slideshow__controls { left: 7%; right: auto; bottom: 28px; gap: 14px; }
   .minimal-slideshow__progress { flex-basis: 100px; width: 100px; }
 }
