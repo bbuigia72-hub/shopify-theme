@@ -32,6 +32,20 @@
     { "type": "url", "id": "image_desktop_url", "label": "Desktop image URL" },
     { "type": "url", "id": "image_mobile_url", "label": "Mobile image URL" }
   ],
-  "presets": [{ "name": "Image slide", "blocks": { "content": { "type": "_minimal-slide-content" } }, "block_order": ["content"] }]
+  "presets": [{
+    "name": "Image slide",
+    "blocks": {
+      "content": {
+        "type": "_minimal-slide-content",
+        "blocks": {
+          "eyebrow": { "type": "text", "settings": { "text": "<p>NEW CAMPAIGN</p>" } },
+          "heading": { "type": "text", "settings": { "text": "<h2>Softness in Comfort</h2>" } },
+          "button": { "type": "button", "settings": { "label": "Shop Collection", "link": "shopify://collections/all" } }
+        },
+        "block_order": ["eyebrow", "heading", "button"]
+      }
+    },
+    "block_order": ["content"]
+  }]
 }
 {% endschema %}
