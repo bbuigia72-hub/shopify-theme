@@ -41,7 +41,7 @@ body { margin: 0; }
 .minimal-slideshow__counter { min-width: 36px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
 .minimal-slideshow__progress { display: block; width: 140px; height: 2px; background: #ffffff45; }
 .minimal-slideshow__progress-bar { display: block; width: 0; height: 100%; background: #fff; transition: width .7s ease; }
-.minimal-slideshow__arrow { position: static; z-index: 4; width: 18px; height: 28px; margin: 0; border: 0; background: transparent; color: #fff; font-size: 31px; line-height: 24px; }
+.minimal-slideshow__arrow { position: static; z-index: 4; width: 20px; height: 28px; margin: 0; border: 0; background: transparent; color: #fff; font-size: 31px; line-height: 24px; font-weight: 400; opacity: 1; }
 .minimal-slideshow__arrow::after { display: none; }
 
 @media (max-width: 749px) {

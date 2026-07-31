@@ -9,6 +9,8 @@
       <div class="minimal-slideshow__controls" aria-label="Slideshow controls">
         {% if section.settings.show_pagination %}
           <span class="minimal-slideshow__counter"><span class="minimal-slideshow__current">1</span><span aria-hidden="true"> / </span><span class="minimal-slideshow__total">1</span></span>
+        {% endif %}
+        {% if section.settings.show_pagination %}
           <span class="minimal-slideshow__progress" aria-hidden="true"><span class="minimal-slideshow__progress-bar"></span></span>
         {% endif %}
         {% if section.settings.show_navigation %}
