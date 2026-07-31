@@ -5,11 +5,18 @@
     <div class="swiper-wrapper minimal-slideshow__track">
       {% content_for 'blocks' %}
     </div>
-    {% if section.settings.show_navigation %}
-      <button class="swiper-button-prev minimal-slideshow__arrow minimal-slideshow__arrow--previous" type="button" aria-label="Previous slide">&lsaquo;</button>
-      <button class="swiper-button-next minimal-slideshow__arrow minimal-slideshow__arrow--next" type="button" aria-label="Next slide">&rsaquo;</button>
+    {% if section.settings.show_navigation or section.settings.show_pagination %}
+      <div class="minimal-slideshow__controls" aria-label="Slideshow controls">
+        {% if section.settings.show_pagination %}
+          <span class="minimal-slideshow__counter"><span class="minimal-slideshow__current">1</span><span aria-hidden="true"> / </span><span class="minimal-slideshow__total">1</span></span>
+          <span class="minimal-slideshow__progress" aria-hidden="true"><span class="minimal-slideshow__progress-bar"></span></span>
+        {% endif %}
+        {% if section.settings.show_navigation %}
+          <button class="swiper-button-prev minimal-slideshow__arrow minimal-slideshow__arrow--previous" type="button" aria-label="Previous slide">&lsaquo;</button>
+          <button class="swiper-button-next minimal-slideshow__arrow minimal-slideshow__arrow--next" type="button" aria-label="Next slide">&rsaquo;</button>
+        {% endif %}
+      </div>
     {% endif %}
-    {% if section.settings.show_pagination %}<div class="minimal-slideshow__pagination" role="tablist" aria-label="Slides"></div>{% endif %}
   </div>
 </section>
 

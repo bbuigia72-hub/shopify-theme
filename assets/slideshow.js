@@ -4,6 +4,15 @@
     const element = root.querySelector('.minimal-slideshow__viewport');
     if (!element) return;
     root.dataset.swiperInitialized = 'true';
+    const current = root.querySelector('.minimal-slideshow__current');
+    const total = root.querySelector('.minimal-slideshow__total');
+    const progress = root.querySelector('.minimal-slideshow__progress-bar');
+    const slideCount = element.querySelectorAll('.swiper-slide').length;
+    if (total) total.textContent = slideCount;
+    const updateControls = (swiper) => {
+      if (current) current.textContent = String((swiper.realIndex || 0) + 1);
+      if (progress) progress.style.width = `${((swiper.realIndex || 0) + 1) / Math.max(slideCount, 1) * 100}%`;
+    };
     new window.Swiper(element, {
       slidesPerView: 1,
       loop: element.querySelectorAll('.swiper-slide').length > 1,
@@ -20,10 +29,9 @@
         nextEl: root.querySelector('.swiper-button-next')
       },
       pagination: {
-        el: root.querySelector('.minimal-slideshow__pagination'),
-        clickable: true,
-        bulletElement: 'button'
+        enabled: false
       },
+      on: { init: updateControls, slideChange: updateControls },
       keyboard: { enabled: true },
       a11y: { enabled: true }
     });
