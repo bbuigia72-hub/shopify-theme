@@ -64,7 +64,7 @@ body { margin: 0; }
 .minimal-slideshow .minimal-slideshow__arrow svg { display: block; width: 10px !important; height: 16px !important; fill: none !important; stroke: currentColor; stroke-width: 1.5; }
 
 @media (max-width: 749px) {
-  .minimal-slideshow { height: 100svh; min-height: 680px; aspect-ratio: auto; }
+  .minimal-slideshow { height: auto; min-height: 0; aspect-ratio: 390 / 604; }
   .minimal-slide__content { align-items: flex-end; justify-content: center; padding: 24px 16px 88px; text-align: center; }
   .minimal-slide__content-inner { width: 100%; max-width: 420px; transform: none; }
   .minimal-slide__content p { margin-bottom: 16px; font-size: 15px; }
