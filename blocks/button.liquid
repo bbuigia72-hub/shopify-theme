@@ -1,7 +1,10 @@
 {% if block.settings.label != blank %}
   <a class="minimal-button" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
     <span class="minimal-button__label">{{ block.settings.label | escape }}</span>
-    <span class="minimal-button__icon" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="m4 2 4 4-4 4" /></svg></span>
+    <span class="minimal-button__reveal" aria-hidden="true">
+      <span class="minimal-button__label">{{ block.settings.label | escape }}</span>
+      <span class="minimal-button__icon"><svg viewBox="0 0 12 12"><path d="m4 2 4 4-4 4" /></svg></span>
+    </span>
   </a>
 {% endif %}
 
