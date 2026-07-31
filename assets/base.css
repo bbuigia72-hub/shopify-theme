@@ -39,12 +39,12 @@ body { margin: 0; }
 .minimal-slide__content a::after { content: '→'; display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%; background: #050505; color: #fff; font-size: 21px; line-height: 1; }
 .minimal-slideshow__controls { position: absolute; z-index: 5; right: clamp(7%, calc((100vw - 1320px) / 2), 15%); bottom: 28px; display: flex; flex-flow: row nowrap; align-items: center; gap: 18px; height: 28px; color: #fff; }
 .minimal-slideshow__counter { display: flex; align-items: center; min-width: 36px; height: 28px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
-.minimal-slideshow__progress { display: block; flex: 0 0 168px; width: 168px; height: 2px; background: #ffffff45; }
+.minimal-slideshow__progress { display: block; flex: 0 0 125px; width: 125px; height: 2px; background: #ffffff45; }
 .minimal-slideshow__progress-bar { display: block; width: 0; height: 100%; background: #fff; }
 .minimal-slideshow__progress-bar.is-running { animation: minimal-slideshow-progress 5s linear forwards; }
 @keyframes minimal-slideshow-progress { from { width: 0; } to { width: 100%; } }
 .minimal-slideshow .minimal-slideshow__arrow { position: relative !important; inset: auto !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; z-index: 4; display: grid; flex: 0 0 20px; place-items: center; width: 20px; height: 28px; margin: 0; padding: 0; border: 0; transform: none !important; background: transparent; color: #fff; font-size: 0; line-height: 1; font-weight: 400; opacity: 1; }
-.minimal-slideshow .minimal-slideshow__arrow::after { display: none; }
+.minimal-slideshow .minimal-slideshow__arrow::after { display: none !important; content: none !important; }
 .minimal-slideshow .minimal-slideshow__arrow::before { content: ''; display: block; width: 8px; height: 8px; border-top: 2px solid #fff; border-right: 2px solid #fff; }
 .minimal-slideshow .minimal-slideshow__arrow--previous::before { transform: rotate(-135deg); }
 .minimal-slideshow .minimal-slideshow__arrow--next::before { transform: rotate(45deg); }
