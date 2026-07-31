@@ -76,6 +76,11 @@ body { margin: 0; }
   .minimal-slideshow__controls { right: 7%; bottom: 28px; }
 }
 
+@media (min-width: 750px) and (max-width: 1024px) and (orientation: portrait) {
+  .minimal-slideshow { height: auto; min-height: 0; aspect-ratio: 16 / 10; }
+  .minimal-slide__content { padding: 14% 7% 10%; }
+}
+
 @media (max-width: 749px) {
   .minimal-slideshow { height: auto; min-height: 0; aspect-ratio: 390 / 604; }
   .minimal-slide__content { align-items: flex-end; justify-content: center; padding: 24px 16px 88px; text-align: center; }
