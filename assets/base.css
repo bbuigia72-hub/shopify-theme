@@ -51,8 +51,7 @@ body { margin: 0; }
 .minimal-button:focus-visible .minimal-button__reveal { clip-path: circle(150% at calc(100% - 25px) 50%); }
 .minimal-button:hover .minimal-button__icon svg,
 .minimal-button:focus-visible .minimal-button__icon svg { animation: minimal-button-slide-in-out 1s infinite; }
-@keyframes minimal-button-slide-in-out { 0%, 45% { transform: translateX(0); } 50% { transform: translateX(130%); } 51% { transform: translateX(-130%); } 100% { transform: translateX(0); } }
-@media (prefers-reduced-motion: reduce) { .minimal-button__reveal { transition: none; } .minimal-button:hover .minimal-button__icon svg, .minimal-button:focus-visible .minimal-button__icon svg { animation: none; } }
+@keyframes minimal-button-slide-in-out { 0% { transform: translateX(0); } 49% { transform: translateX(150%); } 50% { transform: translateX(-150%); } 100% { transform: translateX(0); } }
 .minimal-slideshow__controls { position: absolute; z-index: 5; right: clamp(7%, calc((100vw - 1320px) / 2), 15%); bottom: 28px; display: flex; flex-flow: row nowrap; align-items: center; gap: 18px; height: 28px; color: #fff; }
 .minimal-slideshow__counter { display: flex; align-items: center; min-width: 36px; height: 28px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
 .minimal-slideshow__progress { display: block; flex: 0 0 125px; width: 125px; height: 2px; background: #ffffff45; }
