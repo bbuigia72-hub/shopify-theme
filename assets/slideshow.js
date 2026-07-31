@@ -20,7 +20,7 @@
       effect: 'fade',
       fadeEffect: { crossFade: true },
       autoplay: root.dataset.autoplay === 'true' ? {
-        delay: Number(root.dataset.delay) || 5000,
+        delay: 5000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true
       } : false,
