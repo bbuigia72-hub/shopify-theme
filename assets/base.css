@@ -72,5 +72,5 @@ body { margin: 0; }
   .minimal-slide__content .minimal-button { display: flex; justify-content: space-between; width: 100%; min-height: 50px; padding: 10px 48px 10px 24px; font-size: 15px; }
   .minimal-slideshow__controls { right: 16px; bottom: 24px; left: 16px; gap: 14px; }
   .minimal-slideshow__progress { flex-basis: 100px; width: 100px; }
-  .minimal-slideshow__arrow--previous { margin-left: auto !important; }
+  .minimal-slideshow .minimal-slideshow__arrow--previous { margin-left: auto !important; }
 }
