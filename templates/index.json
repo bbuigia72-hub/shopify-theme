@@ -168,7 +168,7 @@
       ],
       "name": "Slideshow: Minimal",
       "settings": {
-        "autoplay": false,
+        "autoplay": true,
         "show_navigation": true,
         "show_pagination": true,
         "overlay_opacity": 5,
