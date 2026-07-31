@@ -1,14 +1,20 @@
 @font-face {
-  font-family: PebbleInter;
-  src: url("https://foxecom.com/cdn/shop/t/4/assets/Satoshi-Variable.woff2?v=82862037617480312641667748548") format("woff2"),
-       url("pebble-inter.woff2") format("woff2");
+  font-family: PebbleBricolage;
+  src: url("https://pebble-little.myshopify.com/cdn/fonts/bricolage_grotesque/bricolagegrotesque_n5.8c091e52a78b3e58ef96221ce55140a80a8253ff.woff2") format("woff2");
   font-style: normal;
-  font-weight: 100 900;
-  font-display: block;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: PebbleBricolage;
+  src: url("https://pebble-little.myshopify.com/cdn/fonts/bricolage_grotesque/bricolagegrotesque_n7.de5675dd7a8e145fdc4cb2cfe67a16cb085528d0.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
 }
 
 :root {
-  font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #151515;
   background: #f5f5f2;
 }
@@ -32,11 +38,11 @@ body { margin: 0; }
 .minimal-slide__image { width: 100%; height: 100%; display: block; object-fit: cover; }
 .minimal-slide__placeholder { width: 100%; height: 100%; background: var(--pebble-green); }
 .minimal-slide__overlay { position: absolute; inset: 0; background: rgba(20, 24, 20, var(--minimal-overlay)); pointer-events: none; }
-.minimal-slide__content { position: absolute; z-index: 2; inset: 0; display: flex; align-items: flex-start; padding: 18% clamp(7%, calc((100vw - 1320px) / 2), 15%) 10%; color: #fff; font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.minimal-slide__content { position: absolute; z-index: 2; inset: 0; display: flex; align-items: flex-start; padding: 18% clamp(7%, calc((100vw - 1320px) / 2), 15%) 10%; color: #fff; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .minimal-slide__content-inner { max-width: 500px; }
 .minimal-slide__content p { margin: 0 0 28px; font-size: 16px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; text-transform: uppercase; }
-.minimal-slide__content h2 { max-width: 560px; margin: 0 0 46px; font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: clamp(50px, 5.2vw, 78px); line-height: 1.03; font-weight: 900; letter-spacing: -0.04em; text-wrap: balance; }
-.minimal-slide__content a { display: inline-flex; align-items: center; gap: 14px; min-height: 60px; padding: 12px 12px 12px 29px; border-radius: 999px; background: #fff; color: #151515; font-family: PebbleInter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1; font-weight: 700; text-decoration: none; }
+.minimal-slide__content h2 { max-width: 560px; margin: 0 0 46px; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: clamp(50px, 5.2vw, 78px); line-height: 1.03; font-weight: 700; letter-spacing: -0.04em; text-wrap: balance; }
+.minimal-slide__content a { display: inline-flex; align-items: center; gap: 14px; min-height: 60px; padding: 12px 12px 12px 29px; border-radius: 999px; background: #fff; color: #151515; font-family: PebbleBricolage, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1; font-weight: 700; text-decoration: none; }
 .minimal-slide__content a::after { content: '→'; display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%; background: #050505; color: #fff; font-size: 21px; line-height: 1; }
 .minimal-slideshow__controls { position: absolute; z-index: 5; right: clamp(7%, calc((100vw - 1320px) / 2), 15%); bottom: 28px; display: flex; flex-flow: row nowrap; align-items: center; gap: 18px; height: 28px; color: #fff; }
 .minimal-slideshow__counter { display: flex; align-items: center; min-width: 36px; height: 28px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
