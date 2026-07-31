@@ -43,7 +43,7 @@ body { margin: 0; }
 .minimal-slideshow__progress-bar { display: block; width: 0; height: 100%; background: #fff; }
 .minimal-slideshow__progress-bar.is-running { animation: minimal-slideshow-progress 5s linear forwards; }
 @keyframes minimal-slideshow-progress { from { width: 0; } to { width: 100%; } }
-.minimal-slideshow .minimal-slideshow__arrow { position: relative !important; inset: auto !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; z-index: 4; display: grid; flex: 0 0 20px; place-items: center; width: 20px; height: 28px; margin: 0; padding: 0; border: 0; transform: none !important; background: transparent; color: #fff; font-size: 0; line-height: 1; font-weight: 400; opacity: 1; }
+.minimal-slideshow .minimal-slideshow__arrow { position: relative !important; inset: auto !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; z-index: 4; display: grid; flex: 0 0 20px; align-self: center; place-items: center; width: 20px; height: 28px; margin: 0 !important; padding: 0; border: 0; transform: none !important; background: transparent; color: #fff; font-size: 0; line-height: 1; font-weight: 400; opacity: 1; }
 .minimal-slideshow .minimal-slideshow__arrow::after,
 .minimal-slideshow .minimal-slideshow__arrow::before { display: none !important; content: none !important; }
 .minimal-slideshow .minimal-slideshow__arrow svg { display: block; width: 10px !important; height: 16px !important; fill: none !important; stroke: currentColor; stroke-width: 1.5; }
