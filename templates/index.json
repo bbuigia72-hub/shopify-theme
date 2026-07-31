@@ -66,7 +66,9 @@
           "name": "Image slide",
           "settings": {
             "image_desktop": "shopify://shop_images/exec-d01a14ca-80ce-4e17-beb3-95f0d7d2e16a_b289a13a-7364-4670-82f3-dc31e67e3dc4.png",
-            "image_mobile": "shopify://shop_images/exec-e73d465e-f48c-4c4b-a7a9-b39aa23fdd5c.png"
+            "image_mobile": "shopify://shop_images/exec-e73d465e-f48c-4c4b-a7a9-b39aa23fdd5c.png",
+            "image_desktop_url": "https://pebble-little.myshopify.com/cdn/shop/files/slide-2-v2.webp?v=1773908714&width=2400",
+            "image_mobile_url": "https://pebble-little.myshopify.com/cdn/shop/files/slide-2-v2--mb.webp?v=1773914127&width=1200"
           },
           "blocks": {
             "content": {

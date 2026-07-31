@@ -4,10 +4,14 @@
 
 <div class="minimal-slide swiper-slide" {{ block.shopify_attributes }}>
   <picture>
-    {% if block.settings.image_mobile != blank %}
+    {% if block.settings.image_mobile_url != blank %}
+      <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile_url }}">
+    {% elsif block.settings.image_mobile != blank %}
       <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 1200 }}">
     {% endif %}
-    {% if block.settings.image_desktop != blank %}
+    {% if block.settings.image_desktop_url != blank %}
+      <img src="{{ block.settings.image_desktop_url }}" alt="" class="minimal-slide__image" loading="lazy" width="2400" height="1250">
+    {% elsif block.settings.image_desktop != blank %}
       {{ block.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'minimal-slide__image', loading: 'lazy', widths: '750,1100,1500,2000,2400', sizes: '100vw' }}
     {% else %}
       {{ 'hero-apparel-1' | placeholder_svg_tag: 'minimal-slide__image minimal-slide__placeholder' }}
@@ -24,7 +28,9 @@
   "blocks": [{ "type": "_minimal-slide-content" }],
   "settings": [
     { "type": "image_picker", "id": "image_desktop", "label": "Desktop image" },
-    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" }
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" },
+    { "type": "url", "id": "image_desktop_url", "label": "Desktop image URL" },
+    { "type": "url", "id": "image_mobile_url", "label": "Mobile image URL" }
   ],
   "presets": [{ "name": "Image slide", "blocks": { "content": { "type": "_minimal-slide-content" } }, "block_order": ["content"] }]
 }
