@@ -116,7 +116,10 @@
           "type": "_minimal-slide",
           "name": "Image slide",
           "disabled": true,
-          "settings": {},
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
           "blocks": {
             "content": {
               "type": "_minimal-slide-content",
@@ -168,7 +171,7 @@
         "autoplay": false,
         "show_navigation": true,
         "show_pagination": true,
-        "overlay_opacity": 10,
+        "overlay_opacity": 5,
         "content_position": "left"
       }
     }
