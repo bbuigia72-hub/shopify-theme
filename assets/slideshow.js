@@ -10,6 +10,7 @@
     const slideCount = element.querySelectorAll('.swiper-slide').length;
     const autoplayDelay = Number(root.dataset.autoplayDelay);
     const autoplayEnabled = root.dataset.autoplay === 'true' && slideCount > 1 && Number.isFinite(autoplayDelay) && autoplayDelay >= 0;
+    const transitionSpeed = autoplayDelay === 0 ? 5000 : 700;
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
       if (!progress) return;
@@ -25,7 +26,7 @@
     new window.Swiper(element, {
       slidesPerView: 1,
       loop: element.querySelectorAll('.swiper-slide').length > 1,
-      speed: 700,
+      speed: transitionSpeed,
       effect: 'fade',
       fadeEffect: { crossFade: true },
       autoplay: autoplayEnabled ? {
