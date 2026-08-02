@@ -62,7 +62,7 @@ body { margin: 0; }
 .minimal-slideshow__counter { display: flex; align-items: center; min-width: 36px; height: 28px; font-size: 16px; line-height: 1; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
 .minimal-slideshow__progress { display: block; flex: 0 0 125px; width: 125px; height: 2px; background: #ffffff45; }
 .minimal-slideshow__progress-bar { display: block; width: 0; height: 100%; background: #fff; }
-.minimal-slideshow__progress-bar.is-running { animation: minimal-slideshow-progress var(--minimal-autoplay-delay) linear forwards; }
+.minimal-slideshow__progress-bar.is-running { animation: minimal-slideshow-progress var(--minimal-progress-duration) linear forwards; }
 @keyframes minimal-slideshow-progress { from { width: 0; } to { width: 100%; } }
 .minimal-slideshow .minimal-slideshow__arrow { position: relative !important; inset: auto !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; z-index: 4; display: grid; flex: 0 0 20px; align-self: center; place-items: center; width: 20px; height: 28px; margin: 0 !important; padding: 0; border: 0; transform: none !important; background: transparent; color: #fff; font-size: 0; line-height: 1; font-weight: 400; opacity: 1; }
 .minimal-slideshow .minimal-slideshow__arrow::after,

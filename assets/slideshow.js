@@ -11,13 +11,15 @@
     const autoplayDelay = Number(root.dataset.autoplayDelay);
     const autoplayEnabled = root.dataset.autoplay === 'true' && slideCount > 1 && Number.isFinite(autoplayDelay) && autoplayDelay >= 0;
     const transitionSpeed = autoplayDelay === 0 ? 5000 : 700;
+    const progressDuration = autoplayDelay === 0 ? transitionSpeed : autoplayDelay;
+    root.style.setProperty('--minimal-progress-duration', `${progressDuration}ms`);
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
       if (!progress) return;
       progress.classList.remove('is-running');
       progress.style.width = autoplayEnabled ? '0%' : `${((swiper.realIndex || 0) + 1) / Math.max(slideCount, 1) * 100}%`;
       void progress.offsetWidth;
-      if (autoplayEnabled && autoplayDelay > 0) progress.classList.add('is-running');
+      if (autoplayEnabled) progress.classList.add('is-running');
     };
     const updateControls = (swiper) => {
       if (current) current.textContent = String((swiper.realIndex || 0) + 1);
