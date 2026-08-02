@@ -8,14 +8,15 @@
     const total = root.querySelector('.minimal-slideshow__total');
     const progress = root.querySelector('.minimal-slideshow__progress-bar');
     const slideCount = element.querySelectorAll('.swiper-slide').length;
-    const autoplayDelay = Number(root.dataset.autoplayDelay) || 5000;
+    const autoplayDelay = Number(root.dataset.autoplayDelay);
+    const autoplayEnabled = root.dataset.autoplay === 'true' && slideCount > 1 && Number.isFinite(autoplayDelay) && autoplayDelay > 0;
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
       if (!progress) return;
       progress.classList.remove('is-running');
-      progress.style.width = root.dataset.autoplay === 'true' ? '0%' : `${((swiper.realIndex || 0) + 1) / Math.max(slideCount, 1) * 100}%`;
+      progress.style.width = autoplayEnabled ? '0%' : `${((swiper.realIndex || 0) + 1) / Math.max(slideCount, 1) * 100}%`;
       void progress.offsetWidth;
-      if (root.dataset.autoplay === 'true') progress.classList.add('is-running');
+      if (autoplayEnabled) progress.classList.add('is-running');
     };
     const updateControls = (swiper) => {
       if (current) current.textContent = String((swiper.realIndex || 0) + 1);
@@ -27,7 +28,7 @@
       speed: 700,
       effect: 'fade',
       fadeEffect: { crossFade: true },
-      autoplay: root.dataset.autoplay === 'true' && slideCount > 1 ? {
+      autoplay: autoplayEnabled ? {
         delay: autoplayDelay,
         disableOnInteraction: false,
         pauseOnMouseEnter: false
