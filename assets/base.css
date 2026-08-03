@@ -34,6 +34,9 @@ body { margin: 0; }
 .minimal-slideshow__viewport,
 .minimal-slideshow .swiper-wrapper,
 .minimal-slide { height: 100%; }
+.minimal-slideshow .swiper-fade .swiper-slide {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 .minimal-slide { position: relative; overflow: hidden; }
 .minimal-slide__image { width: 100%; height: 100%; display: block; object-fit: cover; }
 .minimal-slide__placeholder { width: 100%; height: 100%; background: var(--pebble-green); }

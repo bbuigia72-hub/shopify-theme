@@ -30,7 +30,7 @@
       loop: element.querySelectorAll('.swiper-slide').length > 1,
       speed: transitionSpeed,
       effect: 'fade',
-      fadeEffect: { crossFade: false },
+      fadeEffect: { crossFade: true },
       autoplay: autoplayEnabled ? {
         delay: autoplayDelay,
         disableOnInteraction: false,
