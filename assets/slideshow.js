@@ -10,8 +10,8 @@
     const slideCount = element.querySelectorAll('.swiper-slide').length;
     const autoplayDelay = Number(root.dataset.autoplayDelay);
     const autoplayEnabled = root.dataset.autoplay === 'true' && slideCount > 1 && Number.isFinite(autoplayDelay) && autoplayDelay >= 0;
-    const transitionSpeed = 4000;
-    const progressDuration = autoplayDelay === 0 ? transitionSpeed : autoplayDelay;
+    const transitionSpeed = 2000;
+    const progressDuration = autoplayDelay + transitionSpeed;
     root.style.setProperty('--minimal-progress-duration', `${progressDuration}ms`);
     if (total) total.textContent = slideCount;
     const restartProgress = (swiper) => {
