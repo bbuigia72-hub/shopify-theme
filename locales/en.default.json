@@ -1,1 +1,36 @@
-{}
+{
+  "navigation": {
+    "primary": "Primary navigation",
+    "women": "Women",
+    "men": "Men",
+    "pages": "Pages",
+    "open_womens_menu": "Open Women's menu",
+    "open_mens_menu": "Open Men's menu",
+    "top_picks": "Top picks",
+    "best_sellers": "Best sellers",
+    "trending": "Trending",
+    "new_arrivals": "New arrivals",
+    "on_sale": "On sale",
+    "by_activity": "By activity",
+    "by_feature": "By feature",
+    "hiking": "Hiking",
+    "running": "Running",
+    "training": "Training",
+    "tennis": "Tennis",
+    "lifestyle": "Lifestyle",
+    "shop_all": "Shop all",
+    "cushioned": "Cushioned",
+    "waterproof": "Waterproof",
+    "water_resistant": "Water-resistant",
+    "breathable": "Breathable",
+    "windproof": "Windproof",
+    "womens_sale": "Women's sale",
+    "womens_best_sellers": "Women's best sellers",
+    "about_us": "About us",
+    "contact": "Contact",
+    "faqs": "FAQs",
+    "store_locations": "Store locations",
+    "recently_viewed": "Recently viewed",
+    "our_journal": "Our journal"
+  }
+}

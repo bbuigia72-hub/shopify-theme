@@ -1,0 +1,699 @@
+{% liquid
+  assign all_products_url = routes.all_products_collection_url
+  assign women_url = all_products_url
+  assign men_url = all_products_url
+  assign women_sale_url = all_products_url
+  assign women_best_sellers_url = all_products_url
+  assign about_us_url = routes.root_url
+  assign contact_url = routes.root_url
+  assign faqs_url = routes.root_url
+  assign store_locations_url = routes.root_url
+  assign recently_viewed_url = routes.root_url
+  assign journal_url = routes.root_url
+  assign women_sale_title = 'navigation.womens_sale' | t
+  assign women_best_sellers_title = 'navigation.womens_best_sellers' | t
+
+  if section.settings.women_collection != blank
+    assign women_url = section.settings.women_collection.url
+  endif
+
+  if section.settings.men_collection != blank
+    assign men_url = section.settings.men_collection.url
+  endif
+
+  if section.settings.women_sale_link != blank
+    assign women_sale_url = section.settings.women_sale_link
+  endif
+
+  if section.settings.women_best_sellers_link != blank
+    assign women_best_sellers_url = section.settings.women_best_sellers_link
+  endif
+
+  if pages['about-us'] != blank
+    assign about_us_url = pages['about-us'].url
+  endif
+
+  if pages['contact'] != blank
+    assign contact_url = pages['contact'].url
+  endif
+
+  if pages['faqs'] != blank
+    assign faqs_url = pages['faqs'].url
+  endif
+
+  if pages['store-locations'] != blank
+    assign store_locations_url = pages['store-locations'].url
+  endif
+
+  if pages['recently-viewed'] != blank
+    assign recently_viewed_url = pages['recently-viewed'].url
+  endif
+
+  if blogs['news'] != blank
+    assign journal_url = blogs['news'].url
+  endif
+%}
+
+<header class="storefront-navigation{% if request.page_type == 'index' %} storefront-navigation--homepage{% endif %}" data-storefront-navigation>
+  <nav class="storefront-navigation__bar" aria-label="{{ 'navigation.primary' | t }}">
+    <ul class="storefront-navigation__list">
+      <li class="storefront-navigation__item storefront-navigation__item--mega" data-navigation-item>
+        <a id="NavigationWomenLabel-{{ section.id }}" class="storefront-navigation__collection-link" href="{{ women_url }}" data-navigation-collection-link>{{ 'navigation.women' | t }}</a>
+        <button id="NavigationWomenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationWomenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_womens_menu' | t }}" data-navigation-toggle>
+          <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+        </button>
+        <div id="NavigationWomenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" aria-labelledby="NavigationWomenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+          <div class="storefront-navigation__mega-surface">
+            <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--women">
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                <ul class="storefront-navigation__editorial-list">
+                  <li><a href="{{ women_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
+                  <li><a href="{{ women_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
+                  <li><a href="{{ women_url }}">{{ 'navigation.trending' | t }}</a></li>
+                  <li><a href="{{ women_url }}">{{ 'navigation.new_arrivals' | t }}</a></li>
+                  <li><a href="{{ women_url }}">{{ 'navigation.on_sale' | t }}</a></li>
+                </ul>
+              </div>
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
+                <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
+                <ul class="storefront-navigation__child-list">
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.running' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.training' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li>
+                </ul>
+              </div>
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
+                <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
+                <ul class="storefront-navigation__child-list">
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li>
+                </ul>
+              </div>
+              <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_sale_url }}" style="--menu-reveal-delay: 270ms">
+                {% if section.settings.women_sale_image != blank %}
+                  {{ section.settings.women_sale_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
+                {% else %}
+                  <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                {% endif %}
+                <span class="storefront-navigation__promo-copy">{{ women_sale_title }}</span>
+              </a>
+              <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_best_sellers_url }}" style="--menu-reveal-delay: 310ms">
+                {% if section.settings.women_best_sellers_image != blank %}
+                  {{ section.settings.women_best_sellers_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_best_sellers_title }}
+                {% else %}
+                  <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                {% endif %}
+                <span class="storefront-navigation__promo-copy">{{ women_best_sellers_title }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="storefront-navigation__item storefront-navigation__item--mega" data-navigation-item>
+        <a id="NavigationMenLabel-{{ section.id }}" class="storefront-navigation__collection-link" href="{{ men_url }}" data-navigation-collection-link>{{ 'navigation.men' | t }}</a>
+        <button id="NavigationMenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationMenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_mens_menu' | t }}" data-navigation-toggle>
+          <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+        </button>
+        <div id="NavigationMenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" aria-labelledby="NavigationMenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+          <div class="storefront-navigation__mega-surface">
+            <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--men">
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                <ul class="storefront-navigation__editorial-list">
+                  <li><a href="{{ men_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
+                  <li><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
+                  <li><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a></li>
+                  <li><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a></li>
+                  <li><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></li>
+                </ul>
+              </div>
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
+                <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
+                <ul class="storefront-navigation__child-list">
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li>
+                </ul>
+              </div>
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
+                <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
+                <ul class="storefront-navigation__child-list">
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li>
+                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="storefront-navigation__item storefront-navigation__item--pages" data-navigation-item>
+        <button id="NavigationPagesToggle-{{ section.id }}" class="storefront-navigation__pages-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationPagesMenu-{{ section.id }}" data-navigation-toggle>
+          <span>{{ 'navigation.pages' | t }}</span>
+          <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+        </button>
+        <div id="NavigationPagesMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--pages" aria-labelledby="NavigationPagesToggle-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+          <ul class="storefront-navigation__pages-list">
+            <li><a href="{{ about_us_url }}" data-navigation-first-link>{{ 'navigation.about_us' | t }}</a></li>
+            <li><a href="{{ contact_url }}">{{ 'navigation.contact' | t }}</a></li>
+            <li><a href="{{ faqs_url }}">{{ 'navigation.faqs' | t }}</a></li>
+            <li><a href="{{ store_locations_url }}">{{ 'navigation.store_locations' | t }}</a></li>
+            <li><a href="{{ recently_viewed_url }}">{{ 'navigation.recently_viewed' | t }}</a></li>
+            <li><a href="{{ journal_url }}">{{ 'navigation.our_journal' | t }}</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+{% stylesheet %}
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Figtree:wght@400;500&display=swap');
+
+  .storefront-navigation {
+    --navigation-gutter: clamp(4%, calc((100vw - 1650px) / 2), 8%);
+    --navigation-trigger-color: #131313;
+    position: relative;
+    z-index: 30;
+    width: 100%;
+  }
+
+  .storefront-navigation--homepage {
+    --navigation-trigger-color: #FFFFFF;
+    position: absolute;
+    inset: 0 0 auto;
+  }
+
+  .storefront-navigation__bar {
+    min-height: 76px;
+    padding: 20px var(--navigation-gutter);
+  }
+
+  .storefront-navigation__list,
+  .storefront-navigation__editorial-list,
+  .storefront-navigation__child-list,
+  .storefront-navigation__pages-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .storefront-navigation__list {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .storefront-navigation__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .storefront-navigation__item--mega {
+    position: static;
+  }
+
+  .storefront-navigation__item--pages {
+    position: relative;
+  }
+
+  .storefront-navigation__collection-link,
+  .storefront-navigation__toggle,
+  .storefront-navigation__pages-toggle {
+    color: var(--navigation-trigger-color);
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22.4px;
+    letter-spacing: 0.28px;
+    text-decoration: none;
+  }
+
+  .storefront-navigation__collection-link,
+  .storefront-navigation__toggle {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .storefront-navigation__toggle,
+  .storefront-navigation__pages-toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .storefront-navigation__toggle {
+    width: 18px;
+    justify-content: flex-end;
+  }
+
+  .storefront-navigation__pages-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .storefront-navigation__toggle svg,
+  .storefront-navigation__pages-toggle svg {
+    width: 10px;
+    height: 7px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    transition: transform 200ms ease-in-out;
+  }
+
+  .storefront-navigation__item.is-open .storefront-navigation__toggle svg,
+  .storefront-navigation__item.is-open .storefront-navigation__pages-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .storefront-navigation__collection-link:hover,
+  .storefront-navigation__collection-link:focus-visible,
+  .storefront-navigation__toggle:hover,
+  .storefront-navigation__toggle:focus-visible,
+  .storefront-navigation__pages-toggle:hover,
+  .storefront-navigation__pages-toggle:focus-visible {
+    color: #131313;
+  }
+
+  .storefront-navigation__collection-link:focus-visible,
+  .storefront-navigation__toggle:focus-visible,
+  .storefront-navigation__pages-toggle:focus-visible,
+  .storefront-navigation__editorial-list a:focus-visible,
+  .storefront-navigation__child-link:focus-visible,
+  .storefront-navigation__promo-card:focus-visible,
+  .storefront-navigation__pages-list a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .storefront-navigation__panel {
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease, visibility 0s linear 180ms;
+  }
+
+  .storefront-navigation__panel.is-open {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .storefront-navigation__panel--mega {
+    top: 100%;
+    right: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .storefront-navigation__mega-surface {
+    width: 100%;
+    padding: 28px var(--navigation-gutter) 38px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .storefront-navigation__mega-grid {
+    display: grid;
+    align-items: start;
+    gap: 32px;
+  }
+
+  .storefront-navigation__mega-grid--women {
+    grid-template-columns: repeat(3, minmax(0, 0.8fr)) repeat(2, minmax(140px, 1fr));
+  }
+
+  .storefront-navigation__mega-grid--men {
+    max-width: 780px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .storefront-navigation__menu-reveal {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: 400ms;
+    transition-delay: var(--menu-reveal-delay, 150ms);
+  }
+
+  .storefront-navigation__editorial-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .storefront-navigation__editorial-list a {
+    color: #131313;
+    font-family: Archivo, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25.6px;
+    text-decoration: none;
+  }
+
+  .storefront-navigation__group-label {
+    margin: 0 0 25.6px;
+    color: #131313;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22.4px;
+    letter-spacing: 0.28px;
+  }
+
+  .storefront-navigation__child-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .storefront-navigation__child-link {
+    position: relative;
+    display: inline-flex;
+    color: #FFFFFF;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22.4px;
+    letter-spacing: normal;
+    text-decoration: none;
+  }
+
+  .storefront-navigation__child-link::after {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    content: '';
+    transition: width 200ms ease-in-out;
+  }
+
+  .storefront-navigation__child-link:hover,
+  .storefront-navigation__child-link:focus-visible {
+    color: #131313;
+  }
+
+  .storefront-navigation__child-link:hover::after,
+  .storefront-navigation__child-link:focus-visible::after {
+    width: 100%;
+  }
+
+  .storefront-navigation__promo-card {
+    position: relative;
+    display: flex;
+    min-height: 230px;
+    overflow: hidden;
+    color: #131313;
+    text-decoration: none;
+    background: #EAE9E4;
+  }
+
+  .storefront-navigation__promo-image,
+  .storefront-navigation__promo-slot {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .storefront-navigation__promo-image {
+    object-fit: cover;
+  }
+
+  .storefront-navigation__promo-slot {
+    background: linear-gradient(135deg, #F4F3EF 0%, #D9D7D0 100%);
+  }
+
+  .storefront-navigation__promo-copy {
+    position: relative;
+    z-index: 1;
+    align-self: flex-end;
+    margin: 16px;
+    padding: 8px 10px;
+    background: #FFFFFF;
+    color: #131313;
+    font-family: Archivo, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22.4px;
+  }
+
+  .storefront-navigation__panel--pages {
+    top: calc(100% - 2px);
+    left: 0;
+    min-width: 220px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+  }
+
+  .storefront-navigation__pages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .storefront-navigation__pages-list a {
+    color: #131313;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22.4px;
+    text-decoration: none;
+  }
+
+  .storefront-navigation__pages-list a:hover,
+  .storefront-navigation__pages-list a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 1100px) {
+    .storefront-navigation__mega-grid {
+      gap: 22px;
+    }
+
+    .storefront-navigation__mega-grid--women {
+      grid-template-columns: repeat(3, minmax(0, 0.75fr)) repeat(2, minmax(112px, 0.9fr));
+    }
+
+    .storefront-navigation__promo-card {
+      min-height: 190px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .storefront-navigation {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .storefront-navigation *,
+    .storefront-navigation *::before,
+    .storefront-navigation *::after {
+      transition-duration: 0ms !important;
+    }
+
+    .storefront-navigation__menu-reveal {
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const initialiseNavigation = (root) => {
+      if (root.dataset.navigationInitialised === 'true') return;
+
+      root.dataset.navigationInitialised = 'true';
+
+      const desktopMedia = window.matchMedia('(min-width: 750px)');
+      const hoverMedia = window.matchMedia('(min-width: 750px) and (hover: hover) and (pointer: fine)');
+      const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
+        item,
+        toggle: item.querySelector('[data-navigation-toggle]'),
+        panel: item.querySelector('[data-navigation-panel]'),
+        collectionLink: item.querySelector('[data-navigation-collection-link]'),
+        firstLink: item.querySelector('[data-navigation-first-link]'),
+        closeTimer: null,
+        openedByToggle: false
+      }));
+      let activeItem = null;
+
+      const closeItem = (entry) => {
+        if (!entry) return;
+
+        window.clearTimeout(entry.closeTimer);
+        entry.item.classList.remove('is-open');
+        entry.toggle.setAttribute('aria-expanded', 'false');
+        entry.panel.setAttribute('aria-hidden', 'true');
+        entry.panel.setAttribute('inert', '');
+        entry.openedByToggle = false;
+
+        if (activeItem === entry) activeItem = null;
+      };
+
+      const closeAll = (exceptEntry = null) => {
+        items.forEach((entry) => {
+          if (entry !== exceptEntry) closeItem(entry);
+        });
+      };
+
+      const openItem = (entry) => {
+        if (!desktopMedia.matches || !entry) return;
+
+        window.clearTimeout(entry.closeTimer);
+        closeAll(entry);
+        entry.item.classList.add('is-open');
+        entry.toggle.setAttribute('aria-expanded', 'true');
+        entry.panel.setAttribute('aria-hidden', 'false');
+        entry.panel.removeAttribute('inert');
+        activeItem = entry;
+      };
+
+      const queueClose = (entry) => {
+        window.clearTimeout(entry.closeTimer);
+        entry.closeTimer = window.setTimeout(() => {
+          if (!entry.item.matches(':hover') && !entry.item.contains(document.activeElement)) closeItem(entry);
+        }, 140);
+      };
+
+      items.forEach((entry) => {
+        entry.item.addEventListener('pointerenter', () => {
+          if (!hoverMedia.matches) return;
+          openItem(entry);
+        });
+
+        entry.item.addEventListener('pointerleave', () => {
+          if (!hoverMedia.matches) return;
+          queueClose(entry);
+        });
+
+        entry.item.addEventListener('focusin', () => {
+          if (desktopMedia.matches) openItem(entry);
+        });
+
+        entry.item.addEventListener('focusout', () => {
+          window.requestAnimationFrame(() => {
+            if (!entry.item.contains(document.activeElement)) queueClose(entry);
+          });
+        });
+
+        entry.toggle.addEventListener('click', () => {
+          if (!desktopMedia.matches) return;
+
+          if (entry.item.classList.contains('is-open') && entry.openedByToggle) {
+            closeItem(entry);
+          } else {
+            entry.openedByToggle = true;
+            openItem(entry);
+          }
+        });
+
+        entry.item.addEventListener('keydown', (event) => {
+          if (!desktopMedia.matches || event.key !== 'ArrowDown') return;
+          if (event.target !== entry.toggle && event.target !== entry.collectionLink) return;
+
+          event.preventDefault();
+          openItem(entry);
+          entry.firstLink?.focus();
+        });
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (!root.contains(event.target)) closeAll();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !activeItem) return;
+
+        event.preventDefault();
+        const entry = activeItem;
+        closeItem(entry);
+        entry.toggle.focus();
+      });
+
+      desktopMedia.addEventListener('change', () => {
+        if (!desktopMedia.matches) closeAll();
+      });
+    };
+
+    const initialiseAllNavigations = () => {
+      document.querySelectorAll('[data-storefront-navigation]').forEach(initialiseNavigation);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initialiseAllNavigations, { once: true });
+    } else {
+      initialiseAllNavigations();
+    }
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Desktop navigation",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "women_collection",
+      "label": "Women's collection"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection",
+      "label": "Men's collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "women_sale_image",
+      "label": "Women's sale image"
+    },
+    {
+      "type": "url",
+      "id": "women_sale_link",
+      "label": "Women's sale link"
+    },
+    {
+      "type": "image_picker",
+      "id": "women_best_sellers_image",
+      "label": "Women's best sellers image"
+    },
+    {
+      "type": "url",
+      "id": "women_best_sellers_link",
+      "label": "Women's best sellers link"
+    }
+  ]
+}
+{% endschema %}
