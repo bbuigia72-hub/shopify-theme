@@ -75,7 +75,7 @@
           <div class="storefront-navigation__mega-surface">
             <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--women">
               {% if section.settings.women_menu != blank %}
-                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 200ms">
                   <ul class="storefront-navigation__editorial-list">
                     {% for link in section.settings.women_menu.links %}
                       {% if link.links == blank %}
@@ -85,7 +85,7 @@
                   </ul>
                 </div>
 
-                {% assign women_group_delay = 190 %}
+                {% assign women_group_delay = 250 %}
                 {% for link in section.settings.women_menu.links %}
                   {% if link.links != blank %}
                     <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ women_group_delay }}ms">
@@ -96,11 +96,11 @@
                         {% endfor %}
                       </ul>
                     </div>
-                    {% assign women_group_delay = women_group_delay | plus: 40 %}
+                    {% assign women_group_delay = women_group_delay | plus: 50 %}
                   {% endif %}
                 {% endfor %}
               {% else %}
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 200ms">
                 <ul class="storefront-navigation__editorial-list">
                   <li><a href="{{ women_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
                   <li><a href="{{ women_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
@@ -109,7 +109,7 @@
                   <li><a href="{{ women_url }}">{{ 'navigation.on_sale' | t }}</a></li>
                 </ul>
               </div>
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 250ms">
                 <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
                 <ul class="storefront-navigation__child-list">
                   <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li>
@@ -120,7 +120,7 @@
                   <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li>
                 </ul>
               </div>
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
+              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 300ms">
                 <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
                 <ul class="storefront-navigation__child-list">
                   <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li>
@@ -132,7 +132,7 @@
               </div>
               {% endif %}
               <div class="storefront-navigation__promo-area">
-                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_sale_url }}" style="--menu-reveal-delay: 270ms">
+                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_sale_url }}" style="--menu-reveal-delay: 350ms">
                   <span class="storefront-navigation__promo-media">
                     {% if section.settings.women_sale_image != blank %}
                       {{ section.settings.women_sale_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
@@ -145,7 +145,7 @@
                     <span>{{ 'navigation.shop_now' | t }} <span aria-hidden="true">↗</span></span>
                   </span>
                 </a>
-                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_favorites_url }}" style="--menu-reveal-delay: 310ms">
+                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_favorites_url }}" style="--menu-reveal-delay: 400ms">
                   <span class="storefront-navigation__promo-media">
                     {% if section.settings.women_favorites_image != blank %}
                       {{ section.settings.women_favorites_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_favorites_title }}
@@ -174,7 +174,7 @@
             <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--men">
               <div class="storefront-navigation__menu-columns">
                 {% if section.settings.men_menu != blank %}
-                  <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                  <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 200ms">
                     <ul class="storefront-navigation__editorial-list">
                       {% for link in section.settings.men_menu.links %}
                         {% if link.links == blank %}
@@ -184,7 +184,7 @@
                     </ul>
                   </div>
 
-                  {% assign men_group_delay = 190 %}
+                  {% assign men_group_delay = 250 %}
                   {% for link in section.settings.men_menu.links %}
                     {% if link.links != blank %}
                       <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ men_group_delay }}ms">
@@ -195,11 +195,11 @@
                           {% endfor %}
                         </ul>
                       </div>
-                      {% assign men_group_delay = men_group_delay | plus: 40 %}
+                      {% assign men_group_delay = men_group_delay | plus: 50 %}
                     {% endif %}
                   {% endfor %}
                 {% else %}
-                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 200ms">
                   <ul class="storefront-navigation__editorial-list">
                     <li><a href="{{ men_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
                     <li><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
@@ -208,7 +208,7 @@
                     <li><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></li>
                   </ul>
                 </div>
-                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 250ms">
                   <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
                   <ul class="storefront-navigation__child-list">
                     <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li>
@@ -219,7 +219,7 @@
                     <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li>
                   </ul>
                 </div>
-                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 300ms">
                   <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
                   <ul class="storefront-navigation__child-list">
                     <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li>
@@ -232,7 +232,7 @@
                 {% endif %}
               </div>
               <section class="storefront-navigation__men-deals" aria-labelledby="NavigationMenDealsTitle-{{ section.id }}">
-                <div class="storefront-navigation__men-deals-header storefront-navigation__menu-reveal" style="--menu-reveal-delay: 270ms">
+                <div class="storefront-navigation__men-deals-header storefront-navigation__menu-reveal" style="--menu-reveal-delay: 350ms">
                   <h2 id="NavigationMenDealsTitle-{{ section.id }}">{{ 'navigation.best_deals' | t }} <span aria-hidden="true">&#128293;</span></h2>
                   <span class="storefront-navigation__men-deals-arrows" aria-hidden="true">
                     <svg viewBox="0 0 16 16" focusable="false"><path d="M10 3 5 8l5 5" /></svg>
@@ -253,7 +253,7 @@
                           assign discount = saving | times: 100.0 | divided_by: compare_at_price | round
                         endif
                       %}
-                      <article class="storefront-navigation__deal-card storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ forloop.index0 | times: 40 | plus: 290 }}ms">
+                      <article class="storefront-navigation__deal-card storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ forloop.index0 | times: 50 | plus: 400 }}ms">
                         <a class="storefront-navigation__deal-media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
                           {% if is_on_sale %}
                             <span class="storefront-navigation__deal-badge">-{{ discount }}%</span>
@@ -492,14 +492,16 @@
     height: 0;
     max-height: 50vh;
     overflow: hidden;
-    will-change: height, opacity, transform;
+    transform: none;
+    will-change: height, opacity;
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
-    transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1), transform 280ms cubic-bezier(0.22, 1, 0.36, 1), height 400ms ease, visibility 0s linear 400ms;
+    transition: height 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
   }
 
   .storefront-navigation__panel--mega.is-open {
     height: 50vh;
-    transition-delay: 0s, 0s, 0s, 0s;
+    transform: none;
+    transition-delay: 0s, 0s, 0s;
   }
 
   .storefront-navigation__mega-surface {
@@ -552,14 +554,22 @@
     opacity: 0;
     transform: translate3d(0, 15px, 0);
     will-change: opacity, transform;
-    transition: opacity 280ms ease, transform 300ms ease;
   }
 
   .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition-duration: 400ms;
-    transition-delay: var(--menu-reveal-delay, 150ms);
+    animation: storefront-navigation-mega-item-in 400ms ease var(--menu-reveal-delay, 200ms) forwards;
+  }
+
+  @keyframes storefront-navigation-mega-item-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 15px, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateZ(0);
+    }
   }
 
   .storefront-navigation__editorial-list {
@@ -909,6 +919,7 @@
     .storefront-navigation *::before,
     .storefront-navigation *::after {
       transition-duration: 0ms !important;
+      animation-duration: 0ms !important;
     }
 
     .storefront-navigation__menu-reveal {
