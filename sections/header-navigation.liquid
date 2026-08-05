@@ -12,6 +12,7 @@
   assign journal_url = routes.root_url
   assign women_sale_title = 'navigation.womens_sale' | t
   assign women_favorites_title = 'navigation.womens_favorites' | t
+  assign men_best_deals_collection = section.settings.men_best_deals_collection
 
   if section.settings.women_collection != blank
     assign women_url = section.settings.women_collection.url
@@ -19,6 +20,14 @@
 
   if section.settings.men_collection != blank
     assign men_url = section.settings.men_collection.url
+  endif
+
+  if men_best_deals_collection == blank
+    assign men_best_deals_collection = section.settings.men_collection
+  endif
+
+  if men_best_deals_collection == blank
+    assign men_best_deals_collection = collections['all']
   endif
 
   if section.settings.women_sale_link != blank
@@ -163,63 +172,119 @@
         <div id="NavigationMenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" role="region" aria-labelledby="NavigationMenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
           <div class="storefront-navigation__mega-surface">
             <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--men">
-              {% if section.settings.men_menu != blank %}
+              <div class="storefront-navigation__menu-columns">
+                {% if section.settings.men_menu != blank %}
+                  <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                    <ul class="storefront-navigation__editorial-list">
+                      {% for link in section.settings.men_menu.links %}
+                        {% if link.links == blank %}
+                          <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+
+                  {% assign men_group_delay = 190 %}
+                  {% for link in section.settings.men_menu.links %}
+                    {% if link.links != blank %}
+                      <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ men_group_delay }}ms">
+                        <a class="storefront-navigation__group-label" href="{{ link.url }}">{{ link.title | escape }}</a>
+                        <ul class="storefront-navigation__child-list">
+                          {% for child_link in link.links %}
+                            <li><a class="storefront-navigation__child-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% assign men_group_delay = men_group_delay | plus: 40 %}
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
                 <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
                   <ul class="storefront-navigation__editorial-list">
-                    {% for link in section.settings.men_menu.links %}
-                      {% if link.links == blank %}
-                        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-                      {% endif %}
-                    {% endfor %}
+                    <li><a href="{{ men_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
+                    <li><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
+                    <li><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a></li>
+                    <li><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a></li>
+                    <li><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></li>
                   </ul>
                 </div>
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
+                  <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
+                  <ul class="storefront-navigation__child-list">
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li>
+                  </ul>
+                </div>
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
+                  <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
+                  <ul class="storefront-navigation__child-list">
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li>
+                    <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li>
+                  </ul>
+                </div>
+                {% endif %}
+              </div>
+              <section class="storefront-navigation__men-deals" aria-labelledby="NavigationMenDealsTitle-{{ section.id }}">
+                <div class="storefront-navigation__men-deals-header storefront-navigation__menu-reveal" style="--menu-reveal-delay: 270ms">
+                  <h2 id="NavigationMenDealsTitle-{{ section.id }}">{{ 'navigation.best_deals' | t }} <span aria-hidden="true">&#128293;</span></h2>
+                  <span class="storefront-navigation__men-deals-arrows" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" focusable="false"><path d="M10 3 5 8l5 5" /></svg>
+                    <svg viewBox="0 0 16 16" focusable="false"><path d="m6 3 5 5-5 5" /></svg>
+                  </span>
+                </div>
 
-                {% assign men_group_delay = 190 %}
-                {% for link in section.settings.men_menu.links %}
-                  {% if link.links != blank %}
-                    <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ men_group_delay }}ms">
-                      <a class="storefront-navigation__group-label" href="{{ link.url }}">{{ link.title | escape }}</a>
-                      <ul class="storefront-navigation__child-list">
-                        {% for child_link in link.links %}
-                          <li><a class="storefront-navigation__child-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>
-                        {% endfor %}
-                      </ul>
-                    </div>
-                    {% assign men_group_delay = men_group_delay | plus: 40 %}
-                  {% endif %}
-                {% endfor %}
-              {% else %}
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
-                <ul class="storefront-navigation__editorial-list">
-                  <li><a href="{{ men_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
-                  <li><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a></li>
-                  <li><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a></li>
-                  <li><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a></li>
-                  <li><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></li>
-                </ul>
-              </div>
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 190ms">
-                <p class="storefront-navigation__group-label">{{ 'navigation.by_activity' | t }}</p>
-                <ul class="storefront-navigation__child-list">
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li>
-                </ul>
-              </div>
-              <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 230ms">
-                <p class="storefront-navigation__group-label">{{ 'navigation.by_feature' | t }}</p>
-                <ul class="storefront-navigation__child-list">
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li>
-                  <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li>
-                </ul>
-              </div>
-              {% endif %}
+                {% if men_best_deals_collection != blank and men_best_deals_collection.products_count > 0 %}
+                  <div class="storefront-navigation__deal-products">
+                    {% for product in men_best_deals_collection.products limit: 3 %}
+                      {% liquid
+                        assign compare_at_price = product.compare_at_price_max
+                        assign is_on_sale = false
+
+                        if compare_at_price > product.price
+                          assign is_on_sale = true
+                          assign saving = compare_at_price | minus: product.price
+                          assign discount = saving | times: 100.0 | divided_by: compare_at_price | round
+                        endif
+                      %}
+                      <article class="storefront-navigation__deal-card storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ forloop.index0 | times: 40 | plus: 290 }}ms">
+                        <a class="storefront-navigation__deal-media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                          {% if is_on_sale %}
+                            <span class="storefront-navigation__deal-badge">-{{ discount }}%</span>
+                          {% endif %}
+                          {% if product.featured_image != blank %}
+                            {{ product.featured_image | image_url: width: 640 | image_tag: class: 'storefront-navigation__deal-image', loading: 'lazy', alt: product.title }}
+                          {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'storefront-navigation__deal-placeholder' }}
+                          {% endif %}
+                        </a>
+                        {% if product.images.size > 0 %}
+                          <div class="storefront-navigation__deal-thumbnails" aria-hidden="true">
+                            {% for image in product.images limit: 2 %}
+                              <span class="storefront-navigation__deal-thumbnail">
+                                {{ image | image_url: width: 96 | image_tag: loading: 'lazy', alt: '' }}
+                              </span>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                        <a class="storefront-navigation__deal-title" href="{{ product.url }}">{{ product.title | escape }}</a>
+                        <div class="storefront-navigation__deal-prices">
+                          <span class="storefront-navigation__deal-price{% if is_on_sale %} storefront-navigation__deal-price--sale{% endif %}">{{ product.price | money }}</span>
+                          {% if is_on_sale %}
+                            <s>{{ compare_at_price | money }}</s>
+                          {% endif %}
+                        </div>
+                      </article>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </section>
             </div>
           </div>
         </div>
@@ -391,6 +456,7 @@
   .storefront-navigation__group-label:focus-visible,
   .storefront-navigation__child-link:focus-visible,
   .storefront-navigation__promo-card:focus-visible,
+  .storefront-navigation__deal-card a:focus-visible,
   .storefront-navigation__pages-list a:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 4px;
@@ -457,8 +523,15 @@
   }
 
   .storefront-navigation__mega-grid--men {
-    width: min(100%, 680px);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    grid-template-columns: 680px minmax(0, 1fr);
+    column-gap: 40px;
+  }
+
+  .storefront-navigation__menu-columns {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(3, 200px);
     column-gap: 40px;
   }
 
@@ -606,6 +679,155 @@
     margin-left: 10px;
   }
 
+  .storefront-navigation__men-deals {
+    min-width: 0;
+    padding-left: clamp(72px, 8.8vw, 168px);
+  }
+
+  .storefront-navigation__men-deals-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 0 0 28px;
+  }
+
+  .storefront-navigation__men-deals-header h2 {
+    margin: 0;
+    color: #131313;
+    font-family: Figtree, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+
+  .storefront-navigation__men-deals-arrows {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    color: #131313;
+  }
+
+  .storefront-navigation__men-deals-arrows svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .storefront-navigation__deal-products {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .storefront-navigation__deal-card {
+    min-width: 0;
+  }
+
+  .storefront-navigation__deal-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border-radius: 18px;
+    background: #F4F4F4;
+  }
+
+  .storefront-navigation__deal-image,
+  .storefront-navigation__deal-placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .storefront-navigation__deal-placeholder {
+    padding: 18%;
+    box-sizing: border-box;
+    fill: #D7D7D7;
+  }
+
+  .storefront-navigation__deal-badge {
+    position: absolute;
+    z-index: 1;
+    top: 13px;
+    left: 14px;
+    padding: 3px 11px;
+    border-radius: 999px;
+    background: #EE0000;
+    color: #FFFFFF;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .storefront-navigation__deal-thumbnails {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .storefront-navigation__deal-thumbnail {
+    display: block;
+    overflow: hidden;
+    width: 48px;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: #F4F4F4;
+  }
+
+  .storefront-navigation__deal-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .storefront-navigation__deal-title {
+    display: block;
+    overflow: hidden;
+    margin-top: 16px;
+    color: #131313;
+    font-family: Figtree, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .storefront-navigation__deal-prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 2px;
+    font-family: Figtree, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+  }
+
+  .storefront-navigation__deal-price {
+    color: #131313;
+  }
+
+  .storefront-navigation__deal-price--sale {
+    color: #EE0000;
+  }
+
+  .storefront-navigation__deal-prices s {
+    color: #777777;
+    font-size: 14px;
+    line-height: 22.4px;
+  }
+
   .storefront-navigation__panel--pages {
     top: calc(100% - 2px);
     left: 0;
@@ -644,7 +866,18 @@
       row-gap: 36px;
     }
 
-    .storefront-navigation__promo-area {
+    .storefront-navigation__mega-grid--men {
+      width: min(100%, 680px);
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 36px;
+    }
+
+    .storefront-navigation__menu-columns {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .storefront-navigation__promo-area,
+    .storefront-navigation__men-deals {
       width: 100%;
       padding-left: 0;
       grid-column: 1 / -1;
@@ -843,6 +1076,12 @@
       "type": "collection",
       "id": "men_collection",
       "label": "Men's collection"
+    },
+    {
+      "type": "collection",
+      "id": "men_best_deals_collection",
+      "label": "Men's best-deals collection",
+      "info": "Shows the first three products in the Men mega menu. Defaults to the Men's collection, then all products."
     },
     {
       "type": "link_list",
