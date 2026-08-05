@@ -2,16 +2,12 @@
   assign all_products_url = routes.all_products_collection_url
   assign women_url = all_products_url
   assign men_url = all_products_url
-  assign women_sale_url = all_products_url
-  assign women_best_sellers_url = all_products_url
   assign about_us_url = routes.root_url
   assign contact_url = routes.root_url
   assign faqs_url = routes.root_url
   assign store_locations_url = routes.root_url
   assign recently_viewed_url = routes.root_url
   assign journal_url = routes.root_url
-  assign women_sale_title = 'navigation.womens_sale' | t
-  assign women_best_sellers_title = 'navigation.womens_best_sellers' | t
 
   if section.settings.women_collection != blank
     assign women_url = section.settings.women_collection.url
@@ -19,14 +15,6 @@
 
   if section.settings.men_collection != blank
     assign men_url = section.settings.men_collection.url
-  endif
-
-  if section.settings.women_sale_link != blank
-    assign women_sale_url = section.settings.women_sale_link
-  endif
-
-  if section.settings.women_best_sellers_link != blank
-    assign women_best_sellers_url = section.settings.women_best_sellers_link
   endif
 
   if pages['about-us'] != blank
@@ -59,12 +47,38 @@
     <ul class="storefront-navigation__list">
       <li class="storefront-navigation__item storefront-navigation__item--mega" data-navigation-item>
         <a id="NavigationWomenLabel-{{ section.id }}" class="storefront-navigation__collection-link" href="{{ women_url }}" data-navigation-collection-link>{{ 'navigation.women' | t }}</a>
-        <button id="NavigationWomenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationWomenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_womens_menu' | t }}" data-navigation-toggle>
+        <button id="NavigationWomenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-controls="NavigationWomenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_womens_menu' | t }}" data-open-label="{{ 'navigation.open_womens_menu' | t }}" data-close-label="{{ 'navigation.close_womens_menu' | t }}" data-navigation-toggle>
           <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
         </button>
-        <div id="NavigationWomenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" aria-labelledby="NavigationWomenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+        <div id="NavigationWomenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" role="region" aria-labelledby="NavigationWomenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
           <div class="storefront-navigation__mega-surface">
             <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--women">
+              {% if section.settings.women_menu != blank %}
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                  <ul class="storefront-navigation__editorial-list">
+                    {% for link in section.settings.women_menu.links %}
+                      {% if link.links == blank %}
+                        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                {% assign women_group_delay = 190 %}
+                {% for link in section.settings.women_menu.links %}
+                  {% if link.links != blank %}
+                    <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ women_group_delay }}ms">
+                      <a class="storefront-navigation__group-label" href="{{ link.url }}">{{ link.title | escape }}</a>
+                      <ul class="storefront-navigation__child-list">
+                        {% for child_link in link.links %}
+                          <li><a class="storefront-navigation__child-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% assign women_group_delay = women_group_delay | plus: 40 %}
+                  {% endif %}
+                {% endfor %}
+              {% else %}
               <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
                 <ul class="storefront-navigation__editorial-list">
                   <li><a href="{{ women_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
@@ -95,22 +109,7 @@
                   <li><a class="storefront-navigation__child-link" href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li>
                 </ul>
               </div>
-              <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_sale_url }}" style="--menu-reveal-delay: 270ms">
-                {% if section.settings.women_sale_image != blank %}
-                  {{ section.settings.women_sale_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
-                {% else %}
-                  <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
-                {% endif %}
-                <span class="storefront-navigation__promo-copy">{{ women_sale_title }}</span>
-              </a>
-              <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_best_sellers_url }}" style="--menu-reveal-delay: 310ms">
-                {% if section.settings.women_best_sellers_image != blank %}
-                  {{ section.settings.women_best_sellers_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_best_sellers_title }}
-                {% else %}
-                  <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
-                {% endif %}
-                <span class="storefront-navigation__promo-copy">{{ women_best_sellers_title }}</span>
-              </a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -118,12 +117,38 @@
 
       <li class="storefront-navigation__item storefront-navigation__item--mega" data-navigation-item>
         <a id="NavigationMenLabel-{{ section.id }}" class="storefront-navigation__collection-link" href="{{ men_url }}" data-navigation-collection-link>{{ 'navigation.men' | t }}</a>
-        <button id="NavigationMenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationMenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_mens_menu' | t }}" data-navigation-toggle>
+        <button id="NavigationMenToggle-{{ section.id }}" class="storefront-navigation__toggle" type="button" aria-expanded="false" aria-controls="NavigationMenMenu-{{ section.id }}" aria-label="{{ 'navigation.open_mens_menu' | t }}" data-open-label="{{ 'navigation.open_mens_menu' | t }}" data-close-label="{{ 'navigation.close_mens_menu' | t }}" data-navigation-toggle>
           <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
         </button>
-        <div id="NavigationMenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" aria-labelledby="NavigationMenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+        <div id="NavigationMenMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--mega" role="region" aria-labelledby="NavigationMenLabel-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
           <div class="storefront-navigation__mega-surface">
             <div class="storefront-navigation__mega-grid storefront-navigation__mega-grid--men">
+              {% if section.settings.men_menu != blank %}
+                <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
+                  <ul class="storefront-navigation__editorial-list">
+                    {% for link in section.settings.men_menu.links %}
+                      {% if link.links == blank %}
+                        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                {% assign men_group_delay = 190 %}
+                {% for link in section.settings.men_menu.links %}
+                  {% if link.links != blank %}
+                    <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: {{ men_group_delay }}ms">
+                      <a class="storefront-navigation__group-label" href="{{ link.url }}">{{ link.title | escape }}</a>
+                      <ul class="storefront-navigation__child-list">
+                        {% for child_link in link.links %}
+                          <li><a class="storefront-navigation__child-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% assign men_group_delay = men_group_delay | plus: 40 %}
+                  {% endif %}
+                {% endfor %}
+              {% else %}
               <div class="storefront-navigation__mega-column storefront-navigation__menu-reveal" style="--menu-reveal-delay: 150ms">
                 <ul class="storefront-navigation__editorial-list">
                   <li><a href="{{ men_url }}" data-navigation-first-link>{{ 'navigation.top_picks' | t }}</a></li>
@@ -154,24 +179,31 @@
                   <li><a class="storefront-navigation__child-link" href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li>
                 </ul>
               </div>
+              {% endif %}
             </div>
           </div>
         </div>
       </li>
 
       <li class="storefront-navigation__item storefront-navigation__item--pages" data-navigation-item>
-        <button id="NavigationPagesToggle-{{ section.id }}" class="storefront-navigation__pages-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="NavigationPagesMenu-{{ section.id }}" data-navigation-toggle>
+        <button id="NavigationPagesToggle-{{ section.id }}" class="storefront-navigation__pages-toggle" type="button" aria-expanded="false" aria-controls="NavigationPagesMenu-{{ section.id }}" aria-label="{{ 'navigation.open_pages_menu' | t }}" data-open-label="{{ 'navigation.open_pages_menu' | t }}" data-close-label="{{ 'navigation.close_pages_menu' | t }}" data-navigation-toggle>
           <span>{{ 'navigation.pages' | t }}</span>
           <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
         </button>
-        <div id="NavigationPagesMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--pages" aria-labelledby="NavigationPagesToggle-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
+        <div id="NavigationPagesMenu-{{ section.id }}" class="storefront-navigation__panel storefront-navigation__panel--pages" role="region" aria-labelledby="NavigationPagesToggle-{{ section.id }}" aria-hidden="true" inert data-navigation-panel>
           <ul class="storefront-navigation__pages-list">
+            {% if section.settings.pages_menu != blank %}
+              {% for link in section.settings.pages_menu.links %}
+                <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+              {% endfor %}
+            {% else %}
             <li><a href="{{ about_us_url }}" data-navigation-first-link>{{ 'navigation.about_us' | t }}</a></li>
             <li><a href="{{ contact_url }}">{{ 'navigation.contact' | t }}</a></li>
             <li><a href="{{ faqs_url }}">{{ 'navigation.faqs' | t }}</a></li>
             <li><a href="{{ store_locations_url }}">{{ 'navigation.store_locations' | t }}</a></li>
             <li><a href="{{ recently_viewed_url }}">{{ 'navigation.recently_viewed' | t }}</a></li>
             <li><a href="{{ journal_url }}">{{ 'navigation.our_journal' | t }}</a></li>
+            {% endif %}
           </ul>
         </div>
       </li>
@@ -183,7 +215,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Figtree:wght@400;500&display=swap');
 
   .storefront-navigation {
-    --navigation-gutter: clamp(4%, calc((100vw - 1650px) / 2), 8%);
+    --navigation-gutter: clamp(48px, 6vw, 96px);
     --navigation-trigger-color: #131313;
     position: relative;
     z-index: 30;
@@ -194,6 +226,16 @@
     --navigation-trigger-color: #FFFFFF;
     position: absolute;
     inset: 0 0 auto;
+  }
+
+  .storefront-navigation--homepage.is-menu-open .storefront-navigation__bar {
+    background: #FFFFFF;
+  }
+
+  .storefront-navigation--homepage.is-menu-open .storefront-navigation__collection-link,
+  .storefront-navigation--homepage.is-menu-open .storefront-navigation__toggle,
+  .storefront-navigation--homepage.is-menu-open .storefront-navigation__pages-toggle {
+    color: #131313;
   }
 
   .storefront-navigation__bar {
@@ -281,6 +323,18 @@
     transform: rotate(180deg);
   }
 
+  .storefront-navigation__item.is-open .storefront-navigation__collection-link,
+  .storefront-navigation__item.is-open .storefront-navigation__toggle,
+  .storefront-navigation__item.is-open .storefront-navigation__pages-toggle {
+    color: #131313;
+  }
+
+  .storefront-navigation__item.is-open .storefront-navigation__collection-link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 10px;
+  }
+
   .storefront-navigation__collection-link:hover,
   .storefront-navigation__collection-link:focus-visible,
   .storefront-navigation__toggle:hover,
@@ -294,8 +348,8 @@
   .storefront-navigation__toggle:focus-visible,
   .storefront-navigation__pages-toggle:focus-visible,
   .storefront-navigation__editorial-list a:focus-visible,
+  .storefront-navigation__group-label:focus-visible,
   .storefront-navigation__child-link:focus-visible,
-  .storefront-navigation__promo-card:focus-visible,
   .storefront-navigation__pages-list a:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 4px;
@@ -326,24 +380,19 @@
 
   .storefront-navigation__mega-surface {
     width: 100%;
-    padding: 28px var(--navigation-gutter) 38px;
-    background: transparent;
+    min-height: calc(100vh - 76px);
+    padding: 38px var(--navigation-gutter) 72px;
+    background: #FFFFFF;
     box-shadow: none;
   }
 
   .storefront-navigation__mega-grid {
     display: grid;
     align-items: start;
-    gap: 32px;
-  }
-
-  .storefront-navigation__mega-grid--women {
-    grid-template-columns: repeat(3, minmax(0, 0.8fr)) repeat(2, minmax(140px, 1fr));
-  }
-
-  .storefront-navigation__mega-grid--men {
-    max-width: 780px;
+    width: min(100%, 680px);
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 40px;
+    row-gap: 32px;
   }
 
   .storefront-navigation__menu-reveal {
@@ -363,43 +412,45 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 12px;
   }
 
   .storefront-navigation__editorial-list a {
     color: #131313;
     font-family: Archivo, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
-    line-height: 25.6px;
+    line-height: 28.8px;
     text-decoration: none;
   }
 
   .storefront-navigation__group-label {
-    margin: 0 0 25.6px;
+    display: inline-flex;
+    margin: 0 0 18px;
     color: #131313;
     font-family: Figtree, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 22.4px;
-    letter-spacing: 0.28px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+    letter-spacing: normal;
+    text-decoration: none;
   }
 
   .storefront-navigation__child-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 13px;
   }
 
   .storefront-navigation__child-link {
     position: relative;
     display: inline-flex;
-    color: #FFFFFF;
+    color: #131313;
     font-family: Figtree, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 22.4px;
+    line-height: 25.6px;
     letter-spacing: normal;
     text-decoration: none;
   }
@@ -423,47 +474,6 @@
   .storefront-navigation__child-link:hover::after,
   .storefront-navigation__child-link:focus-visible::after {
     width: 100%;
-  }
-
-  .storefront-navigation__promo-card {
-    position: relative;
-    display: flex;
-    min-height: 230px;
-    overflow: hidden;
-    color: #131313;
-    text-decoration: none;
-    background: #EAE9E4;
-  }
-
-  .storefront-navigation__promo-image,
-  .storefront-navigation__promo-slot {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .storefront-navigation__promo-image {
-    object-fit: cover;
-  }
-
-  .storefront-navigation__promo-slot {
-    background: linear-gradient(135deg, #F4F3EF 0%, #D9D7D0 100%);
-  }
-
-  .storefront-navigation__promo-copy {
-    position: relative;
-    z-index: 1;
-    align-self: flex-end;
-    margin: 16px;
-    padding: 8px 10px;
-    background: #FFFFFF;
-    color: #131313;
-    font-family: Archivo, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 22.4px;
   }
 
   .storefront-navigation__panel--pages {
@@ -495,20 +505,6 @@
   .storefront-navigation__pages-list a:focus-visible {
     text-decoration: underline;
     text-underline-offset: 3px;
-  }
-
-  @media (max-width: 1100px) {
-    .storefront-navigation__mega-grid {
-      gap: 22px;
-    }
-
-    .storefront-navigation__mega-grid--women {
-      grid-template-columns: repeat(3, minmax(0, 0.75fr)) repeat(2, minmax(112px, 0.9fr));
-    }
-
-    .storefront-navigation__promo-card {
-      min-height: 190px;
-    }
   }
 
   @media (max-width: 749px) {
@@ -544,23 +540,36 @@
         toggle: item.querySelector('[data-navigation-toggle]'),
         panel: item.querySelector('[data-navigation-panel]'),
         collectionLink: item.querySelector('[data-navigation-collection-link]'),
-        firstLink: item.querySelector('[data-navigation-first-link]'),
+        firstLink: item.querySelector('[data-navigation-panel] a[href]'),
         closeTimer: null,
-        openedByToggle: false
+        openedByToggle: false,
+        lastTrigger: null
       }));
       let activeItem = null;
+
+      const setToggleState = (entry, isOpen) => {
+        entry.toggle.setAttribute('aria-expanded', String(isOpen));
+
+        const label = isOpen ? entry.toggle.dataset.closeLabel : entry.toggle.dataset.openLabel;
+        if (label) entry.toggle.setAttribute('aria-label', label);
+      };
 
       const closeItem = (entry) => {
         if (!entry) return;
 
         window.clearTimeout(entry.closeTimer);
+        if (entry.panel.contains(document.activeElement)) {
+          (entry.lastTrigger || entry.toggle).focus();
+        }
         entry.item.classList.remove('is-open');
-        entry.toggle.setAttribute('aria-expanded', 'false');
+        entry.panel.classList.remove('is-open');
+        setToggleState(entry, false);
         entry.panel.setAttribute('aria-hidden', 'true');
         entry.panel.setAttribute('inert', '');
         entry.openedByToggle = false;
 
         if (activeItem === entry) activeItem = null;
+        if (!root.querySelector('[data-navigation-item].is-open')) root.classList.remove('is-menu-open');
       };
 
       const closeAll = (exceptEntry = null) => {
@@ -575,9 +584,11 @@
         window.clearTimeout(entry.closeTimer);
         closeAll(entry);
         entry.item.classList.add('is-open');
-        entry.toggle.setAttribute('aria-expanded', 'true');
+        entry.panel.classList.add('is-open');
+        setToggleState(entry, true);
         entry.panel.setAttribute('aria-hidden', 'false');
         entry.panel.removeAttribute('inert');
+        root.classList.add('is-menu-open');
         activeItem = entry;
       };
 
@@ -599,8 +610,12 @@
           queueClose(entry);
         });
 
-        entry.item.addEventListener('focusin', () => {
+        entry.item.addEventListener('focusin', (event) => {
           if (desktopMedia.matches) openItem(entry);
+
+          if (event.target === entry.collectionLink || event.target === entry.toggle) {
+            entry.lastTrigger = event.target;
+          }
         });
 
         entry.item.addEventListener('focusout', () => {
@@ -611,6 +626,8 @@
 
         entry.toggle.addEventListener('click', () => {
           if (!desktopMedia.matches) return;
+
+          entry.lastTrigger = entry.toggle;
 
           if (entry.item.classList.contains('is-open') && entry.openedByToggle) {
             closeItem(entry);
@@ -625,6 +642,7 @@
           if (event.target !== entry.toggle && event.target !== entry.collectionLink) return;
 
           event.preventDefault();
+          entry.lastTrigger = event.target;
           openItem(entry);
           entry.firstLink?.focus();
         });
@@ -640,7 +658,6 @@
         event.preventDefault();
         const entry = activeItem;
         closeItem(entry);
-        entry.toggle.focus();
       });
 
       desktopMedia.addEventListener('change', () => {
@@ -675,24 +692,21 @@
       "label": "Men's collection"
     },
     {
-      "type": "image_picker",
-      "id": "women_sale_image",
-      "label": "Women's sale image"
+      "type": "link_list",
+      "id": "women_menu",
+      "label": "Women's nested menu",
+      "info": "Use top-level links for editorial links and nested links for groups such as By activity and By feature."
     },
     {
-      "type": "url",
-      "id": "women_sale_link",
-      "label": "Women's sale link"
+      "type": "link_list",
+      "id": "men_menu",
+      "label": "Men's nested menu",
+      "info": "Use top-level links for editorial links and nested links for groups such as By activity and By feature."
     },
     {
-      "type": "image_picker",
-      "id": "women_best_sellers_image",
-      "label": "Women's best sellers image"
-    },
-    {
-      "type": "url",
-      "id": "women_best_sellers_link",
-      "label": "Women's best sellers link"
+      "type": "link_list",
+      "id": "pages_menu",
+      "label": "Pages menu"
     }
   ]
 }
