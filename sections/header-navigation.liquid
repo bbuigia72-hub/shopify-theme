@@ -346,6 +346,7 @@
   .storefront-navigation__bar {
     min-height: 76px;
     padding: 20px var(--navigation-gutter);
+    transition: background-color 280ms ease;
   }
 
   .storefront-navigation__list,
@@ -386,6 +387,7 @@
     line-height: 22.4px;
     letter-spacing: 0.28px;
     text-decoration: none;
+    transition: color 220ms ease;
   }
 
   .storefront-navigation__collection-link,
@@ -468,14 +470,18 @@
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 180ms ease, visibility 0s linear 180ms;
+    transform: translate3d(0, -6px, 0);
+    transform-origin: top center;
+    will-change: opacity, transform;
+    transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1), transform 280ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 280ms;
   }
 
   .storefront-navigation__panel.is-open {
     visibility: visible;
     pointer-events: auto;
     opacity: 1;
-    transition-delay: 0s;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0s, 0s, 0s;
   }
 
   .storefront-navigation__panel--mega {
@@ -502,7 +508,7 @@
   }
 
   #MainContent {
-    transition: filter 240ms ease, opacity 240ms ease;
+    transition: filter 320ms ease, opacity 320ms ease;
   }
 
   body.storefront-navigation-menu-open #MainContent {
@@ -537,13 +543,14 @@
 
   .storefront-navigation__menu-reveal {
     opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 200ms ease, transform 200ms ease;
+    transform: translate3d(0, 15px, 0);
+    will-change: opacity, transform;
+    transition: opacity 280ms ease, transform 300ms ease;
   }
 
   .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     transition-duration: 400ms;
     transition-delay: var(--menu-reveal-delay, 150ms);
   }
@@ -982,7 +989,7 @@
         window.clearTimeout(entry.closeTimer);
         entry.closeTimer = window.setTimeout(() => {
           if (!entry.item.matches(':hover') && !entry.item.contains(document.activeElement)) closeItem(entry);
-        }, 140);
+        }, 180);
       };
 
       items.forEach((entry) => {
