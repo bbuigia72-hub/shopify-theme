@@ -128,7 +128,7 @@
                     {% if section.settings.women_sale_image != blank %}
                       {{ section.settings.women_sale_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
                     {% else %}
-                      <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                      {{ 'women-sale-meadow.png' | asset_url | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
                     {% endif %}
                   </span>
                   <span class="storefront-navigation__promo-copy">
@@ -141,7 +141,7 @@
                     {% if section.settings.women_favorites_image != blank %}
                       {{ section.settings.women_favorites_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_favorites_title }}
                     {% else %}
-                      <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                      {{ 'women-favorites-court.png' | asset_url | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_favorites_title }}
                     {% endif %}
                   </span>
                   <span class="storefront-navigation__promo-copy">
@@ -569,8 +569,7 @@
     background: #EAE9E4;
   }
 
-  .storefront-navigation__promo-image,
-  .storefront-navigation__promo-slot {
+  .storefront-navigation__promo-image {
     position: absolute;
     inset: 0;
     display: block;
@@ -580,10 +579,6 @@
 
   .storefront-navigation__promo-image {
     object-fit: cover;
-  }
-
-  .storefront-navigation__promo-slot {
-    background: linear-gradient(135deg, #DCEBF2 0%, #D9D7D0 100%);
   }
 
   .storefront-navigation__promo-copy {
