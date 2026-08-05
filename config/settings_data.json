@@ -9,6 +9,22 @@
  */
 {
   "current": {
+    "sections": {
+      "header-navigation": {
+        "type": "header-navigation",
+        "settings": {
+          "women_collection": "",
+          "men_collection": "",
+          "women_menu": "",
+          "men_menu": "",
+          "pages_menu": "",
+          "women_sale_image": "shopify://shop_images/kito-about-content-baby.jpg",
+          "women_sale_link": "",
+          "women_favorites_link": ""
+        }
+      }
+    },
+    "content_for_index": [],
     "blocks": {
       "7914987560903345225": {
         "type": "shopify://apps/beae-page-builder/blocks/app-embed/f4353b90-19bd-4f19-8138-af38b7a6de94",
