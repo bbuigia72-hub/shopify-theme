@@ -2,12 +2,16 @@
   assign all_products_url = routes.all_products_collection_url
   assign women_url = all_products_url
   assign men_url = all_products_url
+  assign women_sale_url = all_products_url
+  assign women_favorites_url = all_products_url
   assign about_us_url = routes.root_url
   assign contact_url = routes.root_url
   assign faqs_url = routes.root_url
   assign store_locations_url = routes.root_url
   assign recently_viewed_url = routes.root_url
   assign journal_url = routes.root_url
+  assign women_sale_title = 'navigation.womens_sale' | t
+  assign women_favorites_title = 'navigation.womens_favorites' | t
 
   if section.settings.women_collection != blank
     assign women_url = section.settings.women_collection.url
@@ -15,6 +19,14 @@
 
   if section.settings.men_collection != blank
     assign men_url = section.settings.men_collection.url
+  endif
+
+  if section.settings.women_sale_link != blank
+    assign women_sale_url = section.settings.women_sale_link
+  endif
+
+  if section.settings.women_favorites_link != blank
+    assign women_favorites_url = section.settings.women_favorites_link
   endif
 
   if pages['about-us'] != blank
@@ -110,6 +122,34 @@
                 </ul>
               </div>
               {% endif %}
+              <div class="storefront-navigation__promo-area">
+                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_sale_url }}" style="--menu-reveal-delay: 270ms">
+                  <span class="storefront-navigation__promo-media">
+                    {% if section.settings.women_sale_image != blank %}
+                      {{ section.settings.women_sale_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_sale_title }}
+                    {% else %}
+                      <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                    {% endif %}
+                  </span>
+                  <span class="storefront-navigation__promo-copy">
+                    <strong>{{ women_sale_title }}</strong>
+                    <span>{{ 'navigation.shop_now' | t }} <span aria-hidden="true">↗</span></span>
+                  </span>
+                </a>
+                <a class="storefront-navigation__promo-card storefront-navigation__menu-reveal" href="{{ women_favorites_url }}" style="--menu-reveal-delay: 310ms">
+                  <span class="storefront-navigation__promo-media">
+                    {% if section.settings.women_favorites_image != blank %}
+                      {{ section.settings.women_favorites_image | image_url: width: 900 | image_tag: class: 'storefront-navigation__promo-image', loading: 'lazy', alt: women_favorites_title }}
+                    {% else %}
+                      <span class="storefront-navigation__promo-slot" aria-hidden="true"></span>
+                    {% endif %}
+                  </span>
+                  <span class="storefront-navigation__promo-copy">
+                    <strong>{{ women_favorites_title }}</strong>
+                    <span>{{ 'navigation.shop_now' | t }} <span aria-hidden="true">↗</span></span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -212,10 +252,10 @@
 </header>
 
 {% stylesheet %}
-  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Figtree:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Figtree:wght@400;500;700&display=swap');
 
   .storefront-navigation {
-    --navigation-gutter: clamp(48px, 6vw, 96px);
+    --navigation-gutter: clamp(48px, 3.2vw, 60px);
     --navigation-trigger-color: #131313;
     position: relative;
     z-index: 30;
@@ -350,6 +390,7 @@
   .storefront-navigation__editorial-list a:focus-visible,
   .storefront-navigation__group-label:focus-visible,
   .storefront-navigation__child-link:focus-visible,
+  .storefront-navigation__promo-card:focus-visible,
   .storefront-navigation__pages-list a:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 4px;
@@ -376,23 +417,49 @@
     right: 0;
     left: 0;
     width: 100%;
+    height: 50vh;
+    max-height: 50vh;
+    overflow: hidden;
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
   }
 
   .storefront-navigation__mega-surface {
     width: 100%;
-    min-height: calc(100vh - 76px);
-    padding: 38px var(--navigation-gutter) 72px;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 38px var(--navigation-gutter) 52px;
     background: #FFFFFF;
     box-shadow: none;
+    box-sizing: border-box;
+  }
+
+  #MainContent {
+    transition: filter 240ms ease, opacity 240ms ease;
+  }
+
+  body.storefront-navigation-menu-open #MainContent {
+    filter: blur(1.5px) brightness(0.72) saturate(0.7);
+    opacity: 0.65;
+    pointer-events: none;
   }
 
   .storefront-navigation__mega-grid {
     display: grid;
     align-items: start;
+  }
+
+  .storefront-navigation__mega-grid--women {
+    width: 100%;
+    grid-template-columns: repeat(3, 200px) minmax(0, 1fr);
+    column-gap: 40px;
+  }
+
+  .storefront-navigation__mega-grid--men {
     width: min(100%, 680px);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 40px;
-    row-gap: 32px;
   }
 
   .storefront-navigation__menu-reveal {
@@ -476,6 +543,74 @@
     width: 100%;
   }
 
+  .storefront-navigation__promo-area {
+    display: grid;
+    min-width: 0;
+    padding-left: clamp(72px, 8.8vw, 168px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .storefront-navigation__promo-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 20px;
+    color: #131313;
+    text-decoration: none;
+  }
+
+  .storefront-navigation__promo-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 1.51;
+    border-radius: 20px;
+    background: #EAE9E4;
+  }
+
+  .storefront-navigation__promo-image,
+  .storefront-navigation__promo-slot {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .storefront-navigation__promo-image {
+    object-fit: cover;
+  }
+
+  .storefront-navigation__promo-slot {
+    background: linear-gradient(135deg, #DCEBF2 0%, #D9D7D0 100%);
+  }
+
+  .storefront-navigation__promo-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .storefront-navigation__promo-copy strong {
+    font-family: Figtree, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 25.6px;
+  }
+
+  .storefront-navigation__promo-copy > span {
+    font-family: Figtree, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+  }
+
+  .storefront-navigation__promo-copy > span > span {
+    margin-left: 10px;
+  }
+
   .storefront-navigation__panel--pages {
     top: calc(100% - 2px);
     left: 0;
@@ -507,6 +642,20 @@
     text-underline-offset: 3px;
   }
 
+  @media (max-width: 1240px) {
+    .storefront-navigation__mega-grid--women {
+      width: min(100%, 680px);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 36px;
+    }
+
+    .storefront-navigation__promo-area {
+      width: 100%;
+      padding-left: 0;
+      grid-column: 1 / -1;
+    }
+  }
+
   @media (max-width: 749px) {
     .storefront-navigation {
       display: none;
@@ -535,6 +684,7 @@
 
       const desktopMedia = window.matchMedia('(min-width: 750px)');
       const hoverMedia = window.matchMedia('(min-width: 750px) and (hover: hover) and (pointer: fine)');
+      const mainContent = document.getElementById('MainContent');
       const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
         item,
         toggle: item.querySelector('[data-navigation-toggle]'),
@@ -546,6 +696,12 @@
         lastTrigger: null
       }));
       let activeItem = null;
+
+      const updateMainInteractivity = () => {
+        const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'));
+        mainContent?.toggleAttribute('inert', hasOpenMegaPanel);
+        document.body.classList.toggle('storefront-navigation-menu-open', hasOpenMegaPanel);
+      };
 
       const setToggleState = (entry, isOpen) => {
         entry.toggle.setAttribute('aria-expanded', String(isOpen));
@@ -569,6 +725,7 @@
         entry.openedByToggle = false;
 
         if (activeItem === entry) activeItem = null;
+        updateMainInteractivity();
         if (!root.querySelector('[data-navigation-item].is-open')) root.classList.remove('is-menu-open');
       };
 
@@ -590,6 +747,7 @@
         entry.panel.removeAttribute('inert');
         root.classList.add('is-menu-open');
         activeItem = entry;
+        updateMainInteractivity();
       };
 
       const queueClose = (entry) => {
@@ -707,6 +865,26 @@
       "type": "link_list",
       "id": "pages_menu",
       "label": "Pages menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "women_sale_image",
+      "label": "Women's sale image"
+    },
+    {
+      "type": "url",
+      "id": "women_sale_link",
+      "label": "Women's sale link"
+    },
+    {
+      "type": "image_picker",
+      "id": "women_favorites_image",
+      "label": "Women's favorites image"
+    },
+    {
+      "type": "url",
+      "id": "women_favorites_link",
+      "label": "Women's favorites link"
     }
   ]
 }
