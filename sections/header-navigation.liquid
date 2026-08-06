@@ -10,11 +10,15 @@
   assign store_locations_url = routes.root_url
   assign recently_viewed_url = routes.root_url
   assign journal_url = routes.root_url
+  assign find_your_shoes_url = routes.root_url
   assign women_sale_title = 'navigation.womens_sale' | t
   assign women_favorites_title = 'navigation.womens_favorites' | t
   assign men_best_deals_collection = section.settings.men_best_deals_collection
   assign navigation_currency_code = localization.country.currency.iso_code | default: shop.currency
   assign navigation_localization_form_id = 'NavigationLocalizationForm-' | append: section.id
+  assign mobile_localization_form_id = 'NavigationMobileLocalizationForm-' | append: section.id
+  assign mobile_language_form_id = 'NavigationMobileLanguageForm-' | append: section.id
+  assign mobile_drawer_id = 'MobileNavigationDrawer-' | append: section.id
 
   if section.settings.women_collection != blank
     assign women_url = section.settings.women_collection.url
@@ -62,6 +66,14 @@
 
   if blogs['news'] != blank
     assign journal_url = blogs['news'].url
+  endif
+
+  if pages['find-your-shoes'] != blank
+    assign find_your_shoes_url = pages['find-your-shoes'].url
+  endif
+
+  if section.settings.find_your_shoes_link != blank
+    assign find_your_shoes_url = section.settings.find_your_shoes_link
   endif
 %}
 
@@ -361,6 +373,216 @@
       </a>
     </div>
   </nav>
+
+  <div class="storefront-navigation__mobile-bar">
+    <button class="storefront-navigation__mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="{{ mobile_drawer_id }}" aria-label="{{ 'navigation.open_mobile_menu' | t }}" data-mobile-drawer-open>
+      <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+    </button>
+
+    <a class="storefront-navigation__mobile-brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+      {% if shop.brand.logo != blank %}
+        {{ shop.brand.logo | image_url: width: 220 | image_tag: class: 'storefront-navigation__mobile-brand-image', loading: 'eager', alt: '' }}
+      {% else %}
+        <span aria-hidden="true">HELIX</span>
+      {% endif %}
+    </a>
+
+    <div class="storefront-navigation__mobile-actions">
+      <a href="{{ routes.search_url }}" aria-label="Search">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><circle cx="10.75" cy="10.75" r="7.25" /><path d="m16.25 16.25 4.25 4.25" /></svg>
+      </a>
+      <a href="{{ routes.cart_url }}" aria-label="Cart ({{ cart.item_count }})">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M5 8.5h14l-1 12H6l-1-12Z" /><path d="M8.5 9V6.75a3.5 3.5 0 0 1 7 0V9" /></svg>
+      </a>
+    </div>
+  </div>
+
+  <div id="{{ mobile_drawer_id }}" class="storefront-navigation__mobile-drawer" aria-hidden="true" inert data-mobile-drawer>
+    <button class="storefront-navigation__mobile-drawer-overlay" type="button" tabindex="-1" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close></button>
+
+    <aside class="storefront-navigation__mobile-drawer-shell" role="dialog" aria-modal="true" aria-labelledby="MobileNavigationDrawerTitle-{{ section.id }}" tabindex="-1" data-mobile-drawer-dialog>
+      <div class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--root is-active" data-mobile-panel="root" aria-hidden="false">
+        <div class="storefront-navigation__mobile-drawer-header">
+          <h2 id="MobileNavigationDrawerTitle-{{ section.id }}" class="storefront-navigation__mobile-drawer-brand">
+            <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+              {% if shop.brand.logo != blank %}
+                {{ shop.brand.logo | image_url: width: 220 | image_tag: class: 'storefront-navigation__mobile-drawer-brand-image', loading: 'eager', alt: '' }}
+              {% else %}
+                <span aria-hidden="true">HELIX</span>
+              {% endif %}
+            </a>
+          </h2>
+          <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close>
+            <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg>
+          </button>
+        </div>
+
+        <nav class="storefront-navigation__mobile-root-nav" aria-label="{{ 'navigation.primary' | t }}">
+          <ul>
+            <li>
+              <a href="{{ women_url }}" data-mobile-panel-focus>{{ 'navigation.women' | t }}</a>
+              <button type="button" aria-expanded="false" aria-controls="MobileNavigationWomen-{{ section.id }}" aria-label="{{ 'navigation.open_womens_menu' | t }}" data-mobile-open-panel="women">
+                <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </li>
+            <li>
+              <a href="{{ men_url }}">{{ 'navigation.men' | t }}</a>
+              <button type="button" aria-expanded="false" aria-controls="MobileNavigationMen-{{ section.id }}" aria-label="{{ 'navigation.open_mens_menu' | t }}" data-mobile-open-panel="men">
+                <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </li>
+            <li>
+              <button class="storefront-navigation__mobile-root-pages" type="button" aria-expanded="false" aria-controls="MobileNavigationPages-{{ section.id }}" aria-label="{{ 'navigation.open_pages_menu' | t }}" data-mobile-open-panel="pages">
+                <span>{{ 'navigation.pages' | t }}</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </li>
+            <li><a class="storefront-navigation__mobile-root-find" href="{{ find_your_shoes_url }}">{{ 'navigation.find_your_shoes' | t }}</a></li>
+          </ul>
+        </nav>
+
+        <div class="storefront-navigation__mobile-drawer-footer">
+          <a class="storefront-navigation__mobile-login" href="{{ routes.account_url }}">{{ 'navigation.login' | t }}</a>
+          <div class="storefront-navigation__mobile-localization-row">
+            {% if localization.available_countries.size > 1 %}
+              <details class="storefront-navigation__mobile-localization">
+                <summary>
+                  <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+                  <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+                  <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+                </summary>
+                <div class="storefront-navigation__mobile-localization-popover">
+                  {% form 'localization', id: mobile_localization_form_id %}
+                    <input type="hidden" name="return_to" value="{{ request.path }}">
+                    {% for country in localization.available_countries %}
+                      <button type="submit" name="country_code" value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} aria-current="true"{% endif %}>{{ country.name | escape }} · {{ country.currency.iso_code }}</button>
+                    {% endfor %}
+                  {% endform %}
+                </div>
+              </details>
+            {% else %}
+              <span class="storefront-navigation__mobile-localization-static">
+                <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+                <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+                <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+              </span>
+            {% endif %}
+
+            {% if localization.available_languages.size > 1 %}
+              <details class="storefront-navigation__mobile-localization storefront-navigation__mobile-language">
+                <summary>
+                  <span>{{ request.locale.name }}</span>
+                  <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+                </summary>
+                <div class="storefront-navigation__mobile-localization-popover">
+                  {% form 'localization', id: mobile_language_form_id %}
+                    <input type="hidden" name="return_to" value="{{ request.path }}">
+                    {% for language in localization.available_languages %}
+                      <button type="submit" name="language_code" value="{{ language.iso_code }}"{% if language.iso_code == request.locale.iso_code %} aria-current="true"{% endif %}>{{ language.endonym_name | escape }}</button>
+                    {% endfor %}
+                  {% endform %}
+                </div>
+              </details>
+            {% else %}
+              <span class="storefront-navigation__mobile-localization-static storefront-navigation__mobile-language-static">
+                <span>{{ request.locale.name | default: 'English' }}</span>
+                <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+              </span>
+            {% endif %}
+          </div>
+
+          <div class="storefront-navigation__mobile-socials" aria-label="Social media">
+            {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" aria-label="Facebook">{% else %}<span aria-hidden="true">{% endif %}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2V5.1c-.35-.05-1.55-.1-2.95-.1-2.9 0-4.9 1.77-4.9 5v2.8H5v3.25h3.15V24H12v-7.95h3.18l.5-3.25H12V10.1c0-.94.25-2.1 2-2.1Z" /></svg>
+            {% if section.settings.facebook_url != blank %}</a>{% else %}</span>{% endif %}
+            {% if section.settings.instagram_url != blank %}<a href="{{ section.settings.instagram_url }}" aria-label="Instagram">{% else %}<span aria-hidden="true">{% endif %}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
+            {% if section.settings.instagram_url != blank %}</a>{% else %}</span>{% endif %}
+            {% if section.settings.youtube_url != blank %}<a href="{{ section.settings.youtube_url }}" aria-label="YouTube">{% else %}<span aria-hidden="true">{% endif %}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.9 2.9 0 0 0-2-2C17.85 4.7 12 4.7 12 4.7s-5.85 0-7.6.5a2.9 2.9 0 0 0-2 2A30 30 0 0 0 2 12a30 30 0 0 0 .4 4.8 2.9 2.9 0 0 0 2 2c1.75.5 7.6.5 7.6.5s5.85 0 7.6-.5a2.9 2.9 0 0 0 2-2A30 30 0 0 0 22 12a30 30 0 0 0-.4-4.8Z" /><path d="m10 15.5 5-3.5-5-3.5v7Z" fill="#F3F4F5" /></svg>
+            {% if section.settings.youtube_url != blank %}</a>{% else %}</span>{% endif %}
+            {% if section.settings.tiktok_url != blank %}<a href="{{ section.settings.tiktok_url }}" aria-label="TikTok">{% else %}<span aria-hidden="true">{% endif %}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 3v11.15a4.45 4.45 0 1 1-3.8-4.4v2.45a2.1 2.1 0 1 0 1.45 2V3h2.35c.35 2.35 1.65 3.75 4 4.15v2.3c-1.55-.12-2.9-.67-4-1.6Z" /></svg>
+            {% if section.settings.tiktok_url != blank %}</a>{% else %}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <section id="MobileNavigationWomen-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu" data-mobile-panel="women" aria-hidden="true" inert>
+        <div class="storefront-navigation__mobile-submenu-header">
+          <button type="button" data-mobile-show-root>
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg>
+            <span>{{ 'navigation.women' | t }}</span>
+          </button>
+          <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close>
+            <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg>
+          </button>
+        </div>
+        <div class="storefront-navigation__mobile-submenu-scroll">
+          <a class="storefront-navigation__mobile-collection-cta" href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a>
+          {% if section.settings.women_menu != blank %}
+            {% for link in section.settings.women_menu.links %}
+              {% if link.links == blank %}
+                <a class="storefront-navigation__mobile-editorial-link" href="{{ link.url }}">{{ link.title | escape }}</a>
+              {% else %}
+                <section class="storefront-navigation__mobile-menu-group">
+                  <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                  <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
+                </section>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="storefront-navigation__mobile-editorial-list">
+              <a href="{{ women_url }}">{{ 'navigation.top_picks' | t }}</a><a href="{{ women_url }}">{{ 'navigation.best_sellers' | t }}</a><a href="{{ women_url }}">{{ 'navigation.trending' | t }}</a><a href="{{ women_url }}">{{ 'navigation.new_arrivals' | t }}</a><a href="{{ women_url }}">{{ 'navigation.on_sale' | t }}</a>
+            </div>
+            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_activity' | t }}</h3><ul><li><a href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul></section>
+            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_feature' | t }}</h3><ul><li><a href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li></ul></section>
+          {% endif %}
+          <div class="storefront-navigation__mobile-promo-list">
+            <a href="{{ women_sale_url }}"><span>{% if section.settings.women_sale_image != blank %}{{ section.settings.women_sale_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_sale_title }}{% else %}{{ 'women-sale-meadow.png' | asset_url | image_tag: loading: 'lazy', alt: women_sale_title }}{% endif %}</span><strong>{{ women_sale_title }}</strong></a>
+            <a href="{{ women_favorites_url }}"><span>{% if section.settings.women_favorites_image != blank %}{{ section.settings.women_favorites_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_favorites_title }}{% else %}{{ 'women-favorites-court.png' | asset_url | image_tag: loading: 'lazy', alt: women_favorites_title }}{% endif %}</span><strong>{{ women_favorites_title }}</strong></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="MobileNavigationMen-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu" data-mobile-panel="men" aria-hidden="true" inert>
+        <div class="storefront-navigation__mobile-submenu-header">
+          <button type="button" data-mobile-show-root><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.men' | t }}</span></button>
+          <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+        </div>
+        <div class="storefront-navigation__mobile-submenu-scroll">
+          <a class="storefront-navigation__mobile-collection-cta" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a>
+          {% if section.settings.men_menu != blank %}
+            {% for link in section.settings.men_menu.links %}
+              {% if link.links == blank %}
+                <a class="storefront-navigation__mobile-editorial-link" href="{{ link.url }}">{{ link.title | escape }}</a>
+              {% else %}
+                <section class="storefront-navigation__mobile-menu-group"><a href="{{ link.url }}">{{ link.title | escape }}</a><ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul></section>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="storefront-navigation__mobile-editorial-list"><a href="{{ men_url }}">{{ 'navigation.top_picks' | t }}</a><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></div>
+            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_activity' | t }}</h3><ul><li><a href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul></section>
+            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_feature' | t }}</h3><ul><li><a href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li></ul></section>
+          {% endif %}
+        </div>
+      </section>
+
+      <section id="MobileNavigationPages-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu" data-mobile-panel="pages" aria-hidden="true" inert>
+        <div class="storefront-navigation__mobile-submenu-header">
+          <button type="button" data-mobile-show-root><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.pages' | t }}</span></button>
+          <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+        </div>
+        <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-pages-list">
+          {% if section.settings.pages_menu != blank %}
+            {% for link in section.settings.pages_menu.links %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endfor %}
+          {% else %}
+            <a href="{{ about_us_url }}">{{ 'navigation.about_us' | t }}</a><a href="{{ contact_url }}">{{ 'navigation.contact' | t }}</a><a href="{{ faqs_url }}">{{ 'navigation.faqs' | t }}</a><a href="{{ store_locations_url }}">{{ 'navigation.store_locations' | t }}</a><a href="{{ recently_viewed_url }}">{{ 'navigation.recently_viewed' | t }}</a><a href="{{ journal_url }}">{{ 'navigation.our_journal' | t }}</a>
+          {% endif %}
+        </div>
+      </section>
+    </aside>
+  </div>
 </header>
 
 {% stylesheet %}
@@ -1251,9 +1473,582 @@
     }
   }
 
+  .storefront-navigation__mobile-bar,
+  .storefront-navigation__mobile-drawer {
+    display: none;
+  }
+
   @media (max-width: 749px) {
     .storefront-navigation {
+      z-index: 60;
+    }
+
+    .storefront-navigation__bar {
       display: none;
+    }
+
+    .storefront-navigation__mobile-bar {
+      display: grid;
+      min-height: 64px;
+      padding: 10px 18px;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: 10px;
+      color: var(--navigation-trigger-color);
+      box-sizing: border-box;
+    }
+
+    .storefront-navigation__mobile-menu-toggle,
+    .storefront-navigation__mobile-actions a {
+      display: inline-grid;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: currentColor;
+    }
+
+    .storefront-navigation__mobile-menu-toggle {
+      cursor: pointer;
+    }
+
+    .storefront-navigation__mobile-menu-toggle svg,
+    .storefront-navigation__mobile-actions svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.5;
+    }
+
+    .storefront-navigation__mobile-brand {
+      justify-self: center;
+      color: currentColor;
+      font-family: Archivo, sans-serif;
+      font-size: 27px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-brand-image {
+      display: block;
+      width: auto;
+      max-width: 102px;
+      height: 25px;
+      object-fit: contain;
+    }
+
+    .storefront-navigation__mobile-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .storefront-navigation__mobile-drawer {
+      position: fixed;
+      z-index: 90;
+      inset: 0;
+      display: block;
+      visibility: hidden;
+      pointer-events: none;
+      transition: visibility 0s linear 340ms;
+    }
+
+    .storefront-navigation__mobile-drawer.is-open {
+      visibility: visible;
+      pointer-events: auto;
+      transition-delay: 0s;
+    }
+
+    .storefront-navigation__mobile-drawer-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: rgba(19, 19, 19, 0.34);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 280ms ease;
+    }
+
+    .storefront-navigation__mobile-drawer.is-open .storefront-navigation__mobile-drawer-overlay {
+      opacity: 1;
+    }
+
+    .storefront-navigation__mobile-drawer-shell {
+      position: absolute;
+      inset: 6px auto 6px 6px;
+      display: block;
+      overflow: hidden;
+      width: min(calc(100% - 12px), 400px);
+      border-radius: 12px;
+      background: #FFFFFF;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+      color: #131313;
+      transform: translate3d(-105%, 0, 0);
+      transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .storefront-navigation__mobile-drawer.is-open .storefront-navigation__mobile-drawer-shell {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .storefront-navigation__mobile-drawer-panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FFFFFF;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(104%, 0, 0);
+      visibility: hidden;
+      transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease, visibility 0s linear 320ms;
+    }
+
+    .storefront-navigation__mobile-drawer-panel--root {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .storefront-navigation__mobile-drawer-panel.is-active {
+      visibility: visible;
+      pointer-events: auto;
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      transition-delay: 0s;
+    }
+
+    .storefront-navigation.is-mobile-submenu-open .storefront-navigation__mobile-drawer-panel--root {
+      opacity: 0.32;
+      transform: translate3d(-16%, 0, 0);
+    }
+
+    .storefront-navigation__mobile-drawer-header,
+    .storefront-navigation__mobile-submenu-header {
+      display: flex;
+      min-height: 50px;
+      flex: 0 0 50px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 13px;
+      border-bottom: 1px solid #ECECEC;
+      box-sizing: border-box;
+    }
+
+    .storefront-navigation__mobile-drawer-brand {
+      display: flex;
+      margin: 0;
+      align-items: center;
+      font-family: Archivo, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .storefront-navigation__mobile-drawer-brand a {
+      color: #131313;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-drawer-brand-image {
+      display: block;
+      width: auto;
+      max-width: 110px;
+      height: 23px;
+      object-fit: contain;
+    }
+
+    .storefront-navigation__mobile-drawer-close,
+    .storefront-navigation__mobile-submenu-header > button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #131313;
+      cursor: pointer;
+    }
+
+    .storefront-navigation__mobile-drawer-close {
+      width: 30px;
+      height: 30px;
+    }
+
+    .storefront-navigation__mobile-drawer-close svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.4;
+    }
+
+    .storefront-navigation__mobile-root-nav ul,
+    .storefront-navigation__mobile-menu-group ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .storefront-navigation__mobile-root-nav {
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .storefront-navigation__mobile-root-nav li {
+      display: flex;
+      min-height: 51px;
+      align-items: stretch;
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    .storefront-navigation__mobile-root-nav a,
+    .storefront-navigation__mobile-root-pages {
+      display: inline-flex;
+      min-width: 0;
+      flex: 1;
+      align-items: center;
+      padding: 0 13px;
+      border: 0;
+      background: transparent;
+      color: #131313;
+      font-family: Figtree, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22.4px;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-root-pages {
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .storefront-navigation__mobile-root-nav li > button:not(.storefront-navigation__mobile-root-pages) {
+      display: inline-grid;
+      width: 46px;
+      padding: 0;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: #131313;
+      cursor: pointer;
+    }
+
+    .storefront-navigation__mobile-root-nav svg,
+    .storefront-navigation__mobile-submenu-header svg,
+    .storefront-navigation__mobile-localization-row svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.4;
+    }
+
+    .storefront-navigation__mobile-root-pages svg {
+      margin-left: auto;
+    }
+
+    .storefront-navigation__mobile-drawer-footer {
+      margin-top: auto;
+      flex: 0 0 auto;
+    }
+
+    .storefront-navigation__mobile-login {
+      display: flex;
+      height: 40px;
+      margin: 13px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #25272A;
+      color: #FFFFFF;
+      font-family: Figtree, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-localization-row {
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      gap: 18px;
+      padding: 0 14px;
+      border-top: 1px solid #ECECEC;
+      border-bottom: 1px solid #ECECEC;
+      font-family: Figtree, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+
+    .storefront-navigation__mobile-localization {
+      position: relative;
+    }
+
+    .storefront-navigation__mobile-localization summary,
+    .storefront-navigation__mobile-localization-static {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4A4A4A;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .storefront-navigation__mobile-localization summary {
+      cursor: pointer;
+    }
+
+    .storefront-navigation__mobile-localization summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .storefront-navigation__mobile-localization-row .storefront-navigation__currency-flag {
+      width: 14px;
+      height: 14px;
+      font-size: 8px;
+    }
+
+    .storefront-navigation__mobile-localization-row svg {
+      width: 10px;
+      height: 7px;
+    }
+
+    .storefront-navigation__mobile-localization[open] summary svg {
+      transform: rotate(180deg);
+    }
+
+    .storefront-navigation__mobile-localization-popover {
+      position: absolute;
+      z-index: 2;
+      bottom: calc(100% + 8px);
+      left: 0;
+      display: grid;
+      min-width: 176px;
+      padding: 8px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .storefront-navigation__mobile-localization-popover form {
+      display: grid;
+      gap: 2px;
+    }
+
+    .storefront-navigation__mobile-localization-popover button {
+      padding: 8px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #131313;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+    }
+
+    .storefront-navigation__mobile-localization-popover button:hover,
+    .storefront-navigation__mobile-localization-popover button:focus-visible,
+    .storefront-navigation__mobile-localization-popover button[aria-current="true"] {
+      background: rgba(19, 19, 19, 0.06);
+    }
+
+    .storefront-navigation__mobile-socials {
+      display: flex;
+      min-height: 56px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .storefront-navigation__mobile-socials a,
+    .storefront-navigation__mobile-socials span {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: #F1F3F4;
+      color: #25272A;
+    }
+
+    .storefront-navigation__mobile-socials svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.8;
+    }
+
+    .storefront-navigation__mobile-submenu-header > button:first-child {
+      min-height: 50px;
+      gap: 7px;
+      font-family: Archivo, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .storefront-navigation__mobile-submenu-scroll {
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 20px 14px 28px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .storefront-navigation__mobile-collection-cta {
+      display: flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      border-radius: 999px;
+      background: #25272A;
+      color: #FFFFFF;
+      font-family: Figtree, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-editorial-link,
+    .storefront-navigation__mobile-editorial-list a {
+      display: flex;
+      min-height: 37px;
+      align-items: center;
+      color: #131313;
+      font-family: Archivo, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 25.6px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-editorial-list {
+      display: grid;
+      gap: 4px;
+    }
+
+    .storefront-navigation__mobile-menu-group {
+      margin-top: 26px;
+    }
+
+    .storefront-navigation__mobile-menu-group > a,
+    .storefront-navigation__mobile-menu-group h3 {
+      display: block;
+      margin: 0 0 14px;
+      color: #131313;
+      font-family: Figtree, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 22.4px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-menu-group ul {
+      display: grid;
+      gap: 10px;
+    }
+
+    .storefront-navigation__mobile-menu-group li a,
+    .storefront-navigation__mobile-pages-list a {
+      color: #4A4A4A;
+      font-family: Figtree, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22.4px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-pages-list {
+      display: grid;
+      gap: 0;
+      padding-top: 0;
+    }
+
+    .storefront-navigation__mobile-pages-list a {
+      display: flex;
+      min-height: 51px;
+      align-items: center;
+      border-bottom: 1px solid #E9E9E9;
+      color: #131313;
+    }
+
+    .storefront-navigation__mobile-promo-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .storefront-navigation__mobile-promo-list a {
+      display: grid;
+      gap: 9px;
+      color: #131313;
+      font-family: Figtree, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 22.4px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-promo-list a > span {
+      display: block;
+      overflow: hidden;
+      aspect-ratio: 1.5;
+      border-radius: 12px;
+      background: #EAE9E4;
+    }
+
+    .storefront-navigation__mobile-promo-list img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .storefront-navigation__mobile-menu-toggle:focus-visible,
+    .storefront-navigation__mobile-actions a:focus-visible,
+    .storefront-navigation__mobile-brand:focus-visible,
+    .storefront-navigation__mobile-drawer-close:focus-visible,
+    .storefront-navigation__mobile-submenu-header > button:focus-visible,
+    .storefront-navigation__mobile-root-nav a:focus-visible,
+    .storefront-navigation__mobile-root-nav button:focus-visible,
+    .storefront-navigation__mobile-login:focus-visible,
+    .storefront-navigation__mobile-localization summary:focus-visible,
+    .storefront-navigation__mobile-localization-popover button:focus-visible,
+    .storefront-navigation__mobile-socials a:focus-visible,
+    .storefront-navigation__mobile-submenu-scroll a:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    body.storefront-navigation-mobile-menu-open {
+      overflow: hidden;
     }
   }
 
@@ -1280,7 +2075,16 @@
 
       const desktopMedia = window.matchMedia('(min-width: 750px)');
       const hoverMedia = window.matchMedia('(min-width: 750px) and (hover: hover) and (pointer: fine)');
+      const mobileMedia = window.matchMedia('(max-width: 749px)');
       const mainContent = document.getElementById('MainContent');
+      const mobileBar = root.querySelector('.storefront-navigation__mobile-bar');
+      const mobileDrawer = root.querySelector('[data-mobile-drawer]');
+      const mobileDrawerDialog = root.querySelector('[data-mobile-drawer-dialog]');
+      const mobileDrawerOpen = root.querySelector('[data-mobile-drawer-open]');
+      const mobileDrawerCloseButtons = [...root.querySelectorAll('[data-mobile-drawer-close]')];
+      const mobileDrawerOpenButtons = [...root.querySelectorAll('[data-mobile-open-panel]')];
+      const mobileDrawerBackButtons = [...root.querySelectorAll('[data-mobile-show-root]')];
+      const mobileDrawerPanels = [...root.querySelectorAll('[data-mobile-panel]')];
       const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
         item,
         toggle: item.querySelector('[data-navigation-toggle]'),
@@ -1320,8 +2124,10 @@
 
       const updateMainInteractivity = () => {
         const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'));
-        mainContent?.toggleAttribute('inert', hasOpenMegaPanel);
+        const hasOpenMobileDrawer = root.classList.contains('is-mobile-menu-open');
+        mainContent?.toggleAttribute('inert', hasOpenMegaPanel || hasOpenMobileDrawer);
         document.body.classList.toggle('storefront-navigation-menu-open', hasOpenMegaPanel);
+        document.body.classList.toggle('storefront-navigation-mobile-menu-open', hasOpenMobileDrawer);
         root.classList.toggle('is-mega-menu-open', hasOpenMegaPanel);
       };
 
@@ -1396,6 +2202,88 @@
         }, hoverOpenDelay);
       };
 
+      const showMobilePanel = (panelName, shouldFocus = true) => {
+        const targetPanel = mobileDrawerPanels.find((panel) => panel.dataset.mobilePanel === panelName);
+        if (!targetPanel) return;
+
+        mobileDrawerPanels.forEach((panel) => {
+          const isActive = panel === targetPanel;
+          panel.classList.toggle('is-active', isActive);
+          panel.setAttribute('aria-hidden', String(!isActive));
+          panel.toggleAttribute('inert', !isActive);
+        });
+
+        mobileDrawerOpenButtons.forEach((button) => {
+          button.setAttribute('aria-expanded', String(button.dataset.mobileOpenPanel === panelName));
+        });
+
+        root.classList.toggle('is-mobile-submenu-open', panelName !== 'root');
+
+        if (shouldFocus) {
+          window.requestAnimationFrame(() => {
+            targetPanel.querySelector('[data-mobile-show-root], [data-mobile-panel-focus], a[href], button:not([disabled])')?.focus({ preventScroll: true });
+          });
+        }
+      };
+
+      const closeMobileDrawer = (shouldRestoreFocus = true) => {
+        if (!mobileDrawer?.classList.contains('is-open')) return;
+
+        root.classList.remove('is-mobile-menu-open');
+        root.classList.remove('is-mobile-submenu-open');
+        mobileDrawer.classList.remove('is-open');
+        mobileDrawer.setAttribute('aria-hidden', 'true');
+        mobileDrawer.setAttribute('inert', '');
+        mobileBar?.removeAttribute('inert');
+        mobileBar?.removeAttribute('aria-hidden');
+        mobileDrawerOpen?.setAttribute('aria-expanded', 'false');
+        showMobilePanel('root', false);
+        updateMainInteractivity();
+
+        if (shouldRestoreFocus) mobileDrawerOpen?.focus({ preventScroll: true });
+      };
+
+      const openMobileDrawer = () => {
+        if (!mobileMedia.matches || !mobileDrawer || !mobileDrawerOpen) return;
+
+        closeAll();
+        showMobilePanel('root', false);
+        root.classList.add('is-mobile-menu-open');
+        mobileDrawer.classList.add('is-open');
+        mobileDrawer.setAttribute('aria-hidden', 'false');
+        mobileDrawer.removeAttribute('inert');
+        mobileBar?.setAttribute('inert', '');
+        mobileBar?.setAttribute('aria-hidden', 'true');
+        mobileDrawerOpen.setAttribute('aria-expanded', 'true');
+        updateMainInteractivity();
+
+        window.requestAnimationFrame(() => mobileDrawerDialog?.focus({ preventScroll: true }));
+      };
+
+      const trapMobileDrawerFocus = (event) => {
+        if (event.key !== 'Tab' || !root.classList.contains('is-mobile-menu-open') || !mobileDrawerDialog) return;
+
+        const focusable = [...mobileDrawerDialog.querySelectorAll('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
+          .filter((element) => !element.closest('[inert]') && element.getClientRects().length > 0);
+
+        if (!focusable.length) {
+          event.preventDefault();
+          mobileDrawerDialog.focus({ preventScroll: true });
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && (document.activeElement === first || document.activeElement === mobileDrawerDialog)) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      };
+
       items.forEach((entry) => {
         entry.item.addEventListener('pointerenter', () => {
           if (!hoverMedia.matches) return;
@@ -1445,11 +2333,26 @@
         });
       });
 
+      mobileDrawerOpen?.addEventListener('click', openMobileDrawer);
+      mobileDrawerCloseButtons.forEach((button) => button.addEventListener('click', () => closeMobileDrawer()));
+      mobileDrawerOpenButtons.forEach((button) => {
+        button.addEventListener('click', () => showMobilePanel(button.dataset.mobileOpenPanel));
+      });
+      mobileDrawerBackButtons.forEach((button) => button.addEventListener('click', () => showMobilePanel('root')));
+
       document.addEventListener('pointerdown', (event) => {
         if (!root.contains(event.target)) closeAll();
       });
 
       document.addEventListener('keydown', (event) => {
+        trapMobileDrawerFocus(event);
+
+        if (event.key === 'Escape' && root.classList.contains('is-mobile-menu-open')) {
+          event.preventDefault();
+          closeMobileDrawer();
+          return;
+        }
+
         if (event.key !== 'Escape' || !activeItem) return;
 
         event.preventDefault();
@@ -1462,6 +2365,10 @@
       desktopMedia.addEventListener('change', () => {
         if (!desktopMedia.matches) closeAll();
         syncStickyState();
+      });
+
+      mobileMedia.addEventListener('change', () => {
+        if (!mobileMedia.matches) closeMobileDrawer(false);
       });
 
       syncStickyState();
@@ -1481,7 +2388,7 @@
 
 {% schema %}
 {
-  "name": "Desktop navigation",
+  "name": "Navigation",
   "settings": [
     {
       "type": "collection",
@@ -1535,6 +2442,31 @@
       "type": "url",
       "id": "women_favorites_link",
       "label": "Women's favorites link"
+    },
+    {
+      "type": "url",
+      "id": "find_your_shoes_link",
+      "label": "Find your shoes link"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
     }
   ]
 }
