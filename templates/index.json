@@ -175,9 +175,97 @@
         "overlay_opacity": 5,
         "content_position": "left"
       }
+    },
+    "slideshow_minimal_wTtR7c": {
+      "type": "slideshow-minimal",
+      "blocks": {
+        "minimal_slide_kxqMEQ": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        },
+        "minimal_slide_wEkY8t": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        },
+        "minimal_slide_zxDpxm": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "minimal_slide_kxqMEQ",
+        "minimal_slide_wEkY8t",
+        "minimal_slide_zxDpxm"
+      ],
+      "name": "Slideshow: Minimal",
+      "settings": {
+        "autoplay": false,
+        "autoplay_delay": 5,
+        "show_navigation": true,
+        "show_pagination": true,
+        "overlay_opacity": 10,
+        "content_position": "left"
+      }
+    },
+    "slideshow_minimal_HiTmYU": {
+      "type": "slideshow-minimal",
+      "blocks": {
+        "minimal_slide_WPRVxM": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        },
+        "minimal_slide_Y9KBhG": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        },
+        "minimal_slide_mi6r4T": {
+          "type": "_minimal-slide",
+          "settings": {
+            "image_desktop_url": "",
+            "image_mobile_url": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "minimal_slide_WPRVxM",
+        "minimal_slide_Y9KBhG",
+        "minimal_slide_mi6r4T"
+      ],
+      "name": "Slideshow: Minimal",
+      "settings": {
+        "autoplay": false,
+        "autoplay_delay": 5,
+        "show_navigation": true,
+        "show_pagination": true,
+        "overlay_opacity": 10,
+        "content_position": "left"
+      }
     }
   },
   "order": [
-    "slideshow"
+    "slideshow",
+    "slideshow_minimal_wTtR7c",
+    "slideshow_minimal_HiTmYU"
   ]
 }
