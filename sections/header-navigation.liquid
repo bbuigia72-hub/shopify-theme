@@ -322,6 +322,7 @@
   .storefront-navigation {
     --navigation-gutter: clamp(48px, 3.2vw, 60px);
     --navigation-trigger-color: #131313;
+    --navigation-sticky-top: 0px;
     position: relative;
     z-index: 30;
     width: 100%;
@@ -346,7 +347,7 @@
   .storefront-navigation__bar {
     min-height: 76px;
     padding: 20px var(--navigation-gutter);
-    transition: background-color 280ms ease;
+    transition: background-color 280ms ease, border-radius 280ms ease, box-shadow 280ms ease, margin 280ms ease, padding 280ms ease;
   }
 
   .storefront-navigation__list,
@@ -923,6 +924,38 @@
     }
   }
 
+  @media (min-width: 750px) {
+    .storefront-navigation {
+      position: sticky;
+      top: var(--navigation-sticky-top);
+      z-index: 50;
+    }
+
+    .storefront-navigation--homepage {
+      position: absolute;
+      inset: 0 0 auto;
+    }
+
+    .storefront-navigation--homepage.is-sticky {
+      position: fixed;
+      top: var(--navigation-sticky-top);
+      right: 0;
+      left: 0;
+    }
+
+    .storefront-navigation.is-scrolled .storefront-navigation__bar {
+      margin-inline: var(--navigation-gutter);
+      padding-inline: clamp(24px, 2vw, 36px);
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .storefront-navigation--homepage.is-scrolled {
+      --navigation-trigger-color: #131313;
+    }
+  }
+
   @media (max-width: 749px) {
     .storefront-navigation {
       display: none;
@@ -964,6 +997,29 @@
         lastTrigger: null
       }));
       let activeItem = null;
+      let stickyFrame = null;
+
+      const syncStickyState = () => {
+        if (!desktopMedia.matches) {
+          root.classList.remove('is-scrolled', 'is-sticky');
+          return;
+        }
+
+        if (root.classList.contains('is-menu-open')) return;
+
+        const isScrolled = window.scrollY > 8;
+        root.classList.toggle('is-scrolled', isScrolled);
+        root.classList.toggle('is-sticky', root.classList.contains('storefront-navigation--homepage') && isScrolled);
+      };
+
+      const requestStickySync = () => {
+        if (stickyFrame) return;
+
+        stickyFrame = window.requestAnimationFrame(() => {
+          stickyFrame = null;
+          syncStickyState();
+        });
+      };
 
       const updateMainInteractivity = () => {
         const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'));
@@ -994,7 +1050,10 @@
 
         if (activeItem === entry) activeItem = null;
         updateMainInteractivity();
-        if (!root.querySelector('[data-navigation-item].is-open')) root.classList.remove('is-menu-open');
+        if (!root.querySelector('[data-navigation-item].is-open')) {
+          root.classList.remove('is-menu-open');
+          syncStickyState();
+        }
       };
 
       const closeAll = (exceptEntry = null) => {
@@ -1006,6 +1065,7 @@
       const openItem = (entry) => {
         if (!desktopMedia.matches || !entry) return;
 
+        syncStickyState();
         window.clearTimeout(entry.closeTimer);
         closeAll(entry);
         entry.item.classList.add('is-open');
@@ -1086,9 +1146,14 @@
         closeItem(entry);
       });
 
+      window.addEventListener('scroll', requestStickySync, { passive: true });
+
       desktopMedia.addEventListener('change', () => {
         if (!desktopMedia.matches) closeAll();
+        syncStickyState();
       });
+
+      syncStickyState();
     };
 
     const initialiseAllNavigations = () => {
