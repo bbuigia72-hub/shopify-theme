@@ -1178,6 +1178,18 @@
 
     .storefront-navigation.is-scrolled {
       --navigation-sticky-top: 20px;
+      --navigation-floating-inset: var(--navigation-gutter);
+      --navigation-floating-panel-padding: clamp(24px, 2vw, 36px);
+    }
+
+    .storefront-navigation.is-scrolled .storefront-navigation__panel--mega {
+      right: var(--navigation-floating-inset);
+      left: var(--navigation-floating-inset);
+      width: auto;
+    }
+
+    .storefront-navigation.is-scrolled .storefront-navigation__mega-surface {
+      padding-inline: var(--navigation-floating-panel-padding);
     }
 
     .storefront-navigation--homepage.is-scrolled {
@@ -1209,6 +1221,11 @@
     .storefront-navigation.is-scrolled .storefront-navigation__bar {
       margin-inline: 20px;
       padding-inline: 20px;
+    }
+
+    .storefront-navigation.is-scrolled {
+      --navigation-floating-inset: 20px;
+      --navigation-floating-panel-padding: 20px;
     }
   }
 
