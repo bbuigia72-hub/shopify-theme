@@ -696,10 +696,10 @@
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
-    transform: translate3d(0, -14px, 0);
+    transform: translate3d(0, -8px, 0);
     transform-origin: top center;
     will-change: opacity, transform;
-    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 620ms;
+    transition: opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
   }
 
   .storefront-navigation__panel.is-open {
@@ -707,7 +707,7 @@
     pointer-events: auto;
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: opacity 700ms cubic-bezier(0.45, 0, 0.55, 1), transform 1800ms cubic-bezier(0.45, 0, 0.55, 1), visibility 0s linear 0s;
+    transition: opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -716,20 +716,20 @@
     right: 0;
     left: 0;
     width: 100%;
-    height: 50vh;
+    height: 0;
     max-height: 50vh;
     overflow: hidden;
-    clip-path: inset(0 0 100% 0);
+    clip-path: none;
     transform: none;
-    will-change: clip-path, opacity;
+    will-change: height, opacity;
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
-    transition: clip-path 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 620ms;
+    transition: height 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
   }
 
   .storefront-navigation__panel--mega.is-open {
-    clip-path: inset(0 0 0 0);
+    height: 50vh;
     transform: none;
-    transition: clip-path 3000ms cubic-bezier(0.45, 0, 0.55, 1), opacity 900ms cubic-bezier(0.45, 0, 0.55, 1), visibility 0s linear 0s;
+    transition: height 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -747,7 +747,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 100%;
+    height: 50vh;
     max-height: 100%;
     min-height: 0;
     overflow-x: hidden;
@@ -756,29 +756,6 @@
     background: #FFFFFF;
     box-shadow: none;
     box-sizing: border-box;
-  }
-
-  .storefront-navigation__panel--mega.is-open .storefront-navigation__mega-surface {
-    transform-origin: top center;
-    animation: storefront-navigation-mega-surface-settle 3400ms ease both;
-  }
-
-  @keyframes storefront-navigation-mega-surface-settle {
-    0% {
-      transform: translate3d(0, -14px, 0) scaleY(0.985);
-    }
-
-    72% {
-      transform: translate3d(0, 0, 0) scaleY(1);
-    }
-
-    88% {
-      transform: translate3d(0, 2px, 0) scaleY(1.004);
-    }
-
-    100% {
-      transform: translate3d(0, 0, 0) scaleY(1);
-    }
   }
 
   #MainContent {
@@ -823,7 +800,7 @@
   }
 
   .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
-    animation: storefront-navigation-mega-item-in 700ms ease calc(var(--menu-reveal-delay, 200ms) + 450ms) both;
+    animation: storefront-navigation-mega-item-in 400ms ease var(--menu-reveal-delay, 150ms) both;
   }
 
   @keyframes storefront-navigation-mega-item-in {
@@ -1122,28 +1099,21 @@
     top: calc(100% - 2px);
     left: 0;
     min-width: 220px;
-    padding: 18px 20px;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
     border-radius: 16px;
     background: #FFFFFF;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    will-change: max-height, opacity, transform;
+    transition: max-height 300ms cubic-bezier(0.6, 0.14, 0, 1), padding 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
   }
 
   .storefront-navigation__panel--pages.is-open {
-    animation: storefront-navigation-pages-drop 1800ms cubic-bezier(0.45, 0, 0.55, 1) both;
-  }
-
-  @keyframes storefront-navigation-pages-drop {
-    0% {
-      transform: translate3d(0, -14px, 0);
-    }
-
-    82% {
-      transform: translate3d(0, 2px, 0);
-    }
-
-    100% {
-      transform: translate3d(0, 0, 0);
-    }
+    max-height: 360px;
+    padding: 18px 20px;
+    animation: none;
+    transition: max-height 300ms cubic-bezier(0.6, 0.14, 0, 1), padding 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 0s;
   }
 
   .storefront-navigation__pages-list {
@@ -1322,7 +1292,7 @@
         openedByToggle: false,
         lastTrigger: null
       }));
-      const hoverOpenDelay = 160;
+      const hoverOpenDelay = 0;
       let activeItem = null;
       let stickyFrame = null;
 
