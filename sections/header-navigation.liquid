@@ -696,10 +696,10 @@
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
-    transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -14px, 0);
     transform-origin: top center;
     will-change: opacity, transform;
-    transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 420ms;
+    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 620ms;
   }
 
   .storefront-navigation__panel.is-open {
@@ -707,7 +707,7 @@
     pointer-events: auto;
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1), transform 820ms cubic-bezier(0.34, 1.22, 0.64, 1), visibility 0s linear 0s;
+    transition: opacity 700ms cubic-bezier(0.45, 0, 0.55, 1), transform 1800ms cubic-bezier(0.45, 0, 0.55, 1), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -716,19 +716,20 @@
     right: 0;
     left: 0;
     width: 100%;
-    height: 0;
+    height: 50vh;
     max-height: 50vh;
-    overflow: visible;
+    overflow: hidden;
+    clip-path: inset(0 0 100% 0);
     transform: none;
-    will-change: height, opacity;
+    will-change: clip-path, opacity;
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
-    transition: height 450ms cubic-bezier(0.4, 0, 0.2, 1), opacity 240ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 450ms;
+    transition: clip-path 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 620ms;
   }
 
   .storefront-navigation__panel--mega.is-open {
-    height: 50vh;
+    clip-path: inset(0 0 0 0);
     transform: none;
-    transition: height 3400ms cubic-bezier(0.16, 0.9, 0.28, 1), opacity 900ms cubic-bezier(0.16, 0.9, 0.28, 1), visibility 0s linear 0s;
+    transition: clip-path 3000ms cubic-bezier(0.45, 0, 0.55, 1), opacity 900ms cubic-bezier(0.45, 0, 0.55, 1), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -763,17 +764,20 @@
   }
 
   @keyframes storefront-navigation-mega-surface-settle {
-    0%,
-    87% {
-      transform: scaleY(1);
+    0% {
+      transform: translate3d(0, -14px, 0) scaleY(0.985);
     }
 
-    94% {
-      transform: scaleY(1.006);
+    72% {
+      transform: translate3d(0, 0, 0) scaleY(1);
+    }
+
+    88% {
+      transform: translate3d(0, 2px, 0) scaleY(1.004);
     }
 
     100% {
-      transform: scaleY(1);
+      transform: translate3d(0, 0, 0) scaleY(1);
     }
   }
 
@@ -819,7 +823,7 @@
   }
 
   .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
-    animation: storefront-navigation-mega-item-in 400ms ease var(--menu-reveal-delay, 200ms) both;
+    animation: storefront-navigation-mega-item-in 700ms ease calc(var(--menu-reveal-delay, 200ms) + 450ms) both;
   }
 
   @keyframes storefront-navigation-mega-item-in {
@@ -1124,6 +1128,24 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
   }
 
+  .storefront-navigation__panel--pages.is-open {
+    animation: storefront-navigation-pages-drop 1800ms cubic-bezier(0.45, 0, 0.55, 1) both;
+  }
+
+  @keyframes storefront-navigation-pages-drop {
+    0% {
+      transform: translate3d(0, -14px, 0);
+    }
+
+    82% {
+      transform: translate3d(0, 2px, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
   .storefront-navigation__pages-list {
     display: flex;
     flex-direction: column;
@@ -1295,10 +1317,12 @@
         panel: item.querySelector('[data-navigation-panel]'),
         collectionLink: item.querySelector('[data-navigation-collection-link]'),
         firstLink: item.querySelector('[data-navigation-panel] a[href]'),
+        openTimer: null,
         closeTimer: null,
         openedByToggle: false,
         lastTrigger: null
       }));
+      const hoverOpenDelay = 160;
       let activeItem = null;
       let stickyFrame = null;
 
@@ -1341,6 +1365,7 @@
       const closeItem = (entry) => {
         if (!entry) return;
 
+        window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
         if (entry.panel.contains(document.activeElement)) {
           (entry.lastTrigger || entry.toggle).focus();
@@ -1370,6 +1395,7 @@
         if (!desktopMedia.matches || !entry) return;
 
         syncStickyState();
+        window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
         closeAll(entry);
         entry.item.classList.add('is-open');
@@ -1383,16 +1409,27 @@
       };
 
       const queueClose = (entry) => {
+        window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
         entry.closeTimer = window.setTimeout(() => {
           if (!entry.item.matches(':hover') && !entry.item.contains(document.activeElement)) closeItem(entry);
         }, 180);
       };
 
+      const queueOpen = (entry) => {
+        if (entry.item.classList.contains('is-open')) return;
+
+        window.clearTimeout(entry.openTimer);
+        window.clearTimeout(entry.closeTimer);
+        entry.openTimer = window.setTimeout(() => {
+          if (entry.item.matches(':hover')) openItem(entry);
+        }, hoverOpenDelay);
+      };
+
       items.forEach((entry) => {
         entry.item.addEventListener('pointerenter', () => {
           if (!hoverMedia.matches) return;
-          openItem(entry);
+          queueOpen(entry);
         });
 
         entry.item.addEventListener('pointerleave', () => {
