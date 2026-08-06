@@ -13,6 +13,8 @@
   assign women_sale_title = 'navigation.womens_sale' | t
   assign women_favorites_title = 'navigation.womens_favorites' | t
   assign men_best_deals_collection = section.settings.men_best_deals_collection
+  assign navigation_currency_code = localization.country.currency.iso_code | default: shop.currency
+  assign navigation_localization_form_id = 'NavigationLocalizationForm-' | append: section.id
 
   if section.settings.women_collection != blank
     assign women_url = section.settings.women_collection.url
@@ -313,6 +315,51 @@
         </div>
       </li>
     </ul>
+
+    <a class="storefront-navigation__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+      {% if shop.brand.logo != blank %}
+        {{ shop.brand.logo | image_url: width: 260 | image_tag: class: 'storefront-navigation__brand-image', loading: 'eager', alt: '' }}
+      {% else %}
+        <span aria-hidden="true">HELIX</span>
+      {% endif %}
+    </a>
+
+    <div class="storefront-navigation__utility-actions">
+      {% if localization.available_countries.size > 1 %}
+        <details class="storefront-navigation__currency">
+          <summary aria-label="Change country or currency">
+            <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+            <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+            <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+          </summary>
+          <div class="storefront-navigation__currency-popover">
+            {% form 'localization', id: navigation_localization_form_id %}
+              <input type="hidden" name="return_to" value="{{ request.path }}">
+              {% for country in localization.available_countries %}
+                <button type="submit" name="country_code" value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} aria-current="true"{% endif %}>
+                  {{ country.name | escape }} · {{ country.currency.iso_code }}
+                </button>
+              {% endfor %}
+            {% endform %}
+          </div>
+        </details>
+      {% else %}
+        <span class="storefront-navigation__currency-static">
+          <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+          <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+        </span>
+      {% endif %}
+      <span class="storefront-navigation__utility-separator" aria-hidden="true"></span>
+      <a class="storefront-navigation__utility-link" href="{{ routes.search_url }}" aria-label="Search">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><circle cx="10.75" cy="10.75" r="7.25" /><path d="m16.25 16.25 4.25 4.25" /></svg>
+      </a>
+      <a class="storefront-navigation__utility-link" href="{{ routes.account_url }}" aria-label="Account">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="8" r="4" /><path d="M4.5 21c.55-4.25 3.65-7 7.5-7s6.95 2.75 7.5 7" /></svg>
+      </a>
+      <a class="storefront-navigation__utility-link" href="{{ routes.cart_url }}" aria-label="Cart ({{ cart.item_count }})">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M5 8.5h14l-1 12H6l-1-12Z" /><path d="M8.5 9V6.75a3.5 3.5 0 0 1 7 0V9" /></svg>
+      </a>
+    </div>
   </nav>
 </header>
 
@@ -338,6 +385,10 @@
     background: #FFFFFF;
   }
 
+  .storefront-navigation--homepage.is-menu-open {
+    --navigation-trigger-color: #131313;
+  }
+
   .storefront-navigation--homepage.is-menu-open .storefront-navigation__collection-link,
   .storefront-navigation--homepage.is-menu-open .storefront-navigation__toggle,
   .storefront-navigation--homepage.is-menu-open .storefront-navigation__pages-toggle {
@@ -345,8 +396,10 @@
   }
 
   .storefront-navigation__bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
+    column-gap: 32px;
     min-height: 76px;
     padding: 20px var(--navigation-gutter);
     transition: background-color 280ms ease, border-radius 280ms ease, box-shadow 280ms ease, margin 280ms ease, padding 280ms ease;
@@ -362,9 +415,170 @@
   }
 
   .storefront-navigation__list {
+    grid-column: 1;
     display: flex;
     align-items: center;
+    min-width: 0;
     gap: 28px;
+  }
+
+  .storefront-navigation__brand {
+    grid-column: 2;
+    justify-self: center;
+    color: var(--navigation-trigger-color);
+    font-family: Archivo, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: color 220ms ease;
+  }
+
+  .storefront-navigation__brand-image {
+    display: block;
+    width: auto;
+    max-width: 136px;
+    height: 34px;
+    object-fit: contain;
+  }
+
+  .storefront-navigation__utility-actions {
+    grid-column: 3;
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 12px;
+    color: var(--navigation-trigger-color);
+  }
+
+  .storefront-navigation__currency summary,
+  .storefront-navigation__currency-static,
+  .storefront-navigation__utility-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: currentColor;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22.4px;
+    letter-spacing: 0.28px;
+  }
+
+  .storefront-navigation__currency {
+    position: relative;
+    color: currentColor;
+  }
+
+  .storefront-navigation__currency summary,
+  .storefront-navigation__currency-static {
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .storefront-navigation__currency summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .storefront-navigation__currency summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .storefront-navigation__currency-flag {
+    display: grid;
+    width: 19px;
+    height: 19px;
+    place-items: center;
+    border-radius: 50%;
+    background: #E60012;
+    color: #FFE500;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .storefront-navigation__currency svg {
+    width: 10px;
+    height: 7px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    transition: transform 200ms ease-in-out;
+  }
+
+  .storefront-navigation__currency[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .storefront-navigation__currency-popover {
+    position: absolute;
+    z-index: 3;
+    top: calc(100% + 12px);
+    right: 0;
+    width: max-content;
+    min-width: 190px;
+    padding: 10px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    color: #131313;
+  }
+
+  .storefront-navigation__currency-popover form {
+    display: grid;
+    gap: 2px;
+  }
+
+  .storefront-navigation__currency-popover button {
+    width: 100%;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #131313;
+    cursor: pointer;
+    font-family: Figtree, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22.4px;
+    text-align: left;
+  }
+
+  .storefront-navigation__currency-popover button:hover,
+  .storefront-navigation__currency-popover button:focus-visible,
+  .storefront-navigation__currency-popover button[aria-current="true"] {
+    background: rgba(19, 19, 19, 0.06);
+  }
+
+  .storefront-navigation__currency-popover button:focus-visible {
+    outline: 2px solid #131313;
+    outline-offset: 2px;
+  }
+
+  .storefront-navigation__utility-separator {
+    width: 1px;
+    height: 20px;
+    margin-inline: 4px;
+    background: currentColor;
+    opacity: 0.18;
+  }
+
+  .storefront-navigation__utility-link {
+    width: 28px;
+    height: 28px;
+    text-decoration: none;
+    transition: color 220ms ease;
+  }
+
+  .storefront-navigation__utility-link svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
   }
 
   .storefront-navigation__item {
@@ -450,13 +664,22 @@
   .storefront-navigation__toggle:hover,
   .storefront-navigation__toggle:focus-visible,
   .storefront-navigation__pages-toggle:hover,
-  .storefront-navigation__pages-toggle:focus-visible {
+  .storefront-navigation__pages-toggle:focus-visible,
+  .storefront-navigation__brand:hover,
+  .storefront-navigation__brand:focus-visible,
+  .storefront-navigation__currency summary:hover,
+  .storefront-navigation__currency summary:focus-visible,
+  .storefront-navigation__utility-link:hover,
+  .storefront-navigation__utility-link:focus-visible {
     color: #131313;
   }
 
   .storefront-navigation__collection-link:focus-visible,
   .storefront-navigation__toggle:focus-visible,
   .storefront-navigation__pages-toggle:focus-visible,
+  .storefront-navigation__brand:focus-visible,
+  .storefront-navigation__currency summary:focus-visible,
+  .storefront-navigation__utility-link:focus-visible,
   .storefront-navigation__editorial-list a:focus-visible,
   .storefront-navigation__group-label:focus-visible,
   .storefront-navigation__child-link:focus-visible,
@@ -959,6 +1182,33 @@
 
     .storefront-navigation--homepage.is-scrolled {
       --navigation-trigger-color: #131313;
+    }
+  }
+
+  @media (min-width: 750px) and (max-width: 899px) {
+    .storefront-navigation__bar {
+      column-gap: 16px;
+    }
+
+    .storefront-navigation__list {
+      gap: 16px;
+    }
+
+    .storefront-navigation__brand {
+      font-size: 28px;
+    }
+
+    .storefront-navigation__utility-actions {
+      gap: 8px;
+    }
+
+    .storefront-navigation__utility-separator {
+      margin-inline: 0;
+    }
+
+    .storefront-navigation.is-scrolled .storefront-navigation__bar {
+      margin-inline: 20px;
+      padding-inline: 20px;
     }
   }
 
