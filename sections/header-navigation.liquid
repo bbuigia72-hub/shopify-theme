@@ -1192,6 +1192,15 @@
       padding-inline: var(--navigation-floating-panel-padding);
     }
 
+    .storefront-navigation.is-scrolled.is-mega-menu-open .storefront-navigation__bar {
+      border-radius: 20px 20px 0 0;
+      box-shadow: none;
+    }
+
+    .storefront-navigation.is-scrolled.is-mega-menu-open .storefront-navigation__panel--mega.is-open .storefront-navigation__mega-surface {
+      border-radius: 0 0 20px 20px;
+    }
+
     .storefront-navigation--homepage.is-scrolled {
       --navigation-trigger-color: #131313;
     }
@@ -1298,6 +1307,7 @@
         const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'));
         mainContent?.toggleAttribute('inert', hasOpenMegaPanel);
         document.body.classList.toggle('storefront-navigation-menu-open', hasOpenMegaPanel);
+        root.classList.toggle('is-mega-menu-open', hasOpenMegaPanel);
       };
 
       const setToggleState = (entry, isOpen) => {
