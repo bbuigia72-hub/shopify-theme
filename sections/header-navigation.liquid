@@ -1623,7 +1623,7 @@
       transform: translate3d(100%, 0, 0);
       visibility: visible;
       will-change: transform;
-      transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 720ms cubic-bezier(0.45, 0, 0.2, 1);
     }
 
     .storefront-navigation__mobile-drawer-panel--root {
@@ -1635,6 +1635,10 @@
       z-index: 1;
     }
 
+    .storefront-navigation__mobile-drawer-panel--submenu.is-active {
+      box-shadow: -18px 0 32px rgba(19, 19, 19, 0.10);
+    }
+
     .storefront-navigation__mobile-drawer-panel.is-active {
       pointer-events: auto;
       transform: translate3d(0, 0, 0);
@@ -1642,7 +1646,7 @@
     }
 
     .storefront-navigation.is-mobile-submenu-open .storefront-navigation__mobile-drawer-panel--root {
-      transform: translate3d(-12%, 0, 0);
+      transform: translate3d(-22%, 0, 0);
     }
 
     .storefront-navigation__mobile-drawer-header,
