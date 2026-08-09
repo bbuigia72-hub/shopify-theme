@@ -592,6 +592,9 @@
     --navigation-gutter: clamp(48px, 3.2vw, 60px);
     --navigation-trigger-color: #131313;
     --navigation-sticky-top: 0px;
+    --navigation-panel-duration: 520ms;
+    --navigation-panel-fade-duration: 300ms;
+    --navigation-panel-ease: cubic-bezier(0.6, 0.14, 0, 1);
     position: relative;
     z-index: 30;
     width: 100%;
@@ -921,7 +924,7 @@
     transform: translate3d(0, -8px, 0);
     transform-origin: top center;
     will-change: opacity, transform;
-    transition: opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
+    transition: opacity var(--navigation-panel-fade-duration) var(--navigation-panel-ease), transform var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
   }
 
   .storefront-navigation__panel.is-open {
@@ -929,7 +932,7 @@
     pointer-events: auto;
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), transform 300ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 0s;
+    transition: opacity var(--navigation-panel-fade-duration) var(--navigation-panel-ease), transform var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -945,13 +948,13 @@
     transform: none;
     will-change: height, opacity;
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
-    transition: height 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 300ms;
+    transition: height var(--navigation-panel-duration) var(--navigation-panel-ease), opacity var(--navigation-panel-fade-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
   }
 
   .storefront-navigation__panel--mega.is-open {
     height: 50vh;
     transform: none;
-    transition: height 300ms cubic-bezier(0.6, 0.14, 0, 1), opacity 200ms cubic-bezier(0.6, 0.14, 0, 1), visibility 0s linear 0s;
+    transition: height var(--navigation-panel-duration) var(--navigation-panel-ease), opacity var(--navigation-panel-fade-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
     transition-delay: 0s, 0s, 0s;
   }
 
@@ -1022,7 +1025,7 @@
   }
 
   .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
-    animation: storefront-navigation-mega-item-in 400ms ease var(--menu-reveal-delay, 150ms) both;
+    animation: storefront-navigation-mega-item-in 520ms ease var(--menu-reveal-delay, 180ms) both;
   }
 
   @keyframes storefront-navigation-mega-item-in {
@@ -2096,7 +2099,7 @@
         openedByToggle: false,
         lastTrigger: null
       }));
-      const hoverOpenDelay = 0;
+      const hoverOpenDelay = 70;
       let activeItem = null;
       let stickyFrame = null;
 
