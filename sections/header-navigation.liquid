@@ -518,29 +518,42 @@
             <svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg>
           </button>
         </div>
-        <div class="storefront-navigation__mobile-submenu-scroll">
-          <a class="storefront-navigation__mobile-collection-cta" href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a>
-          {% if section.settings.women_menu != blank %}
-            {% for link in section.settings.women_menu.links %}
-              {% if link.links == blank %}
-                <a class="storefront-navigation__mobile-editorial-link" href="{{ link.url }}">{{ link.title | escape }}</a>
-              {% else %}
-                <section class="storefront-navigation__mobile-menu-group">
-                  <a href="{{ link.url }}">{{ link.title | escape }}</a>
-                  <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
-                </section>
-              {% endif %}
-            {% endfor %}
-          {% else %}
-            <div class="storefront-navigation__mobile-editorial-list">
+        <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-category-menu">
+          <div class="storefront-navigation__mobile-category-editorial">
+            {% if section.settings.women_menu != blank %}
+              {% for link in section.settings.women_menu.links %}
+                {% if link.links == blank %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endif %}
+              {% endfor %}
+            {% else %}
               <a href="{{ women_url }}">{{ 'navigation.top_picks' | t }}</a><a href="{{ women_url }}">{{ 'navigation.best_sellers' | t }}</a><a href="{{ women_url }}">{{ 'navigation.trending' | t }}</a><a href="{{ women_url }}">{{ 'navigation.new_arrivals' | t }}</a><a href="{{ women_url }}">{{ 'navigation.on_sale' | t }}</a>
-            </div>
-            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_activity' | t }}</h3><ul><li><a href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul></section>
-            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_feature' | t }}</h3><ul><li><a href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li></ul></section>
-          {% endif %}
+            {% endif %}
+          </div>
+
+          <div class="storefront-navigation__mobile-category-groups">
+            {% if section.settings.women_menu != blank %}
+              {% for link in section.settings.women_menu.links %}
+                {% if link.links != blank %}
+                  <details>
+                    <summary><span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                    <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
+                  </details>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <details>
+                <summary><span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                <ul><li><a href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul>
+              </details>
+              <details>
+                <summary><span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                <ul><li><a href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li></ul>
+              </details>
+            {% endif %}
+          </div>
+
           <div class="storefront-navigation__mobile-promo-list">
-            <a href="{{ women_sale_url }}"><span>{% if section.settings.women_sale_image != blank %}{{ section.settings.women_sale_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_sale_title }}{% else %}{{ 'women-sale-meadow.png' | asset_url | image_tag: loading: 'lazy', alt: women_sale_title }}{% endif %}</span><strong>{{ women_sale_title }}</strong></a>
-            <a href="{{ women_favorites_url }}"><span>{% if section.settings.women_favorites_image != blank %}{{ section.settings.women_favorites_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_favorites_title }}{% else %}{{ 'women-favorites-court.png' | asset_url | image_tag: loading: 'lazy', alt: women_favorites_title }}{% endif %}</span><strong>{{ women_favorites_title }}</strong></a>
+            <a href="{{ women_sale_url }}"><span class="storefront-navigation__mobile-promo-media">{% if section.settings.women_sale_image != blank %}{{ section.settings.women_sale_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_sale_title }}{% else %}{{ 'women-sale-meadow.png' | asset_url | image_tag: loading: 'lazy', alt: women_sale_title }}{% endif %}</span><strong>{{ women_sale_title }}</strong><span class="storefront-navigation__mobile-promo-link">{{ 'navigation.shop_now' | t }} <span aria-hidden="true">↗</span></span></a>
+            <a href="{{ women_favorites_url }}"><span class="storefront-navigation__mobile-promo-media">{% if section.settings.women_favorites_image != blank %}{{ section.settings.women_favorites_image | image_url: width: 720 | image_tag: loading: 'lazy', alt: women_favorites_title }}{% else %}{{ 'women-favorites-court.png' | asset_url | image_tag: loading: 'lazy', alt: women_favorites_title }}{% endif %}</span><strong>{{ women_favorites_title }}</strong><span class="storefront-navigation__mobile-promo-link">{{ 'navigation.shop_now' | t }} <span aria-hidden="true">↗</span></span></a>
           </div>
         </div>
       </section>
@@ -550,8 +563,8 @@
           <button type="button" data-mobile-show-root><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.men' | t }}</span></button>
           <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
         </div>
-        <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-men-menu">
-          <div class="storefront-navigation__mobile-men-editorial">
+        <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-category-menu storefront-navigation__mobile-men-menu">
+          <div class="storefront-navigation__mobile-category-editorial storefront-navigation__mobile-men-editorial">
           {% if section.settings.men_menu != blank %}
             {% for link in section.settings.men_menu.links %}
               {% if link.links == blank %}
@@ -563,7 +576,7 @@
           {% endif %}
           </div>
 
-          <div class="storefront-navigation__mobile-men-groups">
+          <div class="storefront-navigation__mobile-category-groups storefront-navigation__mobile-men-groups">
             {% if section.settings.men_menu != blank %}
               {% for link in section.settings.men_menu.links %}
                 {% if link.links != blank %}
@@ -2063,16 +2076,16 @@
       text-decoration: none;
     }
 
-    .storefront-navigation__mobile-men-menu {
+    .storefront-navigation__mobile-category-menu {
       padding-top: 18px;
     }
 
-    .storefront-navigation__mobile-men-editorial {
+    .storefront-navigation__mobile-category-editorial {
       display: grid;
       gap: 7px;
     }
 
-    .storefront-navigation__mobile-men-editorial a {
+    .storefront-navigation__mobile-category-editorial a {
       color: #131313;
       font-family: Archivo, sans-serif;
       font-size: 14px;
@@ -2081,15 +2094,15 @@
       text-decoration: none;
     }
 
-    .storefront-navigation__mobile-men-groups {
+    .storefront-navigation__mobile-category-groups {
       margin-top: 19px;
     }
 
-    .storefront-navigation__mobile-men-groups details {
+    .storefront-navigation__mobile-category-groups details {
       border-bottom: 1px solid #E9E9E9;
     }
 
-    .storefront-navigation__mobile-men-groups summary {
+    .storefront-navigation__mobile-category-groups summary {
       display: flex;
       min-height: 51px;
       align-items: center;
@@ -2104,11 +2117,11 @@
       list-style: none;
     }
 
-    .storefront-navigation__mobile-men-groups summary::-webkit-details-marker {
+    .storefront-navigation__mobile-category-groups summary::-webkit-details-marker {
       display: none;
     }
 
-    .storefront-navigation__mobile-men-groups summary svg {
+    .storefront-navigation__mobile-category-groups summary svg {
       width: 14px;
       height: 14px;
       flex: 0 0 14px;
@@ -2120,11 +2133,11 @@
       transition: transform 200ms ease;
     }
 
-    .storefront-navigation__mobile-men-groups details[open] summary svg {
+    .storefront-navigation__mobile-category-groups details[open] summary svg {
       transform: rotate(90deg);
     }
 
-    .storefront-navigation__mobile-men-groups ul {
+    .storefront-navigation__mobile-category-groups ul {
       display: grid;
       gap: 10px;
       margin: 0;
@@ -2132,7 +2145,7 @@
       list-style: none;
     }
 
-    .storefront-navigation__mobile-men-groups li a {
+    .storefront-navigation__mobile-category-groups li a {
       color: #4A4A4A;
       font-family: Figtree, sans-serif;
       font-size: 14px;
@@ -2300,34 +2313,48 @@
 
     .storefront-navigation__mobile-promo-list {
       display: grid;
-      gap: 16px;
-      margin-top: 28px;
+      gap: 20px;
+      margin-top: 32px;
     }
 
     .storefront-navigation__mobile-promo-list a {
       display: grid;
-      gap: 9px;
       color: #131313;
       font-family: Figtree, sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 22.4px;
       text-decoration: none;
     }
 
-    .storefront-navigation__mobile-promo-list a > span {
+    .storefront-navigation__mobile-promo-media {
       display: block;
       overflow: hidden;
       aspect-ratio: 1.5;
-      border-radius: 12px;
+      border-radius: 14px;
       background: #EAE9E4;
     }
 
-    .storefront-navigation__mobile-promo-list img {
+    .storefront-navigation__mobile-promo-media img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .storefront-navigation__mobile-promo-list strong {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 22px;
+    }
+
+    .storefront-navigation__mobile-promo-link {
+      margin-top: 7px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 22px;
+    }
+
+    .storefront-navigation__mobile-promo-link > span {
+      margin-left: 7px;
     }
 
     .storefront-navigation__mobile-menu-toggle:focus-visible,
@@ -2341,7 +2368,7 @@
     .storefront-navigation__mobile-localization summary:focus-visible,
     .storefront-navigation__mobile-localization-popover button:focus-visible,
     .storefront-navigation__mobile-socials a:focus-visible,
-    .storefront-navigation__mobile-men-groups summary:focus-visible,
+    .storefront-navigation__mobile-category-groups summary:focus-visible,
     .storefront-navigation__mobile-submenu-scroll a:focus-visible {
       outline: 2px solid currentColor;
       outline-offset: 3px;
