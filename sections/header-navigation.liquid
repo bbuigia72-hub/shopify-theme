@@ -550,20 +550,84 @@
           <button type="button" data-mobile-show-root><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.men' | t }}</span></button>
           <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
         </div>
-        <div class="storefront-navigation__mobile-submenu-scroll">
-          <a class="storefront-navigation__mobile-collection-cta" href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a>
+        <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-men-menu">
+          <div class="storefront-navigation__mobile-men-editorial">
           {% if section.settings.men_menu != blank %}
             {% for link in section.settings.men_menu.links %}
               {% if link.links == blank %}
                 <a class="storefront-navigation__mobile-editorial-link" href="{{ link.url }}">{{ link.title | escape }}</a>
-              {% else %}
-                <section class="storefront-navigation__mobile-menu-group"><a href="{{ link.url }}">{{ link.title | escape }}</a><ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul></section>
               {% endif %}
             {% endfor %}
           {% else %}
-            <div class="storefront-navigation__mobile-editorial-list"><a href="{{ men_url }}">{{ 'navigation.top_picks' | t }}</a><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a></div>
-            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_activity' | t }}</h3><ul><li><a href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul></section>
-            <section class="storefront-navigation__mobile-menu-group"><h3>{{ 'navigation.by_feature' | t }}</h3><ul><li><a href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li></ul></section>
+            <a href="{{ men_url }}">{{ 'navigation.top_picks' | t }}</a><a href="{{ men_url }}">{{ 'navigation.best_sellers' | t }}</a><a href="{{ men_url }}">{{ 'navigation.trending' | t }}</a><a href="{{ men_url }}">{{ 'navigation.new_arrivals' | t }}</a><a href="{{ men_url }}">{{ 'navigation.on_sale' | t }}</a>
+          {% endif %}
+          </div>
+
+          <div class="storefront-navigation__mobile-men-groups">
+            {% if section.settings.men_menu != blank %}
+              {% for link in section.settings.men_menu.links %}
+                {% if link.links != blank %}
+                  <details>
+                    <summary><span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                    <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
+                  </details>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <details>
+                <summary><span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                <ul><li><a href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul>
+              </details>
+              <details>
+                <summary><span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
+                <ul><li><a href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li></ul>
+              </details>
+            {% endif %}
+          </div>
+
+          {% if men_best_deals_collection != blank and men_best_deals_collection.products_count > 0 %}
+            <section class="storefront-navigation__mobile-men-deals" aria-labelledby="MobileNavigationMenDealsTitle-{{ section.id }}">
+              <h3 id="MobileNavigationMenDealsTitle-{{ section.id }}">{{ 'navigation.best_deals' | t }} <span aria-hidden="true">&#128293;</span></h3>
+              <div class="storefront-navigation__mobile-deal-grid">
+                {% for product in men_best_deals_collection.products limit: 4 %}
+                  {% liquid
+                    assign mobile_compare_at_price = product.compare_at_price_max
+                    assign mobile_is_on_sale = false
+
+                    if mobile_compare_at_price > product.price
+                      assign mobile_is_on_sale = true
+                      assign mobile_saving = mobile_compare_at_price | minus: product.price
+                      assign mobile_discount = mobile_saving | times: 100.0 | divided_by: mobile_compare_at_price | round
+                    endif
+                  %}
+                  <article class="storefront-navigation__mobile-deal-card">
+                    <div class="storefront-navigation__mobile-deal-media">
+                      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                        {% if mobile_is_on_sale %}<span class="storefront-navigation__mobile-deal-badge">-{{ mobile_discount }}%</span>{% endif %}
+                        {% if product.featured_image != blank %}
+                          {{ product.featured_image | image_url: width: 420 | image_tag: loading: 'lazy', alt: product.title }}
+                        {% else %}
+                          {{ 'product-1' | placeholder_svg_tag }}
+                        {% endif %}
+                      </a>
+                      <a class="storefront-navigation__mobile-deal-action" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M7 8V6a5 5 0 0 1 10 0v2m-12 0h14l-1 12H6L5 8Z" /></svg>
+                      </a>
+                    </div>
+                    {% if product.images.size > 0 %}
+                      <div class="storefront-navigation__mobile-deal-thumbnails" aria-hidden="true">
+                        {% for image in product.images limit: 2 %}<span>{{ image | image_url: width: 72 | image_tag: loading: 'lazy', alt: '' }}</span>{% endfor %}
+                      </div>
+                    {% endif %}
+                    <a class="storefront-navigation__mobile-deal-title" href="{{ product.url }}">{{ product.title | escape }}</a>
+                    <div class="storefront-navigation__mobile-deal-prices">
+                      <span{% if mobile_is_on_sale %} class="is-sale"{% endif %}>{{ product.price | money }}</span>
+                      {% if mobile_is_on_sale %}<s>{{ mobile_compare_at_price | money }}</s>{% endif %}
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            </section>
           {% endif %}
         </div>
       </section>
@@ -1999,6 +2063,226 @@
       text-decoration: none;
     }
 
+    .storefront-navigation__mobile-men-menu {
+      padding-top: 18px;
+    }
+
+    .storefront-navigation__mobile-men-editorial {
+      display: grid;
+      gap: 7px;
+    }
+
+    .storefront-navigation__mobile-men-editorial a {
+      color: #131313;
+      font-family: Archivo, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 22px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-men-groups {
+      margin-top: 19px;
+    }
+
+    .storefront-navigation__mobile-men-groups details {
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    .storefront-navigation__mobile-men-groups summary {
+      display: flex;
+      min-height: 51px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: #131313;
+      cursor: pointer;
+      font-family: Figtree, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      list-style: none;
+    }
+
+    .storefront-navigation__mobile-men-groups summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .storefront-navigation__mobile-men-groups summary svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.5;
+      transition: transform 200ms ease;
+    }
+
+    .storefront-navigation__mobile-men-groups details[open] summary svg {
+      transform: rotate(90deg);
+    }
+
+    .storefront-navigation__mobile-men-groups ul {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0 0 15px;
+      list-style: none;
+    }
+
+    .storefront-navigation__mobile-men-groups li a {
+      color: #4A4A4A;
+      font-family: Figtree, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-men-deals {
+      margin-top: 21px;
+    }
+
+    .storefront-navigation__mobile-men-deals h3 {
+      margin: 0 0 19px;
+      color: #131313;
+      font-family: Archivo, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 22px;
+    }
+
+    .storefront-navigation__mobile-deal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 25px 8px;
+    }
+
+    .storefront-navigation__mobile-deal-card {
+      min-width: 0;
+    }
+
+    .storefront-navigation__mobile-deal-media {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+      border-radius: 14px;
+      background: #F4F4F4;
+    }
+
+    .storefront-navigation__mobile-deal-media > a:first-child {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .storefront-navigation__mobile-deal-media > a:first-child > img,
+    .storefront-navigation__mobile-deal-media > a:first-child > svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .storefront-navigation__mobile-deal-badge {
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      left: 10px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: #EE0000;
+      color: #FFFFFF;
+      font-family: Figtree, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 18px;
+    }
+
+    .storefront-navigation__mobile-deal-action {
+      position: absolute;
+      z-index: 2;
+      right: 8px;
+      bottom: 8px;
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #131313;
+      text-decoration: none;
+    }
+
+    .storefront-navigation__mobile-deal-action svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.5;
+    }
+
+    .storefront-navigation__mobile-deal-thumbnails {
+      display: flex;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .storefront-navigation__mobile-deal-thumbnails span {
+      display: block;
+      overflow: hidden;
+      width: 28px;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: #F4F4F4;
+    }
+
+    .storefront-navigation__mobile-deal-thumbnails img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .storefront-navigation__mobile-deal-title {
+      display: block;
+      overflow: hidden;
+      margin-top: 9px;
+      color: #131313;
+      font-family: Figtree, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 19px;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .storefront-navigation__mobile-deal-prices {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 5px;
+      margin-top: 2px;
+      font-family: Figtree, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 19px;
+    }
+
+    .storefront-navigation__mobile-deal-prices .is-sale {
+      color: #EE0000;
+    }
+
+    .storefront-navigation__mobile-deal-prices s {
+      color: #777777;
+      font-size: 11px;
+    }
+
     .storefront-navigation__mobile-pages-list {
       display: flex;
       flex-direction: column;
@@ -2057,6 +2341,7 @@
     .storefront-navigation__mobile-localization summary:focus-visible,
     .storefront-navigation__mobile-localization-popover button:focus-visible,
     .storefront-navigation__mobile-socials a:focus-visible,
+    .storefront-navigation__mobile-men-groups summary:focus-visible,
     .storefront-navigation__mobile-submenu-scroll a:focus-visible {
       outline: 2px solid currentColor;
       outline-offset: 3px;
