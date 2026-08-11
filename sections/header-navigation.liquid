@@ -672,6 +672,7 @@
     --navigation-panel-duration: 300ms;
     --navigation-panel-fade-duration: 360ms;
     --navigation-panel-ease: cubic-bezier(0.65, 0, 0.35, 1);
+    --navigation-header-curtain-duration: 64ms;
     position: relative;
     z-index: 30;
     width: 100%;
@@ -698,6 +699,8 @@
   }
 
   .storefront-navigation__bar {
+    position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
@@ -705,6 +708,31 @@
     min-height: 76px;
     padding: 20px var(--navigation-gutter);
     transition: background-color 280ms ease, border-radius 280ms ease, box-shadow 280ms ease, margin 280ms ease, padding 280ms ease;
+  }
+
+  .storefront-navigation--homepage.is-menu-closing .storefront-navigation__bar {
+    background: transparent;
+    transition: border-radius 280ms ease, box-shadow 280ms ease, margin 280ms ease, padding 280ms ease;
+  }
+
+  .storefront-navigation--homepage.is-menu-closing .storefront-navigation__bar::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: #FFFFFF;
+    content: '';
+    pointer-events: none;
+    animation: storefront-navigation-header-curtain-close var(--navigation-header-curtain-duration) linear var(--navigation-panel-duration) both;
+  }
+
+  @keyframes storefront-navigation-header-curtain-close {
+    from {
+      clip-path: inset(0 0 0 0);
+    }
+
+    to {
+      clip-path: inset(0 0 100% 0);
+    }
   }
 
   .storefront-navigation__list,
@@ -2402,6 +2430,11 @@
     .storefront-navigation .storefront-navigation__panel--pages {
       transition-duration: var(--navigation-panel-duration), 0s !important;
     }
+
+    .storefront-navigation--homepage.is-menu-closing .storefront-navigation__bar::before {
+      animation-duration: var(--navigation-header-curtain-duration) !important;
+      animation-delay: var(--navigation-panel-duration) !important;
+    }
   }
 {% endstylesheet %}
 
@@ -2437,6 +2470,7 @@
       }));
       const hoverOpenDelay = 70;
       const curtainDuration = 300;
+      const headerCurtainDuration = 64;
       let activeItem = null;
       let desktopMenuCloseTimer = null;
       let desktopMenuSwitchTimer = null;
@@ -2508,7 +2542,7 @@
             root.classList.remove('is-menu-open', 'is-menu-closing', 'is-mega-menu-closing');
             updateMainInteractivity();
             syncStickyState();
-          }, curtainDuration);
+          }, curtainDuration + headerCurtainDuration);
         }
         updateMainInteractivity();
       };
