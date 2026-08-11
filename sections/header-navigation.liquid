@@ -1106,11 +1106,6 @@
     transition-delay: 0s, 0s;
   }
 
-  .storefront-navigation.is-desktop-menu-switching .storefront-navigation__panel--mega,
-  .storefront-navigation.is-desktop-menu-switching .storefront-navigation__panel--mega.is-open {
-    transition: opacity 160ms var(--navigation-panel-ease), visibility 0s linear 0s;
-  }
-
   .storefront-navigation__panel--mega.is-open::before {
     position: absolute;
     z-index: 0;
@@ -2468,13 +2463,28 @@
       transition-duration: 720ms !important;
     }
 
+    .storefront-navigation .storefront-navigation__bar {
+      transition-duration: 280ms !important;
+    }
+
+    .storefront-navigation .storefront-navigation__menu-reveal {
+      transition-duration: 300ms, 300ms !important;
+    }
+
+    .storefront-navigation .storefront-navigation__panel--mega.is-open .storefront-navigation__menu-reveal {
+      animation-duration: 400ms !important;
+    }
+
     .storefront-navigation__menu-reveal {
       transform: none;
     }
 
-    .storefront-navigation:not(.is-desktop-menu-switching) .storefront-navigation__panel--mega,
-    .storefront-navigation .storefront-navigation__panel--pages {
+    .storefront-navigation .storefront-navigation__panel--mega {
       transition-duration: var(--navigation-panel-duration), 0s !important;
+    }
+
+    .storefront-navigation .storefront-navigation__panel--pages {
+      transition-duration: var(--navigation-panel-fade-duration), var(--navigation-panel-duration), 0s !important;
     }
 
     .storefront-navigation--homepage.is-menu-closing .storefront-navigation__bar::before {
@@ -2520,7 +2530,6 @@
       const mobilePanelTransitionDuration = 720;
       let activeItem = null;
       let desktopMenuCloseTimer = null;
-      let desktopMenuSwitchTimer = null;
       let mobilePanelTransitionTimer = null;
       let mobilePanelAnimationFrame = null;
       let stickyFrame = null;
@@ -2564,7 +2573,7 @@
         if (label) entry.toggle.setAttribute('aria-label', label);
       };
 
-      const closeItem = (entry) => {
+      const closeItem = (entry, isMenuHandoff = false) => {
         if (!entry) return;
 
         window.clearTimeout(entry.openTimer);
@@ -2583,7 +2592,7 @@
         entry.openedByToggle = false;
 
         if (activeItem === entry) activeItem = null;
-        if (!root.querySelector('[data-navigation-item].is-open')) {
+        if (!isMenuHandoff && !root.querySelector('[data-navigation-item].is-open')) {
           window.clearTimeout(desktopMenuCloseTimer);
           root.classList.add('is-menu-closing');
           root.classList.toggle('is-mega-menu-closing', wasMegaMenu);
@@ -2593,12 +2602,12 @@
             syncStickyState();
           }, curtainDuration + headerCurtainDuration);
         }
-        updateMainInteractivity();
+        if (!isMenuHandoff) updateMainInteractivity();
       };
 
-      const closeAll = (exceptEntry = null) => {
+      const closeAll = (exceptEntry = null, isMenuHandoff = false) => {
         items.forEach((entry) => {
-          if (entry !== exceptEntry) closeItem(entry);
+          if (entry !== exceptEntry) closeItem(entry, isMenuHandoff);
         });
       };
 
@@ -2614,9 +2623,7 @@
         window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
         window.clearTimeout(desktopMenuCloseTimer);
-        window.clearTimeout(desktopMenuSwitchTimer);
-        root.classList.toggle('is-desktop-menu-switching', Boolean(isDesktopMenuHandoff));
-        closeAll(entry);
+        closeAll(entry, Boolean(isDesktopMenuHandoff));
         window.clearTimeout(desktopMenuCloseTimer);
         root.classList.remove('is-menu-closing', 'is-mega-menu-closing');
         entry.item.classList.add('is-open');
@@ -2627,12 +2634,6 @@
         root.classList.add('is-menu-open');
         activeItem = entry;
         updateMainInteractivity();
-
-        if (isDesktopMenuHandoff) {
-          desktopMenuSwitchTimer = window.setTimeout(() => {
-            root.classList.remove('is-desktop-menu-switching');
-          }, 180);
-        }
       };
 
       const queueClose = (entry) => {
