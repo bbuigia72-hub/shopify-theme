@@ -2468,6 +2468,10 @@
       animation-duration: 0ms !important;
     }
 
+    .storefront-navigation .storefront-navigation__mobile-drawer-panel {
+      transition-duration: 720ms !important;
+    }
+
     .storefront-navigation__menu-reveal {
       transform: none;
     }
@@ -2503,7 +2507,6 @@
       const mobileDrawerOpenButtons = [...root.querySelectorAll('[data-mobile-open-panel]')];
       const mobileDrawerBackButtons = [...root.querySelectorAll('[data-mobile-show-root]')];
       const mobileDrawerPanels = [...root.querySelectorAll('[data-mobile-panel]')];
-      const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
       const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
         item,
         toggle: item.querySelector('[data-navigation-toggle]'),
@@ -2659,7 +2662,7 @@
         if (!targetPanel) return;
 
         const currentPanel = mobileDrawerPanels.find((panel) => panel.classList.contains('is-active'));
-        const transitionDuration = reducedMotionMedia.matches ? 0 : mobilePanelTransitionDuration;
+        const transitionDuration = mobilePanelTransitionDuration;
         const focusTarget = () => {
           if (!shouldFocus) return;
           targetPanel.querySelector('[data-mobile-show-root], [data-mobile-panel-focus], a[href], button:not([disabled])')?.focus({ preventScroll: true });
