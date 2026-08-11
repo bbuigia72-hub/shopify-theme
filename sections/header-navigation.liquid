@@ -1176,6 +1176,12 @@
     animation: storefront-navigation-mega-item-in 400ms ease var(--menu-reveal-delay, 200ms) both;
   }
 
+  .storefront-navigation__panel--mega.is-closing .storefront-navigation__menu-reveal {
+    opacity: 1;
+    transform: translateZ(0);
+    animation: none;
+  }
+
   @keyframes storefront-navigation-mega-item-in {
     from {
       opacity: 0;
@@ -2521,6 +2527,7 @@
         firstLink: item.querySelector('[data-navigation-panel] a[href]'),
         openTimer: null,
         closeTimer: null,
+        transitionTimer: null,
         openedByToggle: false,
         lastTrigger: null
       }));
@@ -2578,6 +2585,7 @@
 
         window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
+        window.clearTimeout(entry.transitionTimer);
         if (!entry.item.classList.contains('is-open') && !entry.panel.classList.contains('is-open')) return;
 
         const wasMegaMenu = entry.item.classList.contains('storefront-navigation__item--mega');
@@ -2585,11 +2593,18 @@
           (entry.lastTrigger || entry.toggle).focus();
         }
         entry.item.classList.remove('is-open');
+        entry.panel.classList.toggle('is-closing', wasMegaMenu);
         entry.panel.classList.remove('is-open');
         setToggleState(entry, false);
         entry.panel.setAttribute('aria-hidden', 'true');
         entry.panel.setAttribute('inert', '');
         entry.openedByToggle = false;
+
+        if (wasMegaMenu) {
+          entry.transitionTimer = window.setTimeout(() => {
+            entry.panel.classList.remove('is-closing');
+          }, curtainDuration);
+        }
 
         if (activeItem === entry) activeItem = null;
         if (!isMenuHandoff && !root.querySelector('[data-navigation-item].is-open')) {
@@ -2622,10 +2637,12 @@
         syncStickyState();
         window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
+        window.clearTimeout(entry.transitionTimer);
         window.clearTimeout(desktopMenuCloseTimer);
         closeAll(entry, Boolean(isDesktopMenuHandoff));
         window.clearTimeout(desktopMenuCloseTimer);
         root.classList.remove('is-menu-closing', 'is-mega-menu-closing');
+        entry.panel.classList.remove('is-closing');
         entry.item.classList.add('is-open');
         entry.panel.classList.add('is-open');
         setToggleState(entry, true);
