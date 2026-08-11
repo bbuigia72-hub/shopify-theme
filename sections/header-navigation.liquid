@@ -14,9 +14,12 @@
   assign women_sale_title = 'navigation.womens_sale' | t
   assign women_favorites_title = 'navigation.womens_favorites' | t
   assign men_best_deals_collection = section.settings.men_best_deals_collection
-  assign navigation_currency_code = localization.country.currency.iso_code | default: shop.currency
+  assign navigation_currency_code = cart.currency.iso_code | default: localization.country.currency.iso_code | default: shop.currency
+  assign navigation_currency_symbol = cart.currency.symbol | default: localization.country.currency.symbol
   assign navigation_localization_form_id = 'NavigationLocalizationForm-' | append: section.id
+  assign navigation_currency_form_id = 'NavigationCurrencyForm-' | append: section.id
   assign mobile_localization_form_id = 'NavigationMobileLocalizationForm-' | append: section.id
+  assign mobile_currency_form_id = 'NavigationMobileCurrencyForm-' | append: section.id
   assign mobile_language_form_id = 'NavigationMobileLanguageForm-' | append: section.id
   assign mobile_drawer_id = 'MobileNavigationDrawer-' | append: section.id
 
@@ -341,7 +344,7 @@
         <details class="storefront-navigation__currency">
           <summary aria-label="Change country or currency">
             <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
-            <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+            <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
             <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
           </summary>
           <div class="storefront-navigation__currency-popover">
@@ -355,10 +358,28 @@
             {% endform %}
           </div>
         </details>
+      {% elsif shop.enabled_currencies.size > 1 %}
+        <details class="storefront-navigation__currency">
+          <summary aria-label="Change currency">
+            <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+            <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
+            <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+          </summary>
+          <div class="storefront-navigation__currency-popover">
+            {% form 'currency', id: navigation_currency_form_id %}
+              <input type="hidden" name="return_to" value="{{ request.path }}">
+              {% for currency in shop.enabled_currencies %}
+                <button type="submit" name="currency" value="{{ currency.iso_code }}"{% if currency.iso_code == navigation_currency_code %} aria-current="true"{% endif %}>
+                  {{ currency.name | escape }} · {{ currency.iso_code }} {{ currency.symbol }}
+                </button>
+              {% endfor %}
+            {% endform %}
+          </div>
+        </details>
       {% else %}
         <span class="storefront-navigation__currency-static">
           <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
-          <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+          <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
         </span>
       {% endif %}
       <span class="storefront-navigation__utility-separator" aria-hidden="true"></span>
@@ -448,7 +469,7 @@
               <details class="storefront-navigation__mobile-localization">
                 <summary>
                   <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
-                  <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+                  <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
                   <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
                 </summary>
                 <div class="storefront-navigation__mobile-localization-popover">
@@ -460,10 +481,26 @@
                   {% endform %}
                 </div>
               </details>
+            {% elsif shop.enabled_currencies.size > 1 %}
+              <details class="storefront-navigation__mobile-localization">
+                <summary>
+                  <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
+                  <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
+                  <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
+                </summary>
+                <div class="storefront-navigation__mobile-localization-popover">
+                  {% form 'currency', id: mobile_currency_form_id %}
+                    <input type="hidden" name="return_to" value="{{ request.path }}">
+                    {% for currency in shop.enabled_currencies %}
+                      <button type="submit" name="currency" value="{{ currency.iso_code }}"{% if currency.iso_code == navigation_currency_code %} aria-current="true"{% endif %}>{{ currency.name | escape }} · {{ currency.iso_code }} {{ currency.symbol }}</button>
+                    {% endfor %}
+                  {% endform %}
+                </div>
+              </details>
             {% else %}
               <span class="storefront-navigation__mobile-localization-static">
                 <span class="storefront-navigation__currency-flag" aria-hidden="true">★</span>
-                <span>{{ navigation_currency_code }} {{ localization.country.currency.symbol }}</span>
+                <span>{{ navigation_currency_code }} {{ navigation_currency_symbol }}</span>
                 <svg aria-hidden="true" viewBox="0 0 12 8" focusable="false"><path d="m1 1 5 5 5-5" /></svg>
               </span>
             {% endif %}
