@@ -2436,7 +2436,9 @@
         lastTrigger: null
       }));
       const hoverOpenDelay = 70;
+      const curtainDuration = 300;
       let activeItem = null;
+      let desktopMenuCloseTimer = null;
       let desktopMenuSwitchTimer = null;
       let stickyFrame = null;
 
@@ -2463,7 +2465,8 @@
       };
 
       const updateMainInteractivity = () => {
-        const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'));
+        const hasOpenMegaPanel = items.some(({ item }) => item.classList.contains('storefront-navigation__item--mega') && item.classList.contains('is-open'))
+          || root.classList.contains('is-mega-menu-closing');
         const hasOpenMobileDrawer = root.classList.contains('is-mobile-menu-open');
         mainContent?.toggleAttribute('inert', hasOpenMegaPanel || hasOpenMobileDrawer);
         document.body.classList.toggle('storefront-navigation-menu-open', hasOpenMegaPanel);
@@ -2483,6 +2486,9 @@
 
         window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
+        if (!entry.item.classList.contains('is-open') && !entry.panel.classList.contains('is-open')) return;
+
+        const wasMegaMenu = entry.item.classList.contains('storefront-navigation__item--mega');
         if (entry.panel.contains(document.activeElement)) {
           (entry.lastTrigger || entry.toggle).focus();
         }
@@ -2494,11 +2500,17 @@
         entry.openedByToggle = false;
 
         if (activeItem === entry) activeItem = null;
-        updateMainInteractivity();
         if (!root.querySelector('[data-navigation-item].is-open')) {
-          root.classList.remove('is-menu-open');
-          syncStickyState();
+          window.clearTimeout(desktopMenuCloseTimer);
+          root.classList.add('is-menu-closing');
+          root.classList.toggle('is-mega-menu-closing', wasMegaMenu);
+          desktopMenuCloseTimer = window.setTimeout(() => {
+            root.classList.remove('is-menu-open', 'is-menu-closing', 'is-mega-menu-closing');
+            updateMainInteractivity();
+            syncStickyState();
+          }, curtainDuration);
         }
+        updateMainInteractivity();
       };
 
       const closeAll = (exceptEntry = null) => {
@@ -2518,9 +2530,12 @@
         syncStickyState();
         window.clearTimeout(entry.openTimer);
         window.clearTimeout(entry.closeTimer);
+        window.clearTimeout(desktopMenuCloseTimer);
         window.clearTimeout(desktopMenuSwitchTimer);
         root.classList.toggle('is-desktop-menu-switching', Boolean(isDesktopMenuHandoff));
         closeAll(entry);
+        window.clearTimeout(desktopMenuCloseTimer);
+        root.classList.remove('is-menu-closing', 'is-mega-menu-closing');
         entry.item.classList.add('is-open');
         entry.panel.classList.add('is-open');
         setToggleState(entry, true);
