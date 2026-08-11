@@ -1800,7 +1800,7 @@
     }
 
     .storefront-navigation.is-mobile-submenu-open .storefront-navigation__mobile-drawer-panel--root {
-      transform: translate3d(-22%, 0, 0);
+      transform: translate3d(-100%, 0, 0);
     }
 
     .storefront-navigation__mobile-drawer-header,
@@ -2503,6 +2503,7 @@
       const mobileDrawerOpenButtons = [...root.querySelectorAll('[data-mobile-open-panel]')];
       const mobileDrawerBackButtons = [...root.querySelectorAll('[data-mobile-show-root]')];
       const mobileDrawerPanels = [...root.querySelectorAll('[data-mobile-panel]')];
+      const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
       const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
         item,
         toggle: item.querySelector('[data-navigation-toggle]'),
@@ -2517,9 +2518,12 @@
       const hoverOpenDelay = 70;
       const curtainDuration = 300;
       const headerCurtainDuration = 48;
+      const mobilePanelTransitionDuration = 720;
       let activeItem = null;
       let desktopMenuCloseTimer = null;
       let desktopMenuSwitchTimer = null;
+      let mobilePanelTransitionTimer = null;
+      let mobilePanelAnimationFrame = null;
       let stickyFrame = null;
 
       const syncStickyState = () => {
@@ -2650,28 +2654,59 @@
         }, hoverOpenDelay);
       };
 
-      const showMobilePanel = (panelName, shouldFocus = true) => {
+      const showMobilePanel = (panelName, shouldFocus = true, shouldAnimate = true) => {
         const targetPanel = mobileDrawerPanels.find((panel) => panel.dataset.mobilePanel === panelName);
         if (!targetPanel) return;
 
-        mobileDrawerPanels.forEach((panel) => {
-          const isActive = panel === targetPanel;
-          panel.classList.toggle('is-active', isActive);
-          panel.setAttribute('aria-hidden', String(!isActive));
-          panel.toggleAttribute('inert', !isActive);
-        });
-
-        mobileDrawerOpenButtons.forEach((button) => {
-          button.setAttribute('aria-expanded', String(button.dataset.mobileOpenPanel === panelName));
-        });
-
-        root.classList.toggle('is-mobile-submenu-open', panelName !== 'root');
-
-        if (shouldFocus) {
-          window.requestAnimationFrame(() => {
-            targetPanel.querySelector('[data-mobile-show-root], [data-mobile-panel-focus], a[href], button:not([disabled])')?.focus({ preventScroll: true });
+        const currentPanel = mobileDrawerPanels.find((panel) => panel.classList.contains('is-active'));
+        const transitionDuration = reducedMotionMedia.matches ? 0 : mobilePanelTransitionDuration;
+        const focusTarget = () => {
+          if (!shouldFocus) return;
+          targetPanel.querySelector('[data-mobile-show-root], [data-mobile-panel-focus], a[href], button:not([disabled])')?.focus({ preventScroll: true });
+        };
+        const updateControls = () => {
+          mobileDrawerOpenButtons.forEach((button) => {
+            button.setAttribute('aria-expanded', String(button.dataset.mobileOpenPanel === panelName));
           });
+        };
+
+        window.clearTimeout(mobilePanelTransitionTimer);
+        window.cancelAnimationFrame(mobilePanelAnimationFrame);
+
+        if (!shouldAnimate || !currentPanel || currentPanel === targetPanel) {
+          mobileDrawerPanels.forEach((panel) => {
+            const isActive = panel === targetPanel;
+            panel.classList.toggle('is-active', isActive);
+            panel.setAttribute('aria-hidden', String(!isActive));
+            panel.toggleAttribute('inert', !isActive);
+          });
+          root.classList.toggle('is-mobile-submenu-open', panelName !== 'root');
+          updateControls();
+          window.requestAnimationFrame(focusTarget);
+          return;
         }
+
+        mobileDrawerPanels.forEach((panel) => {
+          if (panel === currentPanel || panel === targetPanel) return;
+          panel.classList.remove('is-active');
+          panel.setAttribute('aria-hidden', 'true');
+          panel.setAttribute('inert', '');
+        });
+
+        targetPanel.setAttribute('aria-hidden', 'false');
+        targetPanel.removeAttribute('inert');
+        updateControls();
+
+        targetPanel.getBoundingClientRect();
+        mobilePanelAnimationFrame = window.requestAnimationFrame(() => {
+          root.classList.toggle('is-mobile-submenu-open', panelName !== 'root');
+          currentPanel.classList.remove('is-active');
+          currentPanel.setAttribute('aria-hidden', 'true');
+          currentPanel.setAttribute('inert', '');
+          targetPanel.classList.add('is-active');
+
+          mobilePanelTransitionTimer = window.setTimeout(focusTarget, transitionDuration);
+        });
       };
 
       const closeMobileDrawer = (shouldRestoreFocus = true) => {
@@ -2685,7 +2720,7 @@
         mobileBar?.removeAttribute('inert');
         mobileBar?.removeAttribute('aria-hidden');
         mobileDrawerOpen?.setAttribute('aria-expanded', 'false');
-        showMobilePanel('root', false);
+        showMobilePanel('root', false, false);
         updateMainInteractivity();
 
         if (shouldRestoreFocus) mobileDrawerOpen?.focus({ preventScroll: true });
@@ -2695,7 +2730,7 @@
         if (!mobileMedia.matches || !mobileDrawer || !mobileDrawerOpen) return;
 
         closeAll();
-        showMobilePanel('root', false);
+        showMobilePanel('root', false, false);
         root.classList.add('is-mobile-menu-open');
         mobileDrawer.classList.add('is-open');
         mobileDrawer.setAttribute('aria-hidden', 'false');
