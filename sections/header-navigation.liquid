@@ -574,21 +574,18 @@
             {% if section.settings.women_menu != blank %}
               {% for link in section.settings.women_menu.links %}
                 {% if link.links != blank %}
-                  <details>
-                    <summary><span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                    <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
-                  </details>
+                  <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationWomenGroup-{{ forloop.index0 }}-{{ section.id }}" data-mobile-open-panel="women-group-{{ forloop.index0 }}">
+                    <span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+                  </button>
                 {% endif %}
               {% endfor %}
             {% else %}
-              <details>
-                <summary><span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                <ul><li><a href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul>
-              </details>
-              <details>
-                <summary><span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                <ul><li><a href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a></li></ul>
-              </details>
+              <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationWomenActivity-{{ section.id }}" data-mobile-open-panel="women-activity">
+                <span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+              <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationWomenFeature-{{ section.id }}" data-mobile-open-panel="women-feature">
+                <span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
             {% endif %}
           </div>
 
@@ -598,6 +595,41 @@
           </div>
         </div>
       </section>
+
+      {% if section.settings.women_menu != blank %}
+        {% for link in section.settings.women_menu.links %}
+          {% if link.links != blank %}
+            <section id="MobileNavigationWomenGroup-{{ forloop.index0 }}-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="women-group-{{ forloop.index0 }}" aria-hidden="true" inert>
+              <div class="storefront-navigation__mobile-submenu-header">
+                <button type="button" data-mobile-show-panel="women"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ link.title | escape }}</span></button>
+                <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+              </div>
+              <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+                {% for child_link in link.links %}<a href="{{ child_link.url }}">{{ child_link.title | escape }}</a>{% endfor %}
+              </div>
+            </section>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <section id="MobileNavigationWomenActivity-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="women-activity" aria-hidden="true" inert>
+          <div class="storefront-navigation__mobile-submenu-header">
+            <button type="button" data-mobile-show-panel="women"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.by_activity' | t }}</span></button>
+            <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+          </div>
+          <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+            <a href="{{ women_url }}">{{ 'navigation.hiking' | t }}</a><a href="{{ women_url }}">{{ 'navigation.running' | t }}</a><a href="{{ women_url }}">{{ 'navigation.training' | t }}</a><a href="{{ women_url }}">{{ 'navigation.tennis' | t }}</a><a href="{{ women_url }}">{{ 'navigation.lifestyle' | t }}</a><a href="{{ women_url }}">{{ 'navigation.shop_all' | t }}</a>
+          </div>
+        </section>
+        <section id="MobileNavigationWomenFeature-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="women-feature" aria-hidden="true" inert>
+          <div class="storefront-navigation__mobile-submenu-header">
+            <button type="button" data-mobile-show-panel="women"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.by_feature' | t }}</span></button>
+            <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+          </div>
+          <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+            <a href="{{ women_url }}">{{ 'navigation.cushioned' | t }}</a><a href="{{ women_url }}">{{ 'navigation.waterproof' | t }}</a><a href="{{ women_url }}">{{ 'navigation.water_resistant' | t }}</a><a href="{{ women_url }}">{{ 'navigation.breathable' | t }}</a><a href="{{ women_url }}">{{ 'navigation.windproof' | t }}</a>
+          </div>
+        </section>
+      {% endif %}
 
       <section id="MobileNavigationMen-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu" data-mobile-panel="men" aria-hidden="true" inert>
         <div class="storefront-navigation__mobile-submenu-header">
@@ -621,21 +653,18 @@
             {% if section.settings.men_menu != blank %}
               {% for link in section.settings.men_menu.links %}
                 {% if link.links != blank %}
-                  <details>
-                    <summary><span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                    <ul>{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title | escape }}</a></li>{% endfor %}</ul>
-                  </details>
+                  <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationMenGroup-{{ forloop.index0 }}-{{ section.id }}" data-mobile-open-panel="men-group-{{ forloop.index0 }}">
+                    <span>{{ link.title | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+                  </button>
                 {% endif %}
               {% endfor %}
             {% else %}
-              <details>
-                <summary><span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                <ul><li><a href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.running' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.training' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a></li></ul>
-              </details>
-              <details>
-                <summary><span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg></summary>
-                <ul><li><a href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a></li><li><a href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a></li></ul>
-              </details>
+              <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationMenActivity-{{ section.id }}" data-mobile-open-panel="men-activity">
+                <span>{{ 'navigation.by_activity' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+              <button class="storefront-navigation__mobile-category-group-button" type="button" aria-expanded="false" aria-controls="MobileNavigationMenFeature-{{ section.id }}" data-mobile-open-panel="men-feature">
+                <span>{{ 'navigation.by_feature' | t }}</span><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
             {% endif %}
           </div>
 
@@ -685,6 +714,41 @@
           {% endif %}
         </div>
       </section>
+
+      {% if section.settings.men_menu != blank %}
+        {% for link in section.settings.men_menu.links %}
+          {% if link.links != blank %}
+            <section id="MobileNavigationMenGroup-{{ forloop.index0 }}-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="men-group-{{ forloop.index0 }}" aria-hidden="true" inert>
+              <div class="storefront-navigation__mobile-submenu-header">
+                <button type="button" data-mobile-show-panel="men"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ link.title | escape }}</span></button>
+                <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+              </div>
+              <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+                {% for child_link in link.links %}<a href="{{ child_link.url }}">{{ child_link.title | escape }}</a>{% endfor %}
+              </div>
+            </section>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <section id="MobileNavigationMenActivity-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="men-activity" aria-hidden="true" inert>
+          <div class="storefront-navigation__mobile-submenu-header">
+            <button type="button" data-mobile-show-panel="men"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.by_activity' | t }}</span></button>
+            <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+          </div>
+          <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+            <a href="{{ men_url }}">{{ 'navigation.hiking' | t }}</a><a href="{{ men_url }}">{{ 'navigation.running' | t }}</a><a href="{{ men_url }}">{{ 'navigation.training' | t }}</a><a href="{{ men_url }}">{{ 'navigation.tennis' | t }}</a><a href="{{ men_url }}">{{ 'navigation.lifestyle' | t }}</a><a href="{{ men_url }}">{{ 'navigation.shop_all' | t }}</a>
+          </div>
+        </section>
+        <section id="MobileNavigationMenFeature-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu storefront-navigation__mobile-drawer-panel--nested" data-mobile-panel="men-feature" aria-hidden="true" inert>
+          <div class="storefront-navigation__mobile-submenu-header">
+            <button type="button" data-mobile-show-panel="men"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="m15 18-6-6 6-6" /></svg><span>{{ 'navigation.by_feature' | t }}</span></button>
+            <button class="storefront-navigation__mobile-drawer-close" type="button" aria-label="{{ 'navigation.close_mobile_menu' | t }}" data-mobile-drawer-close><svg aria-hidden="true" viewBox="0 0 16 16" focusable="false"><path d="m2.5 2.5 11 11m0-11-11 11" /></svg></button>
+          </div>
+          <div class="storefront-navigation__mobile-submenu-scroll storefront-navigation__mobile-nested-list">
+            <a href="{{ men_url }}">{{ 'navigation.cushioned' | t }}</a><a href="{{ men_url }}">{{ 'navigation.waterproof' | t }}</a><a href="{{ men_url }}">{{ 'navigation.water_resistant' | t }}</a><a href="{{ men_url }}">{{ 'navigation.breathable' | t }}</a><a href="{{ men_url }}">{{ 'navigation.windproof' | t }}</a>
+          </div>
+        </section>
+      {% endif %}
 
       <section id="MobileNavigationPages-{{ section.id }}" class="storefront-navigation__mobile-drawer-panel storefront-navigation__mobile-drawer-panel--submenu" data-mobile-panel="pages" aria-hidden="true" inert>
         <div class="storefront-navigation__mobile-submenu-header">
@@ -1840,6 +1904,14 @@
       z-index: 1;
     }
 
+    .storefront-navigation__mobile-drawer-panel--nested {
+      z-index: 2;
+    }
+
+    .storefront-navigation__mobile-drawer-panel.is-underlay {
+      transform: translate3d(0, 0, 0);
+    }
+
     .storefront-navigation__mobile-drawer-panel.is-active {
       pointer-events: auto;
       transform: translate3d(0, 0, 0);
@@ -2222,30 +2294,27 @@
       margin-top: 19px;
     }
 
-    .storefront-navigation__mobile-category-groups details {
-      border-bottom: 1px solid #E9E9E9;
-    }
-
-    .storefront-navigation__mobile-category-groups summary {
+    .storefront-navigation__mobile-category-group-button {
       display: flex;
+      width: 100%;
       min-height: 51px;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      padding: 0;
+      border: 0;
+      border-bottom: 1px solid #E9E9E9;
+      background: transparent;
       color: #131313;
       cursor: pointer;
       font-family: Figtree, sans-serif;
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;
-      list-style: none;
+      text-align: left;
     }
 
-    .storefront-navigation__mobile-category-groups summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .storefront-navigation__mobile-category-groups summary svg {
+    .storefront-navigation__mobile-category-group-button svg {
       width: 14px;
       height: 14px;
       flex: 0 0 14px;
@@ -2254,23 +2323,19 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-width: 1.5;
-      transition: transform 200ms ease;
     }
 
-    .storefront-navigation__mobile-category-groups details[open] summary svg {
-      transform: rotate(90deg);
+    .storefront-navigation__mobile-nested-list {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+      padding: 16px 14px 28px;
     }
 
-    .storefront-navigation__mobile-category-groups ul {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0 0 15px;
-      list-style: none;
-    }
-
-    .storefront-navigation__mobile-category-groups li a {
-      color: #4A4A4A;
+    .storefront-navigation__mobile-nested-list a {
+      display: block;
+      color: #131313;
       font-family: Figtree, sans-serif;
       font-size: 14px;
       font-weight: 400;
@@ -2492,7 +2557,7 @@
     .storefront-navigation__mobile-localization summary:focus-visible,
     .storefront-navigation__mobile-localization-popover button:focus-visible,
     .storefront-navigation__mobile-socials a:focus-visible,
-    .storefront-navigation__mobile-category-groups summary:focus-visible,
+    .storefront-navigation__mobile-category-group-button:focus-visible,
     .storefront-navigation__mobile-submenu-scroll a:focus-visible {
       outline: 2px solid currentColor;
       outline-offset: 3px;
@@ -2574,6 +2639,7 @@
       const mobileDrawerCloseButtons = [...root.querySelectorAll('[data-mobile-drawer-close]')];
       const mobileDrawerOpenButtons = [...root.querySelectorAll('[data-mobile-open-panel]')];
       const mobileDrawerBackButtons = [...root.querySelectorAll('[data-mobile-show-root]')];
+      const mobileDrawerPanelBackButtons = [...root.querySelectorAll('[data-mobile-show-panel]')];
       const mobileDrawerPanels = [...root.querySelectorAll('[data-mobile-panel]')];
       const items = [...root.querySelectorAll('[data-navigation-item]')].map((item) => ({
         item,
@@ -2728,7 +2794,7 @@
         }, hoverOpenDelay);
       };
 
-      const showMobilePanel = (panelName, shouldFocus = true, shouldAnimate = true) => {
+      const showMobilePanel = (panelName, shouldFocus = true, shouldAnimate = true, direction = 'forward') => {
         const targetPanel = mobileDrawerPanels.find((panel) => panel.dataset.mobilePanel === panelName);
         if (!targetPanel) return;
 
@@ -2750,6 +2816,7 @@
         if (!shouldAnimate || !currentPanel || currentPanel === targetPanel) {
           mobileDrawerPanels.forEach((panel) => {
             const isActive = panel === targetPanel;
+            panel.classList.remove('is-underlay');
             panel.classList.toggle('is-active', isActive);
             panel.setAttribute('aria-hidden', String(!isActive));
             panel.toggleAttribute('inert', !isActive);
@@ -2762,7 +2829,7 @@
 
         mobileDrawerPanels.forEach((panel) => {
           if (panel === currentPanel || panel === targetPanel) return;
-          panel.classList.remove('is-active');
+          panel.classList.remove('is-active', 'is-underlay');
           panel.setAttribute('aria-hidden', 'true');
           panel.setAttribute('inert', '');
         });
@@ -2775,8 +2842,10 @@
         mobilePanelAnimationFrame = window.requestAnimationFrame(() => {
           root.classList.toggle('is-mobile-submenu-open', panelName !== 'root');
           currentPanel.classList.remove('is-active');
+          currentPanel.classList.toggle('is-underlay', direction === 'forward');
           currentPanel.setAttribute('aria-hidden', 'true');
           currentPanel.setAttribute('inert', '');
+          targetPanel.classList.remove('is-underlay');
           targetPanel.classList.add('is-active');
 
           mobilePanelTransitionTimer = window.setTimeout(focusTarget, transitionDuration);
@@ -2905,7 +2974,10 @@
       mobileDrawerOpenButtons.forEach((button) => {
         button.addEventListener('click', () => showMobilePanel(button.dataset.mobileOpenPanel));
       });
-      mobileDrawerBackButtons.forEach((button) => button.addEventListener('click', () => showMobilePanel('root')));
+      mobileDrawerBackButtons.forEach((button) => button.addEventListener('click', () => showMobilePanel('root', true, true, 'back')));
+      mobileDrawerPanelBackButtons.forEach((button) => {
+        button.addEventListener('click', () => showMobilePanel(button.dataset.mobileShowPanel, true, true, 'back'));
+      });
 
       document.addEventListener('pointerdown', (event) => {
         if (!root.contains(event.target)) closeAll();
