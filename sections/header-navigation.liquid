@@ -1544,6 +1544,11 @@
       right: 0;
       left: 0;
       width: auto;
+      clip-path: inset(0 0 100% 0 round 0 0 20px 20px);
+    }
+
+    .storefront-navigation.is-scrolled .storefront-navigation__panel--mega.is-open {
+      clip-path: inset(0 0 0 0 round 0 0 20px 20px);
     }
 
     .storefront-navigation.is-scrolled .storefront-navigation__mega-surface {
@@ -1555,7 +1560,7 @@
       box-shadow: none;
     }
 
-    .storefront-navigation.is-scrolled.is-mega-menu-open .storefront-navigation__panel--mega.is-open .storefront-navigation__mega-surface {
+    .storefront-navigation.is-scrolled.is-mega-menu-open .storefront-navigation__panel--mega .storefront-navigation__mega-surface {
       border-radius: 0 0 20px 20px;
     }
 
