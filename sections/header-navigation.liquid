@@ -1018,21 +1018,22 @@
     right: 0;
     left: 0;
     width: 100%;
-    height: 0;
+    height: 50vh;
     max-height: 50vh;
     overflow: hidden;
-    clip-path: none;
+    clip-path: inset(0 0 100% 0);
     opacity: 1;
     transform: none;
-    will-change: height;
+    will-change: clip-path;
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.10);
-    transition: height var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
+    transition: clip-path var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
   }
 
   .storefront-navigation__panel--mega.is-open {
     height: 50vh;
+    clip-path: inset(0 0 0 0);
     transform: none;
-    transition: height var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
+    transition: clip-path var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
     transition-delay: 0s, 0s;
   }
 
@@ -1407,24 +1408,26 @@
     top: calc(100% - 2px);
     left: 0;
     min-width: 220px;
-    max-height: 0;
+    max-height: 360px;
     overflow: hidden;
-    padding: 0 20px;
+    padding: 18px 20px;
     border-radius: 16px;
     background: #FFFFFF;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    clip-path: inset(0 0 100% 0 round 16px);
     opacity: 1;
     transform: none;
-    will-change: max-height, padding;
-    transition: max-height var(--navigation-panel-duration) var(--navigation-panel-ease), padding var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
+    will-change: clip-path;
+    transition: clip-path var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear var(--navigation-panel-duration);
   }
 
   .storefront-navigation__panel--pages.is-open {
     max-height: 360px;
     padding: 18px 20px;
     animation: none;
+    clip-path: inset(0 0 0 0 round 16px);
     transform: none;
-    transition: max-height var(--navigation-panel-duration) var(--navigation-panel-ease), padding var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
+    transition: clip-path var(--navigation-panel-duration) var(--navigation-panel-ease), visibility 0s linear 0s;
   }
 
   .storefront-navigation__pages-list {
@@ -2393,6 +2396,11 @@
 
     .storefront-navigation__menu-reveal {
       transform: none;
+    }
+
+    .storefront-navigation:not(.is-desktop-menu-switching) .storefront-navigation__panel--mega,
+    .storefront-navigation .storefront-navigation__panel--pages {
+      transition-duration: var(--navigation-panel-duration), 0s !important;
     }
   }
 {% endstylesheet %}
