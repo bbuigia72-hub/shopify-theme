@@ -329,6 +329,10 @@
           </ul>
         </div>
       </li>
+
+      <li class="storefront-navigation__item storefront-navigation__item--find">
+        <a class="storefront-navigation__find-link" href="{{ find_your_shoes_url }}">{{ 'navigation.find_your_shoes' | t }}</a>
+      </li>
     </ul>
 
     <a class="storefront-navigation__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
@@ -967,7 +971,8 @@
 
   .storefront-navigation__collection-link,
   .storefront-navigation__toggle,
-  .storefront-navigation__pages-toggle {
+  .storefront-navigation__pages-toggle,
+  .storefront-navigation__find-link {
     color: var(--navigation-trigger-color);
     font-family: Figtree, sans-serif;
     font-size: 14px;
@@ -979,18 +984,21 @@
   }
 
   .storefront-navigation__collection-link,
-  .storefront-navigation__toggle {
+  .storefront-navigation__toggle,
+  .storefront-navigation__find-link {
     display: inline-flex;
     align-items: center;
   }
 
   .storefront-navigation__collection-link,
-  .storefront-navigation__pages-toggle > span {
+  .storefront-navigation__pages-toggle > span,
+  .storefront-navigation__find-link {
     position: relative;
   }
 
   .storefront-navigation__collection-link::after,
-  .storefront-navigation__pages-toggle > span::after {
+  .storefront-navigation__pages-toggle > span::after,
+  .storefront-navigation__find-link::after {
     position: absolute;
     bottom: -7px;
     left: 0;
@@ -1009,7 +1017,9 @@
   .storefront-navigation__item--mega.is-open .storefront-navigation__collection-link::after,
   .storefront-navigation__item--pages:hover .storefront-navigation__pages-toggle > span::after,
   .storefront-navigation__item--pages:focus-within .storefront-navigation__pages-toggle > span::after,
-  .storefront-navigation__item--pages.is-open .storefront-navigation__pages-toggle > span::after {
+  .storefront-navigation__item--pages.is-open .storefront-navigation__pages-toggle > span::after,
+  .storefront-navigation__find-link:hover::after,
+  .storefront-navigation__find-link:focus-visible::after {
     transform: scaleX(1);
     transform-origin: left center;
   }
@@ -1064,6 +1074,8 @@
   .storefront-navigation__toggle:focus-visible,
   .storefront-navigation__pages-toggle:hover,
   .storefront-navigation__pages-toggle:focus-visible,
+  .storefront-navigation__find-link:hover,
+  .storefront-navigation__find-link:focus-visible,
   .storefront-navigation__brand:hover,
   .storefront-navigation__brand:focus-visible,
   .storefront-navigation__currency summary:hover,
@@ -1076,6 +1088,7 @@
   .storefront-navigation__collection-link:focus-visible,
   .storefront-navigation__toggle:focus-visible,
   .storefront-navigation__pages-toggle:focus-visible,
+  .storefront-navigation__find-link:focus-visible,
   .storefront-navigation__brand:focus-visible,
   .storefront-navigation__currency summary:focus-visible,
   .storefront-navigation__utility-link:focus-visible,
@@ -1503,8 +1516,8 @@
   }
 
   .storefront-navigation__panel--pages {
-    top: calc(100% - 2px);
-    left: 0;
+    top: calc(100% + 27px);
+    left: -14px;
     min-width: 220px;
     max-height: 360px;
     overflow: hidden;
@@ -2507,7 +2520,8 @@
     }
 
     .storefront-navigation .storefront-navigation__collection-link::after,
-    .storefront-navigation .storefront-navigation__pages-toggle > span::after {
+    .storefront-navigation .storefront-navigation__pages-toggle > span::after,
+    .storefront-navigation .storefront-navigation__find-link::after {
       transition-duration: 200ms !important;
     }
 
