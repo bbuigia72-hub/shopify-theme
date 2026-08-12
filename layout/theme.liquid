@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+ {%- render 'layouthub_header' -%}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="canonical" href="{{ canonical_url }}">
@@ -11,7 +12,8 @@
   <body>
     {% section 'header-navigation' %}
     <main id="MainContent" role="main">
-      {{ content_for_layout }}
+      <!--LayoutHub-Workspace-Start-->{{ content_for_layout }}<!--LayoutHub-Workspace-End-->
     </main>
-  </body>
+  {%- render 'layouthub_footer' -%} 
+ </body>
 </html>
