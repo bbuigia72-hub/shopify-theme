@@ -15,13 +15,19 @@
         "settings": {
           "women_collection": "",
           "men_collection": "",
+          "men_best_deals_collection": "",
           "women_menu": "",
           "men_menu": "",
           "pages_menu": "",
           "women_sale_image": "shopify://shop_images/exec-55a471d2-be3e-4edc-8695-bfdb61cbf78c.png",
           "women_sale_link": "",
           "women_favorites_image": "shopify://shop_images/exec-b961fbd3-8bca-45e3-ac98-b2fb7fbfc263.png",
-          "women_favorites_link": ""
+          "women_favorites_link": "",
+          "find_your_shoes_link": "",
+          "facebook_url": "",
+          "instagram_url": "",
+          "youtube_url": "",
+          "tiktok_url": ""
         }
       }
     },
@@ -34,6 +40,11 @@
       },
       "4511042945966949202": {
         "type": "shopify://apps/ecombe-page-builder/blocks/app_embed/019acda3-2cf4-7ddf-930a-874774fcd7cf",
+        "disabled": false,
+        "settings": {}
+      },
+      "460651830516154055": {
+        "type": "shopify://apps/lumise-product-personalizer/blocks/app-embed/01a1ee7f-470b-7a40-9dc5-197abcac2c62",
         "disabled": false,
         "settings": {}
       }
